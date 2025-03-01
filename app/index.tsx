@@ -1,14 +1,5 @@
-import { Text, View } from 'react-native';
+import WelcomeScreen from '@/src/feature/authentication/presentation/WelcomeScreen';
 
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
+  return <WelcomeScreen/>
 }
