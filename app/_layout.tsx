@@ -1,7 +1,8 @@
 import { SplashScreen, Stack } from 'expo-router';
 import '@/src/core/theme/global.css';
 import { useFonts } from 'expo-font';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 
 export default function RootLayout() {
 
@@ -24,5 +25,10 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <>
+      <StatusBar barStyle="light-content" />
+      <Stack screenOptions={{ headerShown: false }} />
+    </>
+  )
 }

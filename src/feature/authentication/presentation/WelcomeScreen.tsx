@@ -1,12 +1,11 @@
 import { Text, SafeAreaView, View, Image, StatusBar } from 'react-native';
 import React from 'react';
 import images from '@/src/core/constants/images';
-import Button from '@/src/shared/presentation/button';
+import Button from '@/src/shared/presentation/form/button';
+import { router } from 'expo-router';
 
 const WelcomeScreen = () => {
   return (
-    <>
-      <StatusBar barStyle="light-content" />
       <SafeAreaView className="bg-primary h-screen w-screen">
         <View className="h-full w-full flex justify-center items-center px-[24px]">
           <Image
@@ -18,12 +17,11 @@ const WelcomeScreen = () => {
             <Text className="font-urbanist-bold text-[40px] text-[#17CE92]">FinlyPal 👋</Text>
           </View>
           <View className="flex flex-col justify-start items-center gap-y-[24px]  w-full">
-            <Button onPress={() => {}} label="Log in" />
-            <Button onPress={() => {}} label="Sign up" type="secondary" />
+            <Button onPress={() => router.push('/sign-in')} label="Log in" type="primary" />
+            <Button onPress={() => router.push('/sign-up')} label="Sign up" type="secondary" />
           </View>
         </View>
       </SafeAreaView>
-    </>
   );
 };
 export default WelcomeScreen;
