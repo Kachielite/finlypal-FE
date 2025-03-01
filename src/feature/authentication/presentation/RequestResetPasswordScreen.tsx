@@ -26,7 +26,7 @@ const RequestResetPasswordScreen = () => {
           </View>
         </View>
         <View className="w-screen p-[24px] border-t-[1px] border-t-quaternary">
-          <Button onPress={() => router.push('/sign-up')} label="Continue" type="primary" />
+          <Button onPress={() => router.push('/otp')} label="Continue" type="primary" />
         </View>
       </View>
     </SafeAreaView>
