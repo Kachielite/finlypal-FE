@@ -18,7 +18,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
   async signIn(email: string, password: string): Promise<AuthModel> {
     try {
-      const response = this.authenticationService.login(email, password);
+      const response = await this.authenticationService.login(email, password);
       return AuthModel.fromJson(response);
     } catch (error: unknown){
       if(error instanceof ErrorResponseModel){
@@ -31,7 +31,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
   async signUp(name: string, email: string, password: string): Promise<AuthModel> {
     try {
-      const response = this.authenticationService.register(name, email, password);
+      const response = await this.authenticationService.register(name, email, password);
       return AuthModel.fromJson(response);
     } catch (error: unknown){
       if(error instanceof ErrorResponseModel){
@@ -44,7 +44,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
   async requestResetPassword(email: string): Promise<GeneralResponseModel> {
     try {
-      const response = this.authenticationService.requestResetPassword(email);
+      const response = await this.authenticationService.requestResetPassword(email);
       return GeneralResponseModel.fromJson(response);
     } catch (error: unknown){
       if(error instanceof ErrorResponseModel){
@@ -57,7 +57,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
   async otp(email: string, otp: string): Promise<GeneralResponseModel> {
     try {
-      const response = this.authenticationService.verifyOtp(email, otp);
+      const response = await this.authenticationService.verifyOtp(email, otp);
       return GeneralResponseModel.fromJson(response);
     } catch (error: unknown){
       if(error instanceof ErrorResponseModel){
@@ -70,7 +70,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
   async resetPassword(email: string, password: string): Promise<GeneralResponseModel> {
     try {
-      const response = this.authenticationService.resetPassword(email, password);
+      const response = await this.authenticationService.resetPassword(email, password);
       return GeneralResponseModel.fromJson(response);
     } catch (error: unknown){
       if(error instanceof ErrorResponseModel){
