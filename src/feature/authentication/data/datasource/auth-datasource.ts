@@ -8,7 +8,7 @@ export interface AuthDatasource {
   signIn(email: string, password: string): Promise<AuthModel>;
   signUp(name: string, email: string, password: string): Promise<AuthModel>;
   requestResetPassword(email: string): Promise<GeneralResponseModel>;
-  otp(email: string, otp: string): Promise<GeneralResponseModel>;
+  verifyOtp(email: string, otp: string): Promise<GeneralResponseModel>;
   resetPassword(email: string, password: string): Promise<GeneralResponseModel>;
 }
 
@@ -55,7 +55,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
     }
   }
 
-  async otp(email: string, otp: string): Promise<GeneralResponseModel> {
+  async verifyOtp(email: string, otp: string): Promise<GeneralResponseModel> {
     try {
       const response = await this.authenticationService.verifyOtp(email, otp);
       return GeneralResponseModel.fromJson(response);

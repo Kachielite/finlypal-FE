@@ -7,6 +7,6 @@ export interface AuthRepository {
   signIn(email: string, password: string): Promise<Either<Failure, Auth>>;
   signUp(name: string, email: string, password: string): Promise<Either<Failure, Auth>>;
   requestResetPassword(email: string): Promise<Either<Failure, GeneralResponse>>;
-  otp(email: string, otp: string): Promise<Either<Failure, GeneralResponse>>;
+  verifyOtp(email: string, otp: string): Promise<Either<Failure, GeneralResponse>>;
   resetPassword(email: string, password: string): Promise<Either<Failure, GeneralResponse>>;
 }

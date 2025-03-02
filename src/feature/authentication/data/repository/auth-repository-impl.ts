@@ -39,9 +39,9 @@ export class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  async otp(email: string, otp: string): Promise<Either<Failure, GeneralResponse>> {
+  async verifyOtp(email: string, otp: string): Promise<Either<Failure, GeneralResponse>> {
     try {
-      const response = await this.authenticationDatasource.otp(email, otp);
+      const response = await this.authenticationDatasource.verifyOtp(email, otp);
       return right(response);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
