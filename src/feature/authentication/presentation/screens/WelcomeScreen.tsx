@@ -1,5 +1,4 @@
-import { Text, SafeAreaView, View, Image, StatusBar } from 'react-native';
-import React from 'react';
+import { Text, SafeAreaView, View, Image } from 'react-native';
 import images from '@/src/core/constants/images';
 import Button from '@/src/shared/presentation/form/button';
 import { router } from 'expo-router';

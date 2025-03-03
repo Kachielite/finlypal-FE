@@ -1,5 +1,4 @@
 import { View, Text, Pressable } from 'react-native';
-import React, { useState } from 'react';
 import { Check } from "lucide-react-native";
 
 

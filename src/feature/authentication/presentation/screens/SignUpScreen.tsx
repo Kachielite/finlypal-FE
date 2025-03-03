@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { router } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
 import FieldInput from '@/src/shared/presentation/form/field-input';

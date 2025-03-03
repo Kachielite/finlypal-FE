@@ -1,5 +1,5 @@
 import { View, Text, TextInput } from 'react-native';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Mail, UserRound} from 'lucide-react-native';
 
 type FieldInputProps = {

@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import React, { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { Eye, EyeOff, Mail, UserRound } from 'lucide-react-native';
 
 type PasswordFieldInputProps = {

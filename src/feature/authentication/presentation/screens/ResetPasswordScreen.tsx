@@ -1,8 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import React from 'react';
 import { router } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
-import FieldInput from '@/src/shared/presentation/form/field-input';
 import Button from '@/src/shared/presentation/form/button';
 import PasswordFieldInput from '@/src/shared/presentation/form/password-input';
 
