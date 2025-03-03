@@ -23,8 +23,8 @@ const SignUpScreen = () => {
             </View>
           </View>
           <View className="flex flex-col justify-start items-center w-full my-[24px] gap-y-[24px]">
-            <FieldInput type="name" label="Name" placeholder="Enter your name" value="" onChange={(value) => console.log(value)} />
-            <FieldInput type="email" label="Email" placeholder="Enter your email" value="" onChange={(value) => console.log(value)} />
+            <FieldInput id="name" type="name" label="Name" placeholder="Enter your name" value="" onChange={(value) => console.log(value)} />
+            <FieldInput id="email" type="email" label="Email" placeholder="Enter your email" value="" onChange={(value) => console.log(value)} />
             <PasswordFieldInput label="Password" placeholder="Enter your password" value="" onChange={(value) => console.log(value)} />
             <View className="flex flex-row justify-start items-center w-full gap-x-[8px] mt-7">
               <CheckBox

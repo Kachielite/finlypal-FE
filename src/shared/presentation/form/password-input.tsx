@@ -3,6 +3,7 @@ import React, { ReactNode, useState } from 'react';
 import { Eye, EyeOff, Mail, UserRound } from 'lucide-react-native';
 
 type PasswordFieldInputProps = {
+  id?: string;
   label: string;
   placeholder: string;
   value: string;
@@ -11,13 +12,14 @@ type PasswordFieldInputProps = {
 };
 
 
-const PasswordFieldInput = ({label, placeholder, value, onChange, error,}: PasswordFieldInputProps) => {
+const PasswordFieldInput = ({id, label, placeholder, value, onChange, error,}: PasswordFieldInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <View className="w-full flex flex-col justify-start items-start gap-y-[16px]">
       <Text className="font-urbanist-bold text-[16px] text-white">{label}</Text>
       <View className={`w-full flex flex-row justify-between items-center pb-[10px] border-b-[1px] bg-transparent  ${error ? 'border-b-red-500' : 'border-b-secondary'}`}>
         <TextInput
+          id={id}
           secureTextEntry={!showPassword}
           placeholder={placeholder}
           value={value}

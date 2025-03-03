@@ -1,4 +1,4 @@
-import WelcomeScreen from '@/src/feature/authentication/presentation/WelcomeScreen';
+import WelcomeScreen from '@/src/feature/authentication/presentation/screens/WelcomeScreen';
 
 export default function Index() {
   return <WelcomeScreen/>
