@@ -23,11 +23,10 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        return error.response?.data as ErrorResponseModel;
-      } else {
-        return { message: 'An unknown error occurred' } as ErrorResponseModel;
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
       }
+      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
     }
   }
 
@@ -41,11 +40,10 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        return error.response?.data as ErrorResponseModel;
-      } else {
-        return { message: 'An unknown error occurred' } as ErrorResponseModel;
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
       }
+      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
     }
   }
 
@@ -57,11 +55,10 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        return error.response?.data as ErrorResponseModel;
-      } else {
-        return { message: 'An unknown error occurred' } as ErrorResponseModel;
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
       }
+      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
     }
   }
 
@@ -74,11 +71,10 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        return error.response?.data as ErrorResponseModel;
-      } else {
-        return { message: 'An unknown error occurred' } as ErrorResponseModel;
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
       }
+      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
     }
   }
 
@@ -91,11 +87,10 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        return error.response?.data as ErrorResponseModel;
-      } else {
-        return { message: 'An unknown error occurred' } as ErrorResponseModel;
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
       }
+      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
     }
   }
 }

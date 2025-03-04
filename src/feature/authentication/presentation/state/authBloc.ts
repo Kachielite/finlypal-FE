@@ -62,8 +62,8 @@ const signUpHandler = async (payload: SignUpUseCaseParam, getState: typeof useAu
     (auth) => {
       setToken(auth);
       setIsLoading(false);
-      router.push("/")
-      showToast('error', 'Success!', messages.SIGN_UP_SUCCESS)
+      router.push("/home")
+      showToast('success', 'Success!', messages.SIGN_UP_SUCCESS)
     }
   )(response)
 
@@ -83,8 +83,8 @@ const signInHandler = async (payload: SignInUseCaseParams, getState: typeof useA
     (auth) => {
       setToken(auth);
       setIsLoading(false);
-      router.push("/")
-      showToast('error', 'Success!', messages.SIGN_IN_SUCCESS)
+      router.push("/home")
+      showToast('success', 'Success!', messages.SIGN_IN_SUCCESS)
     }
   )(response)
 
@@ -104,7 +104,7 @@ const requestResetPasswordHandler = async (payload: RequestResetPasswordUseCaseP
     () => {
       setIsLoading(false);
       router.push("/otp")
-      showToast('error', 'Success!', messages.REQUEST_RESET_PASSWORD_SUCCESS)
+      showToast('success', 'Success!', messages.REQUEST_RESET_PASSWORD_SUCCESS)
     }
   )(response)
 
@@ -125,7 +125,7 @@ const verifyOtpHandler = async (payload: VerifyOtpUseCaseParams, getState: typeo
     () => {
       setIsLoading(false);
       router.push("/reset-password")
-      showToast('error', 'Success!', messages.VERIFY_OTP_SUCCESS)
+      showToast('success', 'Success!', messages.VERIFY_OTP_SUCCESS)
     }
   )(response)
 
@@ -145,7 +145,7 @@ const resetPasswordHandler = async (payload: ResetPasswordUseCaseParams, getStat
     () => {
       setIsLoading(false);
       router.push("/sign-in")
-      showToast('error', 'Success!', messages.RESET_PASSWORD_SUCCESS)
+      showToast('success', 'Success!', messages.RESET_PASSWORD_SUCCESS)
     }
   )(response)
 

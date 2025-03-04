@@ -15,6 +15,7 @@ const showToast = (
     position: 'top', // or 'bottom'
     visibilityTime: 3000,
     autoHide: true,
+    topOffset: 60
   });
 };
 
