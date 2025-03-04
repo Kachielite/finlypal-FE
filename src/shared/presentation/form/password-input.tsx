@@ -1,6 +1,6 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import { useState, forwardRef } from "react";
-import { Eye, EyeOff } from "lucide-react-native";
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { forwardRef, useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react-native';
 
 type PasswordFieldInputProps = {
   label: string;
@@ -25,7 +25,7 @@ const PasswordFieldInput = forwardRef<TextInput, PasswordFieldInputProps>(
             ref={ref}
             secureTextEntry={!showPassword}
             placeholder={placeholder}
-            className="font-urbanist-bold text-[20px] text-white"
+            className="font-urbanist-bold text-[20px] text-white w-[90%]"
             placeholderClassName="font-urbanist-bold text-[20px] text-[#9E9E9E]"
             value={value} // Ensure controlled behavior
             onChangeText={onChangeText} // Handle text input updates

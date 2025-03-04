@@ -1,7 +1,6 @@
 import { AuthModel } from '@/src/feature/authentication/data/model/auth-model';
 import { GeneralResponseModel } from '@/src/shared/data/model/general-response-model';
 import { AuthenticationService } from '@/src/core/service/authentication';
-import { ErrorResponseModel } from '@/src/shared/data/model/error-response-model';
 import { Exception } from '@/src/core/error/exception';
 
 export interface AuthDatasource {
@@ -20,11 +19,11 @@ export class AuthDatasourceImpl implements AuthDatasource {
     try {
       const response = await this.authenticationService.login(email, password);
       return AuthModel.fromJson(response);
-    } catch (error: unknown){
-      if(error instanceof ErrorResponseModel){
-        throw new Exception(error.message);
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "code" in error && "message" in error) {
+        throw new Exception(error.message as string);
       } else {
-        throw new Exception('An unknown error occurred');
+        throw new Exception("An unknown error occurred");
       }
     }
   }
@@ -33,11 +32,11 @@ export class AuthDatasourceImpl implements AuthDatasource {
     try {
       const response = await this.authenticationService.register(name, email, password);
       return AuthModel.fromJson(response);
-    } catch (error: unknown){
-      if(error instanceof ErrorResponseModel){
-        throw new Exception(error.message);
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "code" in error && "message" in error) {
+        throw new Exception(error.message as string);
       } else {
-        throw new Exception('An unknown error occurred');
+        throw new Exception("An unknown error occurred");
       }
     }
   }
@@ -46,11 +45,11 @@ export class AuthDatasourceImpl implements AuthDatasource {
     try {
       const response = await this.authenticationService.requestResetPassword(email);
       return GeneralResponseModel.fromJson(response);
-    } catch (error: unknown){
-      if(error instanceof ErrorResponseModel){
-        throw new Exception(error.message);
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "code" in error && "message" in error) {
+        throw new Exception(error.message as string);
       } else {
-        throw new Exception('An unknown error occurred');
+        throw new Exception("An unknown error occurred");
       }
     }
   }
@@ -59,11 +58,11 @@ export class AuthDatasourceImpl implements AuthDatasource {
     try {
       const response = await this.authenticationService.verifyOtp(email, otp);
       return GeneralResponseModel.fromJson(response);
-    } catch (error: unknown){
-      if(error instanceof ErrorResponseModel){
-        throw new Exception(error.message);
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "code" in error && "message" in error) {
+        throw new Exception(error.message as string);
       } else {
-        throw new Exception('An unknown error occurred');
+        throw new Exception("An unknown error occurred");
       }
     }
   }
@@ -72,11 +71,11 @@ export class AuthDatasourceImpl implements AuthDatasource {
     try {
       const response = await this.authenticationService.resetPassword(email, password);
       return GeneralResponseModel.fromJson(response);
-    } catch (error: unknown){
-      if(error instanceof ErrorResponseModel){
-        throw new Exception(error.message);
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "code" in error && "message" in error) {
+        throw new Exception(error.message as string);
       } else {
-        throw new Exception('An unknown error occurred');
+        throw new Exception("An unknown error occurred");
       }
     }
   }

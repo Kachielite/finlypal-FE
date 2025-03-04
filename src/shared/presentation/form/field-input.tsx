@@ -1,6 +1,6 @@
-import { TextInput, View, Text } from "react-native";
-import { forwardRef } from "react";
-import { Mail, UserRound } from "lucide-react-native";
+import { Text, TextInput, View } from 'react-native';
+import { forwardRef } from 'react';
+import { Mail, UserRound } from 'lucide-react-native';
 
 type FieldInputProps = {
   label: string;
@@ -28,7 +28,7 @@ const FieldInput = forwardRef<TextInput, FieldInputProps>(
           <TextInput
             ref={ref}
             placeholder={placeholder}
-            className="font-urbanist-bold text-[20px] text-white"
+            className="font-urbanist-bold text-[20px] text-white w-[90%]"
             placeholderClassName="font-urbanist-bold text-[20px] text-[#9E9E9E]"
             value={value}  // Ensure it is controlled
             onChangeText={onChangeText} // Handle text input updates

@@ -1,8 +1,5 @@
 import { SECRET } from '@/src/core/secret/secret';
 import axios from 'axios';
-import { AuthModel } from '@/src/feature/authentication/data/model/auth-model';
-import { ErrorResponseModel } from '@/src/shared/data/model/error-response-model';
-import { GeneralResponseModel } from '@/src/shared/data/model/general-response-model';
 
 export class AuthenticationService {
   private BASE_URL = SECRET.BASE_URL;
@@ -14,7 +11,7 @@ export class AuthenticationService {
 
   constructor() {}
 
-  async login(email: string, password: string): Promise<AuthModel | ErrorResponseModel> {
+  async login(email: string, password: string): Promise<any> {
     try {
       const response = await axios.post(`${this.BASE_URL}${this.LOGIN_PATH}`, {
         email,
@@ -24,13 +21,18 @@ export class AuthenticationService {
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
+        return Promise.reject(error.response.data);
       }
-      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
+      return Promise.reject({
+        code: "500",
+        message: "Unknown error occurred",
+        timestamp: new Date().toISOString(),
+        path: this.LOGIN_PATH,
+      });
     }
   }
 
-  async register(name: string, email: string, password: string): Promise<AuthModel | ErrorResponseModel> {
+  async register(name: string, email: string, password: string): Promise<any> {
     try {
       const response = await axios.post(`${this.BASE_URL}${this.REGISTER_PATH}`, {
         name,
@@ -41,13 +43,18 @@ export class AuthenticationService {
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
+        return Promise.reject(error.response.data);
       }
-      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
+      return Promise.reject({
+        code: "500",
+        message: "Unknown error occurred",
+        timestamp: new Date().toISOString(),
+        path: this.REGISTER_PATH,
+      });
     }
   }
 
-  async requestResetPassword(email: string): Promise<ErrorResponseModel | GeneralResponseModel> {
+  async requestResetPassword(email: string): Promise<any> {
     try {
       const response = await axios.get(`${this.BASE_URL}${this.REQUEST_RESET_PASSWORD_PATH}?email=${email}`, {
       });
@@ -55,13 +62,18 @@ export class AuthenticationService {
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
+        return Promise.reject(error.response.data);
       }
-      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
+      return Promise.reject({
+        code: "500",
+        message: "Unknown error occurred",
+        timestamp: new Date().toISOString(),
+        path: this.REQUEST_RESET_PASSWORD_PATH,
+      });
     }
   }
 
-  async verifyOtp(email: string, otp: string): Promise<ErrorResponseModel | GeneralResponseModel> {
+  async verifyOtp(email: string, otp: string): Promise<any> {
     try {
       const response = await axios.post(`${this.BASE_URL}${this.VERIFY_OTP_PATH}`, {
         email,
@@ -71,13 +83,18 @@ export class AuthenticationService {
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
+        return Promise.reject(error.response.data);
       }
-      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
+      return Promise.reject({
+        code: "500",
+        message: "Unknown error occurred",
+        timestamp: new Date().toISOString(),
+        path: this.VERIFY_OTP_PATH,
+      });
     }
   }
 
-  async resetPassword(email: string, password: string): Promise<ErrorResponseModel | GeneralResponseModel> {
+  async resetPassword(email: string, password: string): Promise<any> {
     try {
       const response = await axios.post(`${this.BASE_URL}${this.RESET_PASSWORD_PATH}`, {
         email,
@@ -87,9 +104,14 @@ export class AuthenticationService {
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        return Promise.reject(ErrorResponseModel.fromJson(error.response.data));
+        return Promise.reject(error.response.data);
       }
-      return Promise.reject(new ErrorResponseModel("500", "Unknown error occurred", new Date().toISOString(), this.REGISTER_PATH));
+      return Promise.reject({
+        code: "500",
+        message: "Unknown error occurred",
+        timestamp: new Date().toISOString(),
+        path: this.RESET_PASSWORD_PATH,
+      });
     }
   }
 }
