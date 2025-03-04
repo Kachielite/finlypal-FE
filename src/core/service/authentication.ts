@@ -49,8 +49,7 @@ export class AuthenticationService {
 
   async requestResetPassword(email: string): Promise<ErrorResponseModel | GeneralResponseModel> {
     try {
-      const response = await axios.post(`${this.BASE_URL}${this.REQUEST_RESET_PASSWORD_PATH}`, {
-        email,
+      const response = await axios.get(`${this.BASE_URL}${this.REQUEST_RESET_PASSWORD_PATH}?email=${email}`, {
       });
 
       return response.data;
