@@ -1,12 +1,14 @@
 import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
+  Animated,
+  Keyboard,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback, Animated, Keyboard, Platform
+  Platform,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import { useState } from 'react';
 import { router } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
 import FieldInput from '@/src/shared/presentation/form/field-input';
@@ -19,12 +21,12 @@ import { useForm } from 'react-hook-form';
 import { AUTH_EVENTS } from '@/src/feature/authentication/presentation/state/authEvent';
 import { authBloc } from '@/src/feature/authentication/presentation/state/authBloc';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
-import { showToast } from '@/src/shared/presentation/components/toastProvider';
+import { SignUpUseCaseParam } from '@/src/feature/authentication/domain/use-case/use-sign-up';
 import ScrollView = Animated.ScrollView;
 
 const SignUpScreen = () => {
   const {isLoading} = useAuthState.getState()
-  const { register, setValue, handleSubmit, watch, formState: { errors } } = useForm({
+  const {  setValue, handleSubmit, watch, formState: { errors } } = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",
@@ -35,7 +37,8 @@ const SignUpScreen = () => {
     mode: "onChange"
   });
 
-  const onSubmit = async (data: any) => await authBloc.handleAuthEvent(AUTH_EVENTS.SIGN_UP, { name: data.name, email: data.email, password: data.password });
+  const onSubmit = async (data: SignUpUseCaseParam) =>
+    await authBloc.handleAuthEvent(AUTH_EVENTS.SIGN_UP, { name: data.name, email: data.email, password: data.password });
 
 
   return (
