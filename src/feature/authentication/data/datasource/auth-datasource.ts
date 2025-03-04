@@ -8,7 +8,7 @@ export interface AuthDatasource {
   signUp(name: string, email: string, password: string): Promise<AuthModel>;
   requestResetPassword(email: string): Promise<GeneralResponseModel>;
   verifyOtp(email: string, otp: string): Promise<GeneralResponseModel>;
-  resetPassword(email: string, password: string): Promise<GeneralResponseModel>;
+  resetPassword(email: string, newPassword: string, token: string): Promise<GeneralResponseModel>;
 }
 
 export class AuthDatasourceImpl implements AuthDatasource {
@@ -67,9 +67,9 @@ export class AuthDatasourceImpl implements AuthDatasource {
     }
   }
 
-  async resetPassword(email: string, password: string): Promise<GeneralResponseModel> {
+  async resetPassword(email: string, newPassword: string, token: string): Promise<GeneralResponseModel> {
     try {
-      const response = await this.authenticationService.resetPassword(email, password);
+      const response = await this.authenticationService.resetPassword(email, newPassword, token);
       return GeneralResponseModel.fromJson(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {

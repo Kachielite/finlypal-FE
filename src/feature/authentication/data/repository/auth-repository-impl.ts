@@ -1,6 +1,6 @@
 import { AuthRepository } from '@/src/feature/authentication/domain/repository/auth-repository';
 import { AuthDatasource } from '@/src/feature/authentication/data/datasource/auth-datasource';
-import { Either, right, left } from 'fp-ts/Either';
+import { Either, left, right } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
 import { Auth } from '@/src/feature/authentication/domain/entity/auth';
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
@@ -49,9 +49,9 @@ export class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  async resetPassword(email: string, password: string): Promise<Either<Failure, GeneralResponse>> {
+  async resetPassword(email: string, newPassword: string, token: string): Promise<Either<Failure, GeneralResponse>> {
     try {
-      const response = await this.authenticationDatasource.resetPassword(email, password);
+      const response = await this.authenticationDatasource.resetPassword(email, newPassword, token);
       return right(response);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";

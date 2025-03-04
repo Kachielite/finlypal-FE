@@ -7,7 +7,8 @@ import { Either } from 'fp-ts/Either';
 export class ResetPasswordUseCaseParams {
   constructor(
     public email: string,
-    public password: string
+    public newPassword: string,
+    public token: string
   ) {
   }
 }
@@ -18,6 +19,6 @@ export class ResetPasswordUseCase extends UseCase<GeneralResponse, ResetPassword
   }
 
   async execute(params: ResetPasswordUseCaseParams): Promise<Either<Failure, GeneralResponse>> {
-    return await this.authRepository.resetPassword(params.email, params.password);
+    return await this.authRepository.resetPassword(params.email, params.newPassword, params.token);
   }
 }

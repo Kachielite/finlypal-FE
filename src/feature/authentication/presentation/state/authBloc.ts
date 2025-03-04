@@ -5,7 +5,7 @@ import {
   resetPasswordUseCase,
   signInUseCase,
   signUpUseCase,
-  verifyOtpUseCase
+  verifyOtpUseCase,
 } from '@/src/init_dependencies';
 import { fold } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
@@ -16,7 +16,7 @@ import messages from '@/src/core/constants/messages';
 import { SignInUseCaseParams } from '@/src/feature/authentication/domain/use-case/use-sign-in';
 import { SignUpUseCaseParam } from '@/src/feature/authentication/domain/use-case/use-sign-up';
 import {
-  RequestResetPasswordUseCaseParams
+  RequestResetPasswordUseCaseParams,
 } from '@/src/feature/authentication/domain/use-case/use-request-reset-password';
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { VerifyOtpUseCaseParams } from '@/src/feature/authentication/domain/use-case/use-verify-otp';
@@ -103,7 +103,7 @@ const requestResetPasswordHandler = async (payload: RequestResetPasswordUseCaseP
     },
     () => {
       setIsLoading(false);
-      router.push("/otp")
+      router.push({ pathname: "/otp", params: { email: payload.email } })
       showToast('success', 'Success!', messages.REQUEST_RESET_PASSWORD_SUCCESS)
     }
   )(response)

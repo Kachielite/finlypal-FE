@@ -17,12 +17,10 @@ export const requestResetPasswordSchema = z.object({
 });
 
 export const verifyOtpSchema = z.object({
-  email: z.string().email({ message: 'Invalid email' }),
-  otp: z.string().min(6, { message: 'OTP too short' }),
+  otp: z.string().min(4, { message: 'OTP too short' }),
 });
 
 export const resetPasswordSchema = z.object({
-  email: z.string().email({ message: 'Invalid email' }),
   password: z.string().min(6, { message: 'Password too short' }),
   confirmPassword: z.string().min(6, { message: 'Password too short' })
 }).superRefine((data, ctx) => {
