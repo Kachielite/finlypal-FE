@@ -62,7 +62,7 @@ const signUpHandler = async (payload: SignUpUseCaseParam, getState: typeof useAu
     (auth) => {
       setToken(auth);
       setIsLoading(false);
-      router.push("/home")
+      router.push("/(tabs)")
       showToast('success', 'Success!', messages.SIGN_UP_SUCCESS)
     }
   )(response)
@@ -83,7 +83,7 @@ const signInHandler = async (payload: SignInUseCaseParams, getState: typeof useA
     (auth) => {
       setToken(auth);
       setIsLoading(false);
-      router.push("/home")
+      router.push("/(tabs)")
       showToast('success', 'Success!', messages.SIGN_IN_SUCCESS)
     }
   )(response)
