@@ -5,12 +5,11 @@ export class UserModel extends User{
       public id: string,
       public name: string,
       public email: string,
-      public password: string,
     ) {
-      super(id, name, email, password);
+      super(id, name, email);
     }
 
     static fromJson(data: any): UserModel {
-      return new UserModel( data.id, data.name, data.email, data.password);
+      return new UserModel( data.id, data.name, data.email,);
     }
 }

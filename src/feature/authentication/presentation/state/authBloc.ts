@@ -1,6 +1,7 @@
 import { useAuthState } from './authState';
 import { AUTH_EVENTS } from './authEvent';
 import {
+  getCurrentUserUseCase,
   requestResetPasswordUseCase,
   resetPasswordUseCase,
   signInUseCase,
@@ -21,6 +22,7 @@ import {
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { VerifyOtpUseCaseParams } from '@/src/feature/authentication/domain/use-case/use-verify-otp';
 import { ResetPasswordUseCaseParams } from '@/src/feature/authentication/domain/use-case/use-reset-password';
+import { User } from '@/src/feature/authentication/domain/entity/user';
 
 export const authBloc = {
   handleAuthEvent: async (event: string, payload?: any) => {
@@ -62,11 +64,9 @@ const signUpHandler = async (payload: SignUpUseCaseParam, getState: typeof useAu
       setIsLoading(false);
       showToast('error', 'Error!', failure.message || messages.ERROR)
     },
-    (auth) => {
+    async (auth) => {
       setToken(auth);
-      setIsLoading(false);
-      router.push("/(tabs)")
-      showToast('success', 'Success!', messages.SIGN_UP_SUCCESS)
+      await getCurrentUserHandler('sign-up', useAuthState.getState);
     }
   )(response)
 
@@ -83,11 +83,9 @@ const signInHandler = async (payload: SignInUseCaseParams, getState: typeof useA
       setIsLoading(false);
       showToast('error', 'Error!', failure.message || messages.ERROR)
     },
-    (auth) => {
+    async (auth) => {
       setToken(auth);
-      setIsLoading(false);
-      router.push("/(tabs)")
-      showToast('success', 'Success!', messages.SIGN_IN_SUCCESS)
+      await getCurrentUserHandler('sign-in', useAuthState.getState);
     }
   )(response)
 
@@ -168,6 +166,33 @@ const resendOtpHandler = async ({email}: { email: string }, getState: typeof use
     () => {
       setIsLoading(false);
       showToast('success', 'Success!', messages.REQUEST_RESET_PASSWORD_SUCCESS)
+    }
+  )(response)
+};
+
+const getCurrentUserHandler = async (handlerType: 'sign-in' | 'sign-up', getState: typeof useAuthState.getState) => {
+  const {setUser, setIsLoading} = getState();
+
+  setIsLoading(true);
+  const response = await getCurrentUserUseCase.execute();
+
+  fold<Failure, User, void>(
+    (failure) => {
+      setIsLoading(false);
+      showToast('error', 'Error!', failure.message || messages.ERROR)
+    },
+    (user) => {
+      setIsLoading(false);
+
+      if(handlerType === 'sign-in'){
+        showToast('success', 'Success!', messages.SIGN_IN_SUCCESS)
+      } else {
+        showToast('success', 'Success!', messages.SIGN_UP_SUCCESS)
+      }
+
+      router.push("/(tabs)")
+      setUser(user);
+      setIsLoading(false);
     }
   )(response)
 };

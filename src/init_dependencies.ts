@@ -6,6 +6,7 @@ import { SignUpUseCase } from '@/src/feature/authentication/domain/use-case/use-
 import { ResetPasswordUseCase } from '@/src/feature/authentication/domain/use-case/use-reset-password';
 import { VerifyOtpUseCase } from '@/src/feature/authentication/domain/use-case/use-verify-otp';
 import { RequestResetPasswordUseCase } from '@/src/feature/authentication/domain/use-case/use-request-reset-password';
+import { GetCurrentUserUseCase } from '@/src/feature/authentication/domain/use-case/use-get-current-user';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -16,3 +17,4 @@ export const signUpUseCase = new SignUpUseCase(authRepository);
 export const requestResetPasswordUseCase = new RequestResetPasswordUseCase(authRepository);
 export const resetPasswordUseCase = new ResetPasswordUseCase(authRepository);
 export const verifyOtpUseCase = new VerifyOtpUseCase(authRepository);
+export const getCurrentUserUseCase = new GetCurrentUserUseCase(authRepository);

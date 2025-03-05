@@ -8,6 +8,7 @@ export class AuthenticationService {
   private REQUEST_RESET_PASSWORD_PATH = '/auth/reset-password-otp';
   private VERIFY_OTP_PATH = '/auth/verify-otp';
   private RESET_PASSWORD_PATH = '/auth/reset-password';
+  private GET_CURRENT_USER_PATH = '/users/user-details';
 
   constructor() {}
 
@@ -115,4 +116,24 @@ export class AuthenticationService {
       });
     }
   }
+
+  async getCurrentUser(): Promise<any> {
+    try {
+      const response = await axios.get(`${this.BASE_URL}${this.GET_CURRENT_USER_PATH}`, {
+      });
+
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(error.response.data);
+      }
+      return Promise.reject({
+        code: "500",
+        message: "Unknown error occurred",
+        timestamp: new Date().toISOString(),
+        path: this.GET_CURRENT_USER_PATH,
+      });
+    }
+  }
+
 }
