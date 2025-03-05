@@ -1,5 +1,6 @@
 import { SECRET } from '@/src/core/secret/secret';
 import axios from 'axios';
+import customAxios from '@/src/core/utils/customAxios';
 
 export class AuthenticationService {
   private BASE_URL = SECRET.BASE_URL;
@@ -119,7 +120,7 @@ export class AuthenticationService {
 
   async getCurrentUser(): Promise<any> {
     try {
-      const response = await axios.get(`${this.BASE_URL}${this.GET_CURRENT_USER_PATH}`, {
+      const response = await customAxios.get(`${this.BASE_URL}${this.GET_CURRENT_USER_PATH}`, {
       });
 
       return response.data;
@@ -135,5 +136,6 @@ export class AuthenticationService {
       });
     }
   }
+
 
 }

@@ -6,17 +6,17 @@ import Button from '@/src/shared/presentation/components/form/button';
 import { router } from 'expo-router';
 
 const Index = () => {
-  const {token, setToken, isLoading} = useAuthState.getState()
+  const {token, isLoading, logout, user} = useAuthState.getState()
 
-  if(!token) {
+  if(!token || !user) {
     return <WelcomeScreen/>
   }
 
   return (
     <SafeAreaView>
-      <Text>Welcome to home</Text>
+      <Text>Welcome to {user.name}</Text>
       <Button onPress={() => {
-        setToken(null);
+        logout()
         router.push("/welcome")
       }} label="Log out" type="primary" isLoading={isLoading} />
     </SafeAreaView>
