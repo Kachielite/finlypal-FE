@@ -4,7 +4,7 @@ import WelcomeScreen from '@/src/feature/authentication/presentation/screens/Wel
 import React from 'react';
 import BalanceCard from '@/src/feature/expenses/presentation/components/home/balance-card';
 import ExpenseSummary from '@/src/feature/expenses/presentation/components/home/expense-summary';
-import TopSpends from '@/src/feature/expenses/presentation/components/home/top-spends';
+import QuickActions from '@/src/feature/expenses/presentation/components/home/quick-actions';
 
 const HomeScreen = () => {
   const {token, user} = useAuthState.getState()
@@ -22,7 +22,7 @@ const HomeScreen = () => {
         </View>
         <BalanceCard/>
         <ExpenseSummary/>
-        <TopSpends/>
+        <QuickActions/>
       </View>
     </SafeAreaView>
   );
