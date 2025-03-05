@@ -12,15 +12,18 @@ const TabLayout = () => {
           backgroundColor: '#102632',
           position: 'absolute',
           borderTopColor: '#35383F',
-          borderWidth: 1,
+          borderTopWidth: 1,
           minHeight: 80,
-          paddingTop: 20
+          paddingTop: 20,
+          paddingBottom: 20,
+          boxShadow: '0px -1px 0px #35383F',
         }
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
+          headerShown: false,
           title: 'Overview',
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={House} title="Overview"/>
@@ -30,6 +33,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="expense"
         options={{
+          headerShown: false,
           title: 'Expenses',
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={ReceiptText} title="Expenses"/>
@@ -39,6 +43,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="insights"
         options={{
+          headerShown: false,
           title: 'Insights',
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={ChartNoAxesCombined} title="Insights"/>
@@ -48,6 +53,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="account"
         options={{
+          headerShown: false,
           title: 'Account',
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={UserRound} title="Account"/>
