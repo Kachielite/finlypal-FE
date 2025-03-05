@@ -94,7 +94,7 @@ export class AuthenticationService {
     }
   }
 
-  async resetPassword(token: string, email: string, newPassword: string): Promise<any> {
+  async resetPassword(email: string, newPassword: string, token: string): Promise<any> {
     try {
       const response = await axios.post(`${this.BASE_URL}${this.RESET_PASSWORD_PATH}`, {
         email,

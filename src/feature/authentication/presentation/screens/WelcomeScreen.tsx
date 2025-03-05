@@ -1,6 +1,6 @@
-import { Text, SafeAreaView, View, Image } from 'react-native';
+import { Image, SafeAreaView, Text, View } from 'react-native';
 import images from '@/src/core/constants/images';
-import Button from '@/src/shared/presentation/form/button';
+import Button from '@/src/shared/presentation/components/form/button';
 import { router } from 'expo-router';
 
 

@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
-import FieldInput from '@/src/shared/presentation/form/field-input';
-import PasswordFieldInput from '@/src/shared/presentation/form/password-input';
-import Button from '@/src/shared/presentation/form/button';
-import CheckBox from '@/src/shared/presentation/form/checkbox';
+import FieldInput from '@/src/shared/presentation/components/form/field-input';
+import PasswordFieldInput from '@/src/shared/presentation/components/form/password-input';
+import Button from '@/src/shared/presentation/components/form/button';
+import CheckBox from '@/src/shared/presentation/components/form/checkbox';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '@/src/core/validation/auth-validation';
 import { useForm } from 'react-hook-form';
@@ -82,7 +82,7 @@ const SignUpScreen = () => {
                     label="Email"
                     placeholder="Enter your email"
                     value={watch("email")}
-                    onChangeText={(text) => setValue("email", text, { shouldValidate: true })}
+                    onChangeText={(text) => setValue("email", text.toLowerCase(), { shouldValidate: true })}
                     error={errors.email?.message}
                   />
                   <PasswordFieldInput
@@ -102,7 +102,7 @@ const SignUpScreen = () => {
                       <View className="flex flex-row justify-start items-center gap-x-1">
                         <Text className="text-white font-urbanist-regular text-[16px]">I agree to FinlyPal's</Text>
                         <TouchableOpacity onPress={() => console.log("Terms and conditions")}>
-                          <Text className="text-secondary font-urbanist-bold text-[16px]">Terms and conditions</Text>
+                          <Text className="text-secondary font-urbanist-bold text-[16px]">terms and conditions</Text>
                         </TouchableOpacity>
                       </View>
                     </View>

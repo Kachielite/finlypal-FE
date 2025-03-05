@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
-import FieldInput from '@/src/shared/presentation/form/field-input';
-import PasswordFieldInput from '@/src/shared/presentation/form/password-input';
-import Button from '@/src/shared/presentation/form/button';
+import FieldInput from '@/src/shared/presentation/components/form/field-input';
+import PasswordFieldInput from '@/src/shared/presentation/components/form/password-input';
+import Button from '@/src/shared/presentation/components/form/button';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 import { useForm } from 'react-hook-form';
 import { signInSchema } from '@/src/core/validation/auth-validation';
@@ -67,7 +67,7 @@ const SignInScreen = () => {
                     label="Email"
                     placeholder="Enter your email"
                     value={watch('email')}
-                    onChangeText={(text) => setValue('email', text, { shouldValidate: true })}
+                    onChangeText={(text) => setValue('email', text.toLowerCase(), { shouldValidate: true })}
                     error={errors.email?.message}
                   />
                   <PasswordFieldInput

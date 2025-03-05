@@ -10,6 +10,7 @@ type ButtonProps = {
 const Button = ({ onPress, label, isLoading, type = 'primary' }: ButtonProps) => {
   return (
     <TouchableOpacity
+      disabled={isLoading}
       onPress={onPress}
       className={`${type === 'primary' ? 'bg-secondary' : 'bg-quaternary'} rounded-[100px] w-full px-[16px] py-[19px] flex justify-center items-center`}
     >
@@ -19,3 +20,4 @@ const Button = ({ onPress, label, isLoading, type = 'primary' }: ButtonProps) =>
   );
 };
 export default Button;
+6641

@@ -1,6 +1,6 @@
 import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import Button from '@/src/shared/presentation/form/button';
+import Button from '@/src/shared/presentation/components/form/button';
 import { OtpInput } from 'react-native-otp-entry';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 import { useForm } from 'react-hook-form';
@@ -8,10 +8,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { verifyOtpSchema } from '@/src/core/validation/auth-validation';
 import { AUTH_EVENTS } from '@/src/feature/authentication/presentation/state/authEvent';
 import { authBloc } from '@/src/feature/authentication/presentation/state/authBloc';
+import { useCallback } from 'react';
+import useCountDown from '@/src/shared/presentation/hooks/useCountDown';
 
 const OtpScreen = () => {
-  const { email } = useLocalSearchParams<{ email: string }>();
+  const { email} = useLocalSearchParams<{ email: string }>();
   const {isLoading} = useAuthState.getState();
+  const {count, setCount} = useCountDown(60)
   const {setValue, handleSubmit, formState: { errors }} = useForm({
     resolver: zodResolver(verifyOtpSchema),
     defaultValues: {
@@ -19,9 +22,16 @@ const OtpScreen = () => {
     }
   })
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = useCallback(async (data: any) => {
     await authBloc.handleAuthEvent(AUTH_EVENTS.VERIFY_OTP, { email: email, otp: data.otp });
-  }
+  }, [email]);
+
+  const resendOtp = useCallback(async () => {
+    setCount(60);
+    await authBloc.handleAuthEvent(AUTH_EVENTS.RESEND_OTP, { email: email });
+  }, [email]);
+
+
 
   return (
     <SafeAreaView className="bg-primary h-screen w-screen">
@@ -57,7 +67,12 @@ const OtpScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            <Text className="text-white font-urbanist-medium text-[18px] mt-10">You can resend code in 55 s</Text>
+            {count > 0 ?
+              <Text className="text-white font-urbanist-medium text-[18px] mt-10">You can resend code in {count}s</Text> :
+              <TouchableOpacity onPress={resendOtp}>
+                <Text className="font-urbanist-medium text-[18px] mt-10 text-secondary">Resend code</Text>
+              </TouchableOpacity>
+            }
           </View>
         </View>
         <View className="w-screen p-[24px] border-t-[1px] border-t-quaternary">
