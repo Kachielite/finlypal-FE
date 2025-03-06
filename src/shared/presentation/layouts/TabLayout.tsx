@@ -13,10 +13,9 @@ const TabLayout = () => {
           position: 'absolute',
           borderTopColor: '#35383F',
           borderTopWidth: 1,
-          minHeight: 80,
-          paddingTop: 20,
-          paddingBottom: 20,
-          boxShadow: '0px -1px 0px #35383F',
+          minHeight: 60,
+          paddingTop: 10,
+          paddingBottom: 10,
         }
       }}
     >
@@ -26,7 +25,7 @@ const TabLayout = () => {
           headerShown: false,
           title: 'Overview',
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={House} title="Overview"/>
+            <TabIcon focused={focused} icon={House}/>
           ),
         }}
       />
@@ -36,7 +35,7 @@ const TabLayout = () => {
           headerShown: false,
           title: 'Expenses',
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={ReceiptText} title="Expenses"/>
+            <TabIcon focused={focused} icon={ReceiptText}/>
           ),
         }}
       />
@@ -46,7 +45,7 @@ const TabLayout = () => {
           headerShown: false,
           title: 'Insights',
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={ChartNoAxesCombined} title="Insights"/>
+            <TabIcon focused={focused} icon={ChartNoAxesCombined}/>
           ),
         }}
       />
@@ -56,7 +55,7 @@ const TabLayout = () => {
           headerShown: false,
           title: 'Account',
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={UserRound} title="Account"/>
+            <TabIcon focused={focused} icon={UserRound}/>
           ),
         }}
       />

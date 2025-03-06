@@ -2,9 +2,10 @@ import { SafeAreaView, Text, View } from 'react-native';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 import WelcomeScreen from '@/src/feature/authentication/presentation/screens/WelcomeScreen';
 import React from 'react';
-import BalanceCard from '@/src/feature/expenses/presentation/components/home/balance-card';
-import ExpenseSummary from '@/src/feature/expenses/presentation/components/home/expense-summary';
-import QuickActions from '@/src/feature/expenses/presentation/components/home/quick-actions';
+import BalanceCard from '@/src/feature/home/presentation/components/home/balance-card';
+import ExpenseSummary from '@/src/feature/home/presentation/components/home/expense-summary';
+import QuickActions from '@/src/feature/home/presentation/components/home/quick-actions';
+import RecentTransactions from '@/src/feature/home/presentation/components/home/recent-transactions';
 
 const HomeScreen = () => {
   const {token, user} = useAuthState.getState()
@@ -23,6 +24,7 @@ const HomeScreen = () => {
         <BalanceCard/>
         <ExpenseSummary/>
         <QuickActions/>
+        <RecentTransactions/>
       </View>
     </SafeAreaView>
   );

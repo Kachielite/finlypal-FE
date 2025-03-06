@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
-import CategoryCard from '@/src/feature/expenses/presentation/components/home/category-card';
+import CategoryCard from '@/src/feature/home/presentation/components/home/category-card';
 
 const themeColors = {
   primary: 'bg-[#102632]', // Dark Blue
