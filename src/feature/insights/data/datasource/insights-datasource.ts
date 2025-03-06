@@ -4,12 +4,13 @@ import { TopExpensesModel } from '@/src/feature/insights/data/model/TopExpensesM
 import { Exception } from '@/src/core/error/exception';
 import { TotalSpendModel } from '@/src/feature/insights/data/model/TotalSpendModel';
 import { InsightsService } from '@/src/core/service/insights';
+import { TotalSpendByCategoryModel } from '@/src/feature/insights/data/model/TotalSpendByCategoryModel';
 
 export interface InsightsDatasource{
   getDailySpend(type: string, startDate?: string, endDate?: string): Promise<DailySpendModel[]>;
   getMonthlySpend(type: string, startDate?: string, endDate?: string): Promise<MonthlySpendModel[]>;
   getTopExpenses(type: string, startDate?: string, endDate?: string): Promise<TopExpensesModel[]>;
-  getTotalSpendByCategory(type: string, startDate: string, endDate: string): Promise<TopExpensesModel[]>;
+  getTotalSpendByCategory(type: string, startDate: string, endDate: string): Promise<TotalSpendByCategoryModel[]>;
   getTotalSpend(type: string, startDate?: string, endDate?: string): Promise<TotalSpendModel>;
 }
 
@@ -56,10 +57,10 @@ export class InsightsDatasourceImpl implements InsightsDatasource {
     }
   }
 
-  async getTotalSpendByCategory(type: string, startDate: string, endDate: string): Promise<TopExpensesModel[]> {
+  async getTotalSpendByCategory(type: string, startDate: string, endDate: string): Promise<TotalSpendByCategoryModel[]> {
     try {
       const response = await this.insightService.getTotalSpendByCategory(type, startDate, endDate);
-      return TopExpensesModel.fromJsonList(response);
+      return TotalSpendByCategoryModel.fromJsonList(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
