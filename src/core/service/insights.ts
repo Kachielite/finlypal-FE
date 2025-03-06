@@ -12,11 +12,14 @@ export class InsightsService {
 
   constructor() {}
 
-  async getTotalSpend(): Promise<any> {
-    try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.TOTAL_SPEND_PATH}`, {
-      });
+  async getTotalSpend(type: string, startDate?: string, endDate?: string): Promise<any> {
+    let url = `${this.BASE_URL}${this.TOTAL_SPEND_PATH}?type=${type}`;
 
+    if (startDate && endDate) {
+      url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
+    try {
+      const response = await customAxios.get(url);
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
@@ -31,9 +34,9 @@ export class InsightsService {
     }
   }
 
-  async getTotalSpendByCategory(): Promise<any> {
+  async getTotalSpendByCategory(type: string, startDate: string, endDate: string): Promise<any> {
     try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.TOTAL_SPEND_BY_CATEGORY_PATH}`, {
+      const response = await customAxios.get(`${this.BASE_URL}${this.TOTAL_SPEND_BY_CATEGORY_PATH}?type=${type}&startDate=${startDate}&endDate=${endDate}`, {
       });
 
       return response.data;
@@ -50,10 +53,14 @@ export class InsightsService {
     }
   }
 
-  async getTopExpenses(): Promise<any> {
+  async getTopExpenses(type: string, startDate?: string, endDate?: string): Promise<any> {
+    let url = `${this.BASE_URL}${this.TOTAL_SPEND_PATH}?type=${type}`;
+
+    if (startDate && endDate) {
+      url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
     try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.TOP_EXPENSES_PATH}`, {
-      });
+      const response = await customAxios.get(url);
 
       return response.data;
     } catch (error: unknown) {
@@ -69,10 +76,16 @@ export class InsightsService {
     }
   }
 
-  async getMonthlySpend(): Promise<any> {
+  async getMonthlySpend(type: string, startDate?: string, endDate?: string): Promise<any> {
+
+    let url = `${this.BASE_URL}${this.TOTAL_SPEND_PATH}?type=${type}`;
+
+    if (startDate && endDate) {
+      url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
+
     try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.MONTHLY_SPEND_PATH}`, {
-      });
+      const response = await customAxios.get(url);
 
       return response.data;
     } catch (error: unknown) {
@@ -88,10 +101,14 @@ export class InsightsService {
     }
   }
 
-  async getDailySpend(): Promise<any> {
+  async getDailySpend(type: string, startDate?: string, endDate?: string): Promise<any> {
+    let url = `${this.BASE_URL}${this.TOTAL_SPEND_PATH}?type=${type}`;
+
+    if (startDate && endDate) {
+      url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
     try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.DAILY_SPEND_PATH}`, {
-      });
+      const response = await customAxios.get(url);
 
       return response.data;
     } catch (error: unknown) {
