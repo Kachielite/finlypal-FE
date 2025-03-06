@@ -1,24 +1,25 @@
 import { DailySpendModel } from '@/src/feature/insights/data/model/DailySpendModel';
 import { MonthlySpendModel } from '@/src/feature/insights/data/model/MonthlySpendModel';
-import { TotalExpensesModel } from '@/src/feature/insights/data/model/TotalExpensesModel';
+import { TopExpensesModel } from '@/src/feature/insights/data/model/TopExpensesModel';
 import { Exception } from '@/src/core/error/exception';
 import { TotalSpendModel } from '@/src/feature/insights/data/model/TotalSpendModel';
+import { InsightsService } from '@/src/core/service/insights';
 
 export interface InsightsDatasource{
   getDailySpend(type: string, startDate?: string, endDate?: string): Promise<DailySpendModel[]>;
   getMonthlySpend(type: string, startDate?: string, endDate?: string): Promise<MonthlySpendModel[]>;
-  getTotalExpenses(type: string, startDate?: string, endDate?: string): Promise<TotalExpensesModel[]>;
-  getTotalSpendByCategory(type: string, startDate?: string, endDate?: string): Promise<TotalExpensesModel[]>;
+  getTopExpenses(type: string, startDate?: string, endDate?: string): Promise<TopExpensesModel[]>;
+  getTotalSpendByCategory(type: string, startDate: string, endDate: string): Promise<TopExpensesModel[]>;
   getTotalSpend(type: string, startDate?: string, endDate?: string): Promise<TotalSpendModel>;
 }
 
 export class InsightsDatasourceImpl implements InsightsDatasource {
-  constructor(private datasource: InsightsDatasource) {
+  constructor(private insightService: InsightsService) {
   }
 
   async getDailySpend(type: string, startDate?: string, endDate?: string): Promise<DailySpendModel[]> {
     try {
-      const response = await this.datasource.getDailySpend(type, startDate, endDate);
+      const response = await this.insightService.getDailySpend(type, startDate, endDate);
       return DailySpendModel.fromJsonList(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
@@ -31,7 +32,7 @@ export class InsightsDatasourceImpl implements InsightsDatasource {
 
   async getMonthlySpend(type: string, startDate?: string, endDate?: string): Promise<MonthlySpendModel[]> {
     try {
-      const response = await this.datasource.getMonthlySpend(type, startDate, endDate);
+      const response = await this.insightService.getMonthlySpend(type, startDate, endDate);
       return MonthlySpendModel.fromJsonList(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
@@ -42,10 +43,10 @@ export class InsightsDatasourceImpl implements InsightsDatasource {
     }
   }
 
-  async getTotalExpenses(type: string, startDate?: string, endDate?: string): Promise<TotalExpensesModel[]> {
+  async getTopExpenses(type: string, startDate?: string, endDate?: string): Promise<TopExpensesModel[]> {
     try {
-      const response = await this.datasource.getTotalExpenses(type, startDate, endDate);
-      return TotalExpensesModel.fromJsonList(response);
+      const response = await this.insightService.getTopExpenses(type, startDate, endDate);
+      return TopExpensesModel.fromJsonList(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
@@ -55,10 +56,10 @@ export class InsightsDatasourceImpl implements InsightsDatasource {
     }
   }
 
-  async getTotalSpendByCategory(type: string, startDate?: string, endDate?: string): Promise<TotalExpensesModel[]> {
+  async getTotalSpendByCategory(type: string, startDate: string, endDate: string): Promise<TopExpensesModel[]> {
     try {
-      const response = await this.datasource.getTotalSpendByCategory(type, startDate, endDate);
-      return TotalExpensesModel.fromJsonList(response);
+      const response = await this.insightService.getTotalSpendByCategory(type, startDate, endDate);
+      return TopExpensesModel.fromJsonList(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
@@ -70,7 +71,7 @@ export class InsightsDatasourceImpl implements InsightsDatasource {
 
   async getTotalSpend(type: string, startDate?: string, endDate?: string): Promise<TotalSpendModel> {
     try {
-      const response = await this.datasource.getTotalSpend(type, startDate, endDate);
+      const response = await this.insightService.getTotalSpend(type, startDate, endDate);
       return TotalSpendModel.fromJson(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {

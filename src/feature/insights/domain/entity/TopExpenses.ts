@@ -1,4 +1,4 @@
-export class TotalExpenses{
+export class TopExpenses {
   constructor(
     public description: string,
     public amount: number,
