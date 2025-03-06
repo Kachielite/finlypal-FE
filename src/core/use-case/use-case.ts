@@ -6,3 +6,12 @@ export abstract class UseCase<T, P> {
 }
 
 export class NoParams{}
+
+export class InsightsUseCaseParams{
+  constructor(
+    public type: string,
+    public startDate?: string,
+    public endDate?: string
+  ) {
+  }
+}
