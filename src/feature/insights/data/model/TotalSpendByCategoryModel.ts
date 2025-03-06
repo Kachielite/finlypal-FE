@@ -12,4 +12,8 @@ export class TotalSpendByCategoryModel extends TotalSpendByCategory {
   fromJson(json: any): TotalSpendByCategoryModel {
     return new TotalSpendByCategoryModel(json.totalSpend, json.category, json.percent);
   }
+
+  fromJsonList(response: TotalSpendByCategoryModel[]): TotalSpendByCategoryModel[] {
+    return response.map(item => item.fromJson(item));
+  }
 }

@@ -9,6 +9,10 @@ export class MonthlySpendModel extends MonthlySpend{
     super(totalSpend, month, type);
   }
 
+  static fromJsonList(response: MonthlySpendModel[]) {
+    return response.map(item => item.fromJson(item));
+  }
+
   fromJson(json: any): MonthlySpendModel {
     return new MonthlySpendModel(json.totalSpend, json.month, json.type);
   }

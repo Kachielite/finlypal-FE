@@ -9,6 +9,10 @@ export class TotalExpensesModel extends TotalExpenses{
     super(description, amount, date);
   }
 
+  static fromJsonList(response: TotalExpensesModel[]) {
+    return response.map(item => item.fromJson(item));
+  }
+
   fromJson(json: any): TotalExpensesModel {
     return new TotalExpensesModel(json.description, json.amount, json.date);
   }
