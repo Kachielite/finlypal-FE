@@ -2,7 +2,7 @@ import { InsightsUseCaseParams, UseCase } from '@/src/core/use-case/use-case';
 import { MonthlySpend } from '@/src/feature/insights/domain/entity/MonthlySpend';
 import { Either } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
-import { InsightRepositoryImpl } from '@/src/feature/insights/data/repositoryImpl/insight-repositoryImp';
+import { InsightsRepository } from '@/src/feature/insights/domain/repository/insights-repository';
 
 export class GetMonthlySpendUseCaseParams extends InsightsUseCaseParams{
   constructor(
@@ -16,7 +16,7 @@ export class GetMonthlySpendUseCaseParams extends InsightsUseCaseParams{
 
 
 export class GetMonthlySpendUseCase extends UseCase<MonthlySpend[], GetMonthlySpendUseCaseParams>{
-  constructor(private insightRepository: InsightRepositoryImpl) {
+  constructor(private insightRepository: InsightsRepository) {
     super();
   }
   async execute(params: GetMonthlySpendUseCaseParams): Promise<Either<Failure, MonthlySpend[]>> {

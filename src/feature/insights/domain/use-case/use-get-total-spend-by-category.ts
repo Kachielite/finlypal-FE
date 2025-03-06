@@ -2,7 +2,7 @@ import { InsightsUseCaseParams, UseCase } from '@/src/core/use-case/use-case';
 import { TotalSpendByCategory } from '@/src/feature/insights/domain/entity/TotalSpendByCategory';
 import { Either } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
-import { InsightRepositoryImpl } from '@/src/feature/insights/data/repositoryImpl/insight-repositoryImp';
+import { InsightsRepository } from '@/src/feature/insights/domain/repository/insights-repository';
 
 export class GetTotalSpendByCategoryUseCaseParams extends InsightsUseCaseParams{
   constructor(
@@ -15,7 +15,7 @@ export class GetTotalSpendByCategoryUseCaseParams extends InsightsUseCaseParams{
 }
 
 export class GetTotalSpendByCategoryUseCase extends UseCase<TotalSpendByCategory[], GetTotalSpendByCategoryUseCaseParams>{
-  constructor(private insightsRepository: InsightRepositoryImpl) {
+  constructor(private insightsRepository: InsightsRepository) {
     super();
   }
 
