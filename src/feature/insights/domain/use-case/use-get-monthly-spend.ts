@@ -7,8 +7,8 @@ import { InsightRepositoryImpl } from '@/src/feature/insights/data/repositoryImp
 export class GetMonthlySpendUseCaseParams extends InsightsUseCaseParams{
   constructor(
     public type: string,
-    public startDate: string,
-    public endDate: string
+    public startDate?: string,
+    public endDate?: string
   ) {
     super(type, startDate, endDate);
   }
