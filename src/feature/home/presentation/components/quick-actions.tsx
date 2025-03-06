@@ -9,15 +9,15 @@ const QuickActions = () => {
       <Text className="text-white font-urbanist-bold text-[20px]">Quick Actions</Text>
       <View className="flex-row justify-between mt-2 w-full gap-x-[12px]">
         {/* Add Income Button */}
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center bg-[#17CE92] rounded-lg py-4 mr-2">
+        <TouchableOpacity className="flex-1 flex-row items-center justify-center bg-green-500 rounded-lg py-4 mr-2">
           <ArrowUp size={20} strokeWidth={4} color="white" />
-          <Text className="text-[#F2FBF7] font-bold text-lg ml-2">Add Income</Text>
+          <Text className="text-white font-bold text-lg ml-2">Add Income</Text>
         </TouchableOpacity>
 
         {/* Add Expense Button */}
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center bg-[#CE174B] rounded-lg py-4 ml-2">
+        <TouchableOpacity className="flex-1 flex-row items-center justify-center bg-red-500  rounded-lg py-4 ml-2 ">
           <ArrowDown size={20} strokeWidth={4} color="white" />
-          <Text className="text-[#F2FBF7] font-bold text-lg ml-2">Add Expense</Text>
+          <Text className="text-white font-bold text-lg ml-2">Add Expense</Text>
         </TouchableOpacity>
       </View>
     </View>
