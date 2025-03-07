@@ -34,7 +34,7 @@ const OtpScreen = () => {
 
 
   return (
-    <SafeAreaView className="bg-primary h-screen w-screen">
+    <SafeAreaView className="bg-primary h-full w-screen">
       <View className="flex flex-col justify-between items-center h-full w-full">
         <View className="w-full flex flex-col justify-start items-start px-[24px] pt-[16px]">
           <View className="flex flex-col justify-start items-center w-full my-[24px] gap-y-[32px]">
@@ -62,7 +62,7 @@ const OtpScreen = () => {
             </View>
             <View className="flex flex-row justify-start items-center w-full gap-x-[8px] mt-7">
               <View className="flex justify-center items-center w-full">
-                <TouchableOpacity onPress={() => router.push('/request-reset-password')}>
+                <TouchableOpacity onPress={() => router.push('/authentication/request-reset-password')}>
                   <Text className="text-white font-urbanist-medium text-[18px]">Didn't receive email?</Text>
                 </TouchableOpacity>
               </View>

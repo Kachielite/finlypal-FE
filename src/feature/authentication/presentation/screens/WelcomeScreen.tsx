@@ -18,8 +18,8 @@ const WelcomeScreen = () => {
             <Text className="font-urbanist-bold text-[40px] text-[#17CE92]">FinlyPal 👋</Text>
           </View>
           <View className="flex flex-col justify-start items-center gap-y-[24px]  w-full">
-            <Button onPress={() => router.push('/sign-in')} label="Log in" type="primary" />
-            <Button onPress={() => router.push('/sign-up')} label="Sign up" type="secondary" />
+            <Button onPress={() => router.push('/authentication/sign-in')} label="Log in" type="primary" />
+            <Button onPress={() => router.push('/authentication/sign-up')} label="Sign up" type="secondary" />
           </View>
         </View>
       </SafeAreaView>

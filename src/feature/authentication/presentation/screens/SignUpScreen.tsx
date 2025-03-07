@@ -42,7 +42,7 @@ const SignUpScreen = () => {
 
 
   return (
-    <SafeAreaView className="bg-primary h-screen w-screen">
+    <SafeAreaView className="bg-primary h-full w-screen">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
@@ -113,7 +113,7 @@ const SignUpScreen = () => {
 
               <View className="w-full py-[20px] flex flex-row justify-center items-center">
                 <Text className="text-white font-urbanist-medium text-[16px]">Already have an account?</Text>
-                <TouchableOpacity onPress={() => router.push("/sign-in")}>
+                <TouchableOpacity onPress={() => router.push('/authentication/sign-in')}>
                   <Text className="text-secondary font-urbanist-bold text-[16px] ml-[8px]">Log in</Text>
                 </TouchableOpacity>
               </View>

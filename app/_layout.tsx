@@ -16,6 +16,7 @@ export default function RootLayout() {
     "Urbanist-SemiBold": require("../assets/fonts/Urbanist-SemiBold.ttf"),
   });
 
+
   useEffect(() => {
     if (fontsLoaded) {
       SplashScreen.hideAsync();
@@ -29,7 +30,10 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <Stack screenOptions={{ headerShown: false, navigationBarColor: 'red' }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="tabs" />
+        <Stack.Screen name="authentication" />
+      </Stack>
       <ToastProvider/>
     </>
   )
