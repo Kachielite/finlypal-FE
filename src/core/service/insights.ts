@@ -16,7 +16,7 @@ export class InsightsService {
     let url = `${this.BASE_URL}${this.TOTAL_SPEND_PATH}?type=${type}`;
 
     if (startDate && endDate) {
-      url += `&startDate=${startDate}&endDate=${endDate}`;
+      url += `&start_date=${startDate}&end_date=${endDate}`;
     }
     try {
       const response = await customAxios.get(url);

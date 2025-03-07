@@ -17,7 +17,7 @@ const Account = () => {
       <Text>Welcome to {user.name}</Text>
       <Button onPress={() => {
         logout()
-        router.push("/welcome")
+        router.push("/authentication/welcome")
       }} label="Log out" type="primary" isLoading={isLoading} />
     </SafeAreaView>
   );

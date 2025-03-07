@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native';
 import React from 'react';
 import { TrendingDown, TrendingUp } from 'lucide-react-native';
+import formatNumber from '@/src/core/utils/formatCurrency';
 
 const ExpenseSummary = ({income, expense}: {income: number, expense: number}) => {
   return (
@@ -11,7 +12,7 @@ const ExpenseSummary = ({income, expense}: {income: number, expense: number}) =>
         </View>
         <View className="gap-y-1.5">
           <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Income</Text>
-          <Text className="font-urbanist-bold text-[24px] text-white">${income}</Text>
+          <Text className="font-urbanist-bold text-[20px] text-white">${formatNumber(income)}</Text>
         </View>
       </View>
       <View className="flex flex-row justify-start items-start gap-x-[12px]">
@@ -20,7 +21,7 @@ const ExpenseSummary = ({income, expense}: {income: number, expense: number}) =>
         </View>
         <View className="gap-y-1.5">
           <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Expense</Text>
-          <Text className="font-urbanist-bold text-[24px] text-white">${expense}</Text>
+          <Text className="font-urbanist-bold text-[20px] text-white">${formatNumber(expense)}</Text>
         </View>
       </View>
 

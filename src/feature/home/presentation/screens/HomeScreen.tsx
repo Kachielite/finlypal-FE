@@ -9,6 +9,7 @@ import { useHomeState } from '@/src/feature/home/presentation/state/homeState';
 import { homeBloc } from '@/src/feature/home/presentation/state/homeBloc';
 import { HOME_EVENTS } from '@/src/feature/home/presentation/state/homeEvent';
 import { Redirect } from 'expo-router';
+import moment from 'moment';
 
 const HomeScreen = () => {
   const {token, user} = useAuthState.getState();
@@ -18,8 +19,9 @@ const HomeScreen = () => {
   }
 
   // Mocked Date Range
-  const startDate = '2024-01-01';
-  const endDate = '2024-12-31';
+  const today = moment();
+  const startDate = today.startOf('month').format('YYYY-MM-DD');
+  const endDate = today.endOf('month').format('YYYY-MM-DD');
 
   const isLoading = useHomeState((state) => state.isLoading);
   const totalIncome = useHomeState((state) => state.totalIncome);
@@ -52,7 +54,7 @@ const HomeScreen = () => {
           <Text className="text-white font-urbanist-bold text-[24px]">{user.name}</Text>
           <Text className="text-[#E0E0E0] text-sm text-[16px]" >Welcome back! 👋</Text>
         </View>
-        <BalanceCard balance={totalIncome - totalExpense}/>
+        <BalanceCard balance={(totalIncome - totalExpense)}/>
         <ExpenseSummary income={totalIncome} expense={totalExpense}/>
         <QuickActions/>
          <RecentTransactions expenseList={expensesList} isLoading={isLoading}/>

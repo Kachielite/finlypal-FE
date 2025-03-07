@@ -4,13 +4,14 @@ import TransactionCard from '@/src/feature/home/presentation/components/transact
 import EmptyTransactionList from '@/src/feature/home/presentation/components/empty-transaction-list';
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import Loader from '@/src/shared/presentation/components/loader';
+import { router } from 'expo-router';
 
 const RecentTransactions = ({expenseList, isLoading}: {expenseList: Expense[], isLoading: boolean}) => {
   return (
     <View className="flex flex-col justify-start items-start w-full gap-y-[18px]">
       <View className="flex flex-row justify-between items-center w-full">
         <Text className="text-white font-urbanist-bold text-[20px]">Recent Actions</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/(tabs)/expense')}>
           <Text className="text-white text-[16px]">See All</Text>
         </TouchableOpacity>
       </View>

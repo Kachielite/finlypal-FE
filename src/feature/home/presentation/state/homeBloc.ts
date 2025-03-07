@@ -41,7 +41,6 @@ const getTotalExpenseHandler = async (
       showToast('error', 'Error', failure.message || "Error fetching Total Expense")
     },
     (totalExpense) => {
-      console.log("total expense", totalExpense)
       setTotalExpense(totalExpense.totalSpend)
     }
   )(response);
@@ -60,7 +59,6 @@ const getTotalIncomeHandler = async (
       showToast('error', 'Error', failure.message || "Error fetching Total Income")
     },
     (totalExpense) => {
-      console.log("total income", totalExpense)
       setTotalIncome(totalExpense.totalSpend)
     }
   )(response);

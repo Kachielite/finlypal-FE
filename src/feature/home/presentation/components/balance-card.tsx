@@ -2,6 +2,7 @@ import { Image, Text, View } from 'react-native';
 import React from 'react';
 import { HandCoins } from 'lucide-react-native';
 import images from '@/src/core/constants/images';
+import formatNumber from '@/src/core/utils/formatCurrency';
 
 const BalanceCard = ({balance}:{balance: number}) => {
   return (
@@ -12,7 +13,7 @@ const BalanceCard = ({balance}:{balance: number}) => {
       <View className="flex flex-row justify-between items-center px-[19px] py-[35px] bg-black/[.21] w-full">
         <View>
           <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}  className="text-white font-urbanist-extrabold text-[40px] ">
-            ${balance}
+            ${formatNumber(balance)}
           </Text>
           <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}   className="text-white text-sm text-[16px]">
             Current Month Balance
