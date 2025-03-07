@@ -53,7 +53,9 @@ export const authBloc = {
 };
 
 
-const signUpHandler = async (payload: SignUpUseCaseParam, getState: typeof useAuthState.getState) => {
+const signUpHandler = async (
+  payload: SignUpUseCaseParam, getState: typeof useAuthState.getState
+) => {
   const {setToken, setIsLoading} = getState();
 
   setIsLoading(true);

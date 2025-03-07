@@ -20,6 +20,7 @@ import { DeleteExpenseUseCase } from '@/src/feature/expenses/domain/use-case/use
 import { GetAllExpenseUseCase } from '@/src/feature/expenses/domain/use-case/use-get-all-expense';
 import { GetExpenseByIdUseCase } from '@/src/feature/expenses/domain/use-case/use-get-expense-by-id';
 import { UpdateExpenseUseCase } from '@/src/feature/expenses/domain/use-case/use-update-expense';
+import { GetTotalSpendUseCase } from '@/src/feature/insights/domain/use-case/use-get-total-spend';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -40,7 +41,7 @@ const insightsRepository = new InsightRepositoryImpl(insightDatasource);
 export const getDailySpendUseCase = new GetDailySpendUseCase(insightsRepository);
 export const getMonthlySpendUseCase = new GetDailySpendUseCase(insightsRepository);
 export const getTopExpensesUseCase = new GetTopExpensesUseCase(insightsRepository);
-export const getTotalSpendUseCase = new GetTopExpensesUseCase(insightsRepository);
+export const getTotalSpendUseCase = new GetTotalSpendUseCase(insightsRepository);
 export const getTotalSpendByCategoryUseCase = new GetTopExpensesUseCase(insightsRepository);
 
 
