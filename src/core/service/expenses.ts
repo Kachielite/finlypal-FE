@@ -72,7 +72,7 @@ export class ExpensesService {
   }
 
   async getExpense(startDate: string, endDate: string, categoryId?: number, type?: string, page?: number, pageSize?: number){
-    let url = `${this.BASE_URL}${this.EXPENSES_PATH}?page=${page || 0}&pageSize=${pageSize || 10}`
+    let url = `${this.BASE_URL}${this.EXPENSES_PATH}?start_date=${startDate}&end_date=${endDate}&page=${page || 0}&pageSize=${pageSize || 10}`
 
     if(categoryId){
       url += `&category_id=${categoryId}`
@@ -85,7 +85,7 @@ export class ExpensesService {
     try{
 
       const response = await customAxios.get(url);
-      return response.data
+      return response.data.content
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);

@@ -6,7 +6,6 @@ import { TotalSpend } from '@/src/feature/insights/domain/entity/TotalSpend';
 import { Failure } from '@/src/core/error/failure';
 import { fold } from 'fp-ts/Either';
 import { showToast } from '@/src/shared/presentation/components/toastProvider';
-import messages from '@/src/core/constants/messages';
 import { GetAllExpenseUseCaseParams } from '@/src/feature/expenses/domain/use-case/use-get-all-expense';
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 
@@ -41,7 +40,7 @@ const getTotalExpenseHandler = async (
   fold<Failure, TotalSpend, void>(
     (failure) => {
       setIsLoading(false);
-      showToast('error', 'Error', failure.message || messages.ERROR)
+      showToast('error', 'Error', failure.message || "Error fetching Total Expense")
     },
     (totalExpense) => {
       setTotalExpense(totalExpense.totalSpend)
@@ -61,7 +60,7 @@ const getTotalIncomeHandler = async (
   fold<Failure, TotalSpend, void>(
     (failure) => {
       setIsLoading(false);
-      showToast('error', 'Error', failure.message || messages.ERROR)
+      showToast('error', 'Error', failure.message || "Error fetching Total Income")
     },
     (totalExpense) => {
       setTotalIncome(totalExpense.totalSpend)
@@ -72,15 +71,15 @@ const getTotalIncomeHandler = async (
 const getExpenses = async (
   payload: GetAllExpenseUseCaseParams, getState: typeof useHomeState.getState
 ) => {
-  const {setIsLoading, setExpenseList} = getState();
+  const {setIsLoadingExpenseList, setExpenseList} = getState();
 
-  setIsLoading(true)
+  setIsLoadingExpenseList(true)
   const response = await getAllExpenseUseCase.execute(payload)
 
   fold<Failure, Expense[], void>(
     (failure) => {
-      setIsLoading(false);
-      showToast('error', 'Error', failure.message || messages.ERROR)
+      setIsLoadingExpenseList(false);
+      showToast('error', 'Error', failure.message || "Error fetching All Expense")
     },
     (expenses) =>{
       setExpenseList(expenses)

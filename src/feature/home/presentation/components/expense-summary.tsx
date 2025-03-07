@@ -2,7 +2,7 @@ import { Text, View } from 'react-native';
 import React from 'react';
 import { TrendingDown, TrendingUp } from 'lucide-react-native';
 
-const ExpenseSummary = () => {
+const ExpenseSummary = ({income, expense}: {income: number, expense: number}) => {
   return (
     <View className="w-full flex flex-row justify-between items-center">
       <View className="flex flex-row justify-start items-start gap-x-[12px]">
@@ -11,7 +11,7 @@ const ExpenseSummary = () => {
         </View>
         <View className="gap-y-1.5">
           <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Income</Text>
-          <Text className="font-urbanist-bold text-[24px] text-white">$460.00</Text>
+          <Text className="font-urbanist-bold text-[24px] text-white">${income}</Text>
         </View>
       </View>
       <View className="flex flex-row justify-start items-start gap-x-[12px]">
@@ -20,7 +20,7 @@ const ExpenseSummary = () => {
         </View>
         <View className="gap-y-1.5">
           <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Expense</Text>
-          <Text className="font-urbanist-bold text-[24px] text-white">$231.00</Text>
+          <Text className="font-urbanist-bold text-[24px] text-white">${expense}</Text>
         </View>
       </View>
 

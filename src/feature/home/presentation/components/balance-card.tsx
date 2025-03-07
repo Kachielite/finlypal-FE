@@ -3,7 +3,7 @@ import React from 'react';
 import { HandCoins } from 'lucide-react-native';
 import images from '@/src/core/constants/images';
 
-const BalanceCard = () => {
+const BalanceCard = ({balance}:{balance: number}) => {
   return (
     <View
       style={{backgroundImage: `url(${images.balanceBackground})`}}
@@ -11,8 +11,12 @@ const BalanceCard = () => {
       <Image source={images.balanceBackground} className="w-full h-full object-cover absolute" />
       <View className="flex flex-row justify-between items-center px-[19px] py-[35px] bg-black/[.21] w-full">
         <View>
-          <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}  className="text-white font-urbanist-extrabold text-[40px] ">$2,821.00</Text>
-          <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}   className="text-white text-sm text-[16px]">Total Balance</Text>
+          <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}  className="text-white font-urbanist-extrabold text-[40px] ">
+            ${balance}
+          </Text>
+          <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}   className="text-white text-sm text-[16px]">
+            Current Month Balance
+          </Text>
         </View>
         <HandCoins color="white" size={60} strokeWidth={4} absoluteStrokeWidth  />
       </View>
