@@ -53,7 +53,9 @@ export const authBloc = {
 };
 
 
-const signUpHandler = async (payload: SignUpUseCaseParam, getState: typeof useAuthState.getState) => {
+const signUpHandler = async (
+  payload: SignUpUseCaseParam, getState: typeof useAuthState.getState
+) => {
   const {setToken, setIsLoading} = getState();
 
   setIsLoading(true);
@@ -104,7 +106,7 @@ const requestResetPasswordHandler = async (payload: RequestResetPasswordUseCaseP
     },
     () => {
       setIsLoading(false);
-      router.push({ pathname: "/otp", params: { email: payload.email } })
+      router.push({ pathname: "/authentication/otp", params: { email: payload.email } })
       showToast('success', 'Success!', messages.REQUEST_RESET_PASSWORD_SUCCESS)
     }
   )(response)
@@ -125,7 +127,7 @@ const verifyOtpHandler = async (payload: VerifyOtpUseCaseParams, getState: typeo
     },
     () => {
       setIsLoading(false);
-      router.push({ pathname: "/reset-password", params: { email: payload.email , otp: payload.otp} })
+      router.push({ pathname: "/authentication/reset-password", params: { email: payload.email , otp: payload.otp} })
       showToast('success', 'Success!', messages.VERIFY_OTP_SUCCESS)
     }
   )(response)
@@ -145,7 +147,7 @@ const resetPasswordHandler = async (payload: ResetPasswordUseCaseParams, getStat
     },
     () => {
       setIsLoading(false);
-      router.push("/welcome")
+      router.push("/authentication/welcome");
       showToast('success', 'Success!', messages.RESET_PASSWORD_SUCCESS)
     }
   )(response)

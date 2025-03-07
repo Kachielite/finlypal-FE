@@ -1,4 +1,3 @@
-import React from 'react';
 import SignInScreen from '@/src/feature/authentication/presentation/screens/SignInScreen';
 
 const SignIn = () => {

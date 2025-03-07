@@ -26,7 +26,7 @@ const ResetPasswordScreen = () => {
   }
 
   return (
-    <SafeAreaView className="bg-primary h-screen w-screen">
+    <SafeAreaView className="bg-primary h-full w-screen">
       <View className="flex flex-col justify-between items-center h-full w-full">
         <View className="w-full flex flex-col justify-start items-start px-[24px] pt-[16px]">
           <View className="flex flex-col justify-start items-center w-full my-[24px] gap-y-[32px]">

@@ -2,7 +2,7 @@ import { SplashScreen, Stack } from 'expo-router';
 import '@/src/core/theme/global.css';
 import { useFonts } from 'expo-font';
 import React, { useEffect } from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { ToastProvider } from '@/src/shared/presentation/components/toastProvider';
 
 export default function RootLayout() {
@@ -15,6 +15,7 @@ export default function RootLayout() {
     "Urbanist-Regular": require("../assets/fonts/Urbanist-Regular.ttf"),
     "Urbanist-SemiBold": require("../assets/fonts/Urbanist-SemiBold.ttf"),
   });
+
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -29,7 +30,10 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="tabs" />
+        <Stack.Screen name="authentication" />
+      </Stack>
       <ToastProvider/>
     </>
   )

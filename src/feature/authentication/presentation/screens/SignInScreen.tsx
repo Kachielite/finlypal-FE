@@ -40,7 +40,7 @@ const SignInScreen = () => {
 
 
   return (
-    <SafeAreaView className="bg-primary h-screen w-screen">
+    <SafeAreaView className="bg-primary h-full w-screen">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
@@ -79,7 +79,7 @@ const SignInScreen = () => {
                   />
                   <View className="flex flex-row justify-start items-center w-full gap-x-[8px] mt-7">
                     <View className="flex justify-center items-center w-full">
-                      <TouchableOpacity onPress={() => router.push('/request-reset-password')}>
+                      <TouchableOpacity onPress={() => router.push('/authentication/request-reset-password')}>
                         <Text className="text-secondary font-urbanist-bold text-[16px]">Forgot password?</Text>
                       </TouchableOpacity>
                     </View>
@@ -88,7 +88,7 @@ const SignInScreen = () => {
               </View>
               <View className="w-full py-[20px] flex flex-row justify-center items-center">
                 <Text className="text-white font-urbanist-medium text-[16px]">Don't have an account?</Text>
-                <TouchableOpacity onPress={() => router.push('/sign-up')}>
+                <TouchableOpacity onPress={() => router.push('/authentication/sign-up')}>
                   <Text className="text-secondary font-urbanist-bold text-[16px] ml-[8px]">Sign up</Text>
                 </TouchableOpacity>
               </View>
@@ -96,7 +96,6 @@ const SignInScreen = () => {
                 <Button onPress={handleSubmit(onSubmit)} label="Continue" type="primary" isLoading={isLoading} />
               </View>
             </View>
-
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
