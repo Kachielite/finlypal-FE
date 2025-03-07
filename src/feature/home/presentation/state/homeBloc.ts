@@ -32,17 +32,16 @@ export const homeBloc = {
 const getTotalExpenseHandler = async (
   payload: GetTotalSpendUseCaseParams, getState: typeof useHomeState.getState
 ) => {
-  const {setIsLoading, setTotalExpense} = getState();
+  const {setTotalExpense} = getState();
 
-  setIsLoading(true)
   const response = await getTotalSpendUseCase.execute(payload);
 
   fold<Failure, TotalSpend, void>(
     (failure) => {
-      setIsLoading(false);
       showToast('error', 'Error', failure.message || "Error fetching Total Expense")
     },
     (totalExpense) => {
+      console.log("total expense", totalExpense)
       setTotalExpense(totalExpense.totalSpend)
     }
   )(response);
@@ -52,17 +51,16 @@ const getTotalExpenseHandler = async (
 const getTotalIncomeHandler = async (
   payload: GetTotalSpendUseCaseParams, getState: typeof useHomeState.getState
 ) => {
-  const {setIsLoading, setTotalIncome} = getState();
+  const {setTotalIncome} = getState();
 
-  setIsLoading(true)
   const response = await getTotalSpendUseCase.execute(payload);
 
   fold<Failure, TotalSpend, void>(
     (failure) => {
-      setIsLoading(false);
       showToast('error', 'Error', failure.message || "Error fetching Total Income")
     },
     (totalExpense) => {
+      console.log("total income", totalExpense)
       setTotalIncome(totalExpense.totalSpend)
     }
   )(response);
@@ -71,14 +69,12 @@ const getTotalIncomeHandler = async (
 const getExpenses = async (
   payload: GetAllExpenseUseCaseParams, getState: typeof useHomeState.getState
 ) => {
-  const {setIsLoadingExpenseList, setExpenseList} = getState();
+  const { setExpenseList} = getState();
 
-  setIsLoadingExpenseList(true)
   const response = await getAllExpenseUseCase.execute(payload)
 
   fold<Failure, Expense[], void>(
     (failure) => {
-      setIsLoadingExpenseList(false);
       showToast('error', 'Error', failure.message || "Error fetching All Expense")
     },
     (expenses) =>{

@@ -22,6 +22,7 @@ export class InsightsService {
       const response = await customAxios.get(url);
       return response.data;
     } catch (error: unknown) {
+      console.error("Get total spend error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -41,6 +42,7 @@ export class InsightsService {
 
       return response.data;
     } catch (error: unknown) {
+      console.error("Get total spend by category error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -64,6 +66,7 @@ export class InsightsService {
 
       return response.data;
     } catch (error: unknown) {
+      console.error("Get top expenses error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -89,6 +92,7 @@ export class InsightsService {
 
       return response.data;
     } catch (error: unknown) {
+      console.error("Get monthly spend error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -112,6 +116,7 @@ export class InsightsService {
 
       return response.data;
     } catch (error: unknown) {
+      console.error("Get daily spend error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }

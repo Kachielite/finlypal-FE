@@ -13,15 +13,11 @@ export class ExpenseModel extends Expense{
   }
 
   static fromJsonList(response: ExpenseModel[]) {
-    return response.map(item => item.fromJson(item));
+    return response.map(item => ExpenseModel.fromJson(item));
   }
 
   static fromJson(response: any): ExpenseModel {
     return new ExpenseModel(response.id, response.description, response.amount, response.date, response.type, response.categoryId)
 
-  }
-
-  fromJson(json: any): ExpenseModel{
-    return new ExpenseModel(json.id, json.description, json.amount, json.date, json.type, json.categoryId)
   }
 }

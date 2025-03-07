@@ -7,7 +7,7 @@ export class TotalSpendModel extends TotalSpend {
     super(totalSpend);
   }
   
-  static fromJson(json: TotalSpendModel) {
-    return new TotalSpendModel(json.totalSpend);
+  static fromJson(json: any):TotalSpend {
+    return new TotalSpendModel(json.total_spend);
   }
 }

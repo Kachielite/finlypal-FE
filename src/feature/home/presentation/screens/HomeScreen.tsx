@@ -1,7 +1,6 @@
 import { SafeAreaView, Text, View } from 'react-native';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
-import WelcomeScreen from '@/src/feature/authentication/presentation/screens/WelcomeScreen';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import BalanceCard from '@/src/feature/home/presentation/components/balance-card';
 import ExpenseSummary from '@/src/feature/home/presentation/components/expense-summary';
 import QuickActions from '@/src/feature/home/presentation/components/quick-actions';
@@ -9,39 +8,42 @@ import RecentTransactions from '@/src/feature/home/presentation/components/recen
 import { useHomeState } from '@/src/feature/home/presentation/state/homeState';
 import { homeBloc } from '@/src/feature/home/presentation/state/homeBloc';
 import { HOME_EVENTS } from '@/src/feature/home/presentation/state/homeEvent';
-import Loader from '@/src/shared/presentation/components/loader';
+import { Redirect } from 'expo-router';
 
 const HomeScreen = () => {
   const {token, user} = useAuthState.getState();
-  const {isLoading, isLoadingExpenseList, expensesList, totalExpense, totalIncome} = useHomeState.getState();
 
   if(!token || !user) {
-    return <WelcomeScreen/>
+    return <Redirect href="/authentication/welcome"/>
   }
 
-  // const {startDate, endDate} = getCurrentMonthStartEnd();
+  // Mocked Date Range
   const startDate = '2024-01-01';
   const endDate = '2024-12-31';
 
-  const getExpenseList = useCallback(async () => {
-     await homeBloc.handleHomeEvent(HOME_EVENTS.GET_EXPENSES, {startDate, endDate});
-  },[]);
-
-  const getTotalIncome = useCallback(async() => {
-    await homeBloc.handleHomeEvent(HOME_EVENTS.GET_TOTAL_INCOME, {type: 'INCOME', startDate, endDate} )
-  }, []);
-
-  const getTotalExpense = useCallback(async() => {
-    await homeBloc.handleHomeEvent(HOME_EVENTS.GET_TOTAL_INCOME, {type: 'EXPENSE', startDate, endDate} )
-  }, []);
+  const isLoading = useHomeState((state) => state.isLoading);
+  const totalIncome = useHomeState((state) => state.totalIncome);
+  const totalExpense = useHomeState((state) => state.totalExpense);
+  const expensesList = useHomeState((state) => state.expensesList);
 
   useEffect(() => {
-    (async () => {
-      await getExpenseList();
-      await getTotalExpense();
-      await getTotalIncome();
-    })();
+    const fetchData = async () => {
+      useHomeState.getState().setIsLoading(true);
+      try {
+        await Promise.all([
+          homeBloc.handleHomeEvent(HOME_EVENTS.GET_EXPENSES, { startDate, endDate }),
+          homeBloc.handleHomeEvent(HOME_EVENTS.GET_TOTAL_EXPENSE, { type: 'EXPENSE', startDate, endDate }),
+          homeBloc.handleHomeEvent(HOME_EVENTS.GET_TOTAL_INCOME, { type: 'INCOME', startDate, endDate })
+        ]);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        useHomeState.getState().setIsLoading(false);
+      }
+    };
+    fetchData();
   }, []);
+  
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
@@ -53,8 +55,7 @@ const HomeScreen = () => {
         <BalanceCard balance={totalIncome - totalExpense}/>
         <ExpenseSummary income={totalIncome} expense={totalExpense}/>
         <QuickActions/>
-        {isLoadingExpenseList ? <Loader/> : <RecentTransactions expenseList={expensesList}/>}
-
+         <RecentTransactions expenseList={expensesList} isLoading={isLoading}/>
       </View>
     </SafeAreaView>
   );

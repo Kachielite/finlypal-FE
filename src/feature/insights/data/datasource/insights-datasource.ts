@@ -75,6 +75,7 @@ export class InsightsDatasourceImpl implements InsightsDatasource {
       const response = await this.insightService.getTotalSpend(type, startDate, endDate);
       return TotalSpendModel.fromJson(response);
     } catch (error: unknown) {
+      console.error("failed to fetch expenses", error)
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {

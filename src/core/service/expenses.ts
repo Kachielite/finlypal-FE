@@ -20,6 +20,7 @@ export class ExpensesService {
       });
       return response.data;
     } catch (error: unknown) {
+      console.error("Create Expense error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -59,6 +60,7 @@ export class ExpensesService {
       const response = await customAxios.put(`${this.BASE_URL}${this.EXPENSES_PATH}/${id}`, expense);
       return response.data;
     } catch (error: unknown) {
+      console.error("Update Expense error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -83,7 +85,6 @@ export class ExpensesService {
     }
 
     try{
-
       const response = await customAxios.get(url);
       return response.data.content
     } catch (error: unknown) {
@@ -105,6 +106,7 @@ export class ExpensesService {
       const response = await customAxios.get(`${this.BASE_URL}${this.EXPENSES_PATH}/${id}`);
       return response.data
     } catch (error: unknown) {
+      console.error("Get Expense error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -122,6 +124,7 @@ export class ExpensesService {
       const response = await customAxios.delete(`${this.BASE_URL}${this.EXPENSES_PATH}/${id}`);
       return response.data
     } catch (error: unknown) {
+      console.error("Delete Expense error", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
