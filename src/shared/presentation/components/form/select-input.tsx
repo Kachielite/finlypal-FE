@@ -52,10 +52,11 @@ const SelectInput = ({ label, placeholder, error, value, onChangeText, data, ico
 
             {/* Picker (Selection Updates Without Closing Modal) */}
             <Picker
+              itemStyle={{color: 'white', fontSize: 18, fontWeight: "bold", backgroundColor: '#1E2A32'}}
               dropdownIconColor="white"
               selectedValue={selectedValue}
               onValueChange={(itemValue) => setSelectedValue(itemValue)} // Update but don't close modal
-              mode="dialog"
+              mode="dropdown"
               style={{
                 color: '#FFFFFF',
                 fontSize: 16,
@@ -64,7 +65,7 @@ const SelectInput = ({ label, placeholder, error, value, onChangeText, data, ico
             >
               <Picker.Item label={placeholder} value=""  color="white" style={{fontSize: 16, fontWeight: "bold", backgroundColor: '#1E2A32'}}/>
               {data.map((item) => (
-                <Picker.Item key={item.value} label={item.label} value={item.value} color="white" style={{fontSize: 16, fontWeight: "bold", backgroundColor: '#1E2A32'}} />
+                <Picker.Item key={item.value} label={item.label} value={item.value} style={{color: 'white', fontSize: 18, fontWeight: "bold", backgroundColor: '#1E2A32'}}  />
               ))}
             </Picker>
           </View>

@@ -18,7 +18,7 @@ export class ExpenseModel extends Expense{
   }
 
   static fromJson(response: any): ExpenseModel {
-    return new ExpenseModel(response.id, response.description, response.amount, response.date, response.type, response.categoryId, response.categoryName)
+    return new ExpenseModel(response.id, response.description, response.amount, response.date, response.type, response.category_id, response.category_name)
 
   }
 }
