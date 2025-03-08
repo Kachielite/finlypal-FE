@@ -1,0 +1,29 @@
+import { SECRET } from '@/src/core/secret/secret';
+import axios from 'axios';
+import customAxios from '@/src/core/utils/customAxios';
+
+export class CategoryService {
+  private BASE_URL = SECRET.BASE_URL;
+  private CATEGORIES_PATH = '/categories';
+
+  constructor() {
+  }
+
+  async getCategories(): Promise<any> {
+    try {
+      const response = await customAxios.get(`${this.BASE_URL}${this.CATEGORIES_PATH}`);
+      return response.data;
+    } catch (error: unknown) {
+      console.error("Get categories error", error);
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(error.response.data);
+      }
+      return Promise.reject({
+        code: "500",
+        message: "Unknown error occurred",
+        timestamp: new Date().toISOString(),
+        path: this.CATEGORIES_PATH,
+      });
+    }
+  }
+}
