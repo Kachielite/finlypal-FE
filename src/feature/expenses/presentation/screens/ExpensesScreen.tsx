@@ -4,7 +4,7 @@ import { SlidersHorizontal } from 'lucide-react-native';
 import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
 import ExpensesList from '@/src/feature/expenses/presentation/components/expenses-list';
 import { Modalize } from 'react-native-modalize';
-import AddExpenseModal from '@/src/feature/expenses/presentation/components/add-expense-modal';
+import FilterExpenseModal from '@/src/feature/expenses/presentation/components/filter-expense-modal';
 
 const data =  [
     {
@@ -108,19 +108,20 @@ const ExpensesScreen = () => {
   return (
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
-        <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-20 gap-y-[42px]">
+        <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]">
           <View className="flex flex-row justify-between items-center w-full">
             <Text className="text-white font-urbanist-bold text-[24px]">Expenses</Text>
             <TouchableOpacity onPress={onOpen}>
               <SlidersHorizontal color="white" size={28}/>
             </TouchableOpacity>
           </View>
+
           <ScrollView showsVerticalScrollIndicator={false} className="w-full">
             {groupExpenseByDate(data).map((item) => <ExpensesList key={item.date} data={item} />)}
           </ScrollView>
         </View>
       </SafeAreaView>
-      <AddExpenseModal modalizeRef={modalizeRef}/>
+      <FilterExpenseModal modalizeRef={modalizeRef}/>
     </>
   );
 };
