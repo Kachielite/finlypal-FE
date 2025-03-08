@@ -1,8 +1,10 @@
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useRef } from 'react';
 import { SlidersHorizontal } from 'lucide-react-native';
 import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
 import ExpensesList from '@/src/feature/expenses/presentation/components/expenses-list';
+import { Modalize } from 'react-native-modalize';
+import AddExpenseModal from '@/src/feature/expenses/presentation/components/add-expense-modal';
 
 const data =  [
     {
@@ -98,20 +100,28 @@ const data =  [
   ]
 
 const ExpensesScreen = () => {
+  const modalizeRef = useRef<Modalize>(null);
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
-      <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-20 gap-y-[42px]">
-        <View className="flex flex-row justify-between items-center w-full">
-          <Text className="text-white font-urbanist-bold text-[24px]">Expenses</Text>
-          <TouchableOpacity>
-            <SlidersHorizontal color="white" size={28}/>
-          </TouchableOpacity>
+    <>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
+        <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-20 gap-y-[42px]">
+          <View className="flex flex-row justify-between items-center w-full">
+            <Text className="text-white font-urbanist-bold text-[24px]">Expenses</Text>
+            <TouchableOpacity onPress={onOpen}>
+              <SlidersHorizontal color="white" size={28}/>
+            </TouchableOpacity>
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false} className="w-full">
+            {groupExpenseByDate(data).map((item) => <ExpensesList key={item.date} data={item} />)}
+          </ScrollView>
         </View>
-        <ScrollView showsVerticalScrollIndicator={false} className="w-full">
-          {groupExpenseByDate(data).map((item) => <ExpensesList key={item.date} data={item} />)}
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+      <AddExpenseModal modalizeRef={modalizeRef}/>
+    </>
   );
 };
 export default ExpensesScreen;
