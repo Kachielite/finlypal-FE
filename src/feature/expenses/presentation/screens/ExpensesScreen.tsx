@@ -1,5 +1,5 @@
-import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import React, { useRef } from 'react';
+import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useMemo, useRef } from 'react';
 import { SlidersHorizontal } from 'lucide-react-native';
 import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
 import ExpensesList from '@/src/feature/expenses/presentation/components/expenses-list';
@@ -26,31 +26,45 @@ const ExpensesScreen = () => {
     errors,
     fetchExpensesWithFilterData,
     isResettingForm,
-    resetExpenseList
+    resetExpenseList,
+    isLoadingMore,
+    fetchMoreExpense
   } = useExpense(modalizeRef);
+
+  const groupedExpenses = useMemo(() => groupExpenseByDate(expenseList), [expenseList]);
 
 
   return (
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
-        {
-          isLoading ?
-            <View className="flex flex-col justify-center items-center h-full w-full">
-              <Loader/>
+        {isLoading ? (
+          <View className="flex flex-col justify-center items-center h-full w-full">
+            <Loader />
+          </View>
+        ) : (
+          <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]">
+            {/* Header Section */}
+            <View className="flex flex-row justify-between items-center w-full">
+              <Text className="text-white font-urbanist-bold text-[24px]">Expenses</Text>
+              <TouchableOpacity onPress={onOpen}>
+                <SlidersHorizontal color="white" size={28} />
+              </TouchableOpacity>
             </View>
-            :
-            <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]">
-              <View className="flex flex-row justify-between items-center w-full">
-                <Text className="text-white font-urbanist-bold text-[24px]">Expenses</Text>
-                <TouchableOpacity onPress={onOpen}>
-                  <SlidersHorizontal color="white" size={28}/>
-                </TouchableOpacity>
-              </View>
-              <ScrollView showsVerticalScrollIndicator={false} className="w-full">
-                {groupExpenseByDate(expenseList).map((item) => <ExpensesList key={item.date} data={item} />)}
-              </ScrollView>
-            </View>
-        }
+
+            {/* Expenses List with FlatList */}
+            <FlatList
+              data={groupedExpenses}
+              keyExtractor={(item) => item.date} // Ensure unique keys
+              renderItem={({ item }) => <ExpensesList data={item} />}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 40 }} // Preserve bottom spacing
+              onEndReached={fetchMoreExpense} // Trigger when near bottom
+              onEndReachedThreshold={0.5}
+              ListFooterComponent={isLoadingMore ? <Loader /> : null}
+              maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
+            />
+          </View>
+        )}
       </SafeAreaView>
       <FilterExpenseModal
         modalizeRef={modalizeRef}

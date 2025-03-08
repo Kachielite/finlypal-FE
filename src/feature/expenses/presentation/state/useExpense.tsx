@@ -9,6 +9,7 @@ import { ExpenseSchema } from '@/src/core/validation/expense-validation';
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import { Category } from '@/src/feature/category/domain/entity/category';
 import { showToast } from '@/src/shared/presentation/components/toastProvider';
+import { debounce } from 'lodash';
 
 export type ExpenseHookType = {
   isLoading: boolean;
@@ -21,6 +22,8 @@ export type ExpenseHookType = {
   fetchExpensesWithFilterData: () => void,
   resetExpenseList: () => void,
   errors: Record<string, any>;
+  isLoadingMore: boolean;
+  fetchMoreExpense: () => void;
 }
 
 const useExpense = (modalizeRef: any): ExpenseHookType => {
@@ -29,6 +32,9 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
   const isResettingForm = useExpenseState((state) => state.isResettingForm);
   const expenseList = useExpenseState((state) => state.expenseList);
   const categoryList = useExpenseState((state) => state.categoryList);
+  const page = useExpenseState((state) => state.page);
+  const hasMore = useExpenseState((state) => state.hasMore);
+  const isLoadingMore = useExpenseState((state) => state.isLoadingMore);
 
   const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
     resolver: zodResolver(ExpenseSchema),
@@ -84,6 +90,43 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
     }
   }
 
+  const fetchMoreExpense = async () => {
+    const queryParams: { [key: string]: any } = {
+      startDate: watch("startDate"),
+      endDate: watch("endDate"),
+      page
+    };
+
+    const categoryID = categoryList.find(c => c.displayName === watch("category"))?.id;
+    if (categoryID) {
+      queryParams.categoryID = categoryID;
+    }
+
+    const type = watch("type") as 'INCOME' | 'EXPENSE' | null;
+    if (type) {
+      queryParams.type = type;
+    }
+
+    if (hasMore) {
+      useExpenseState.getState().setIsLoadingMore(true);
+
+      try {
+        // Define a debounced function and call it
+        const debouncedFetch = debounce(async () => {
+          await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.GET_MORE_EXPENSES, queryParams);
+        }, 500);
+
+        debouncedFetch(); // Call the debounced function
+
+      } catch (error) {
+        console.error("Error fetching more expense: ", error);
+      } finally {
+        useExpenseState.getState().setIsLoadingMore(false);
+      }
+    }
+  };
+
+
 
   useEffect(() => {
     (async () => {
@@ -102,7 +145,20 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
   }, []);
   
 
-  return {isLoading, isResettingForm, expenseList, categoryList, watch, setValue, handleSubmit, errors, resetExpenseList, fetchExpensesWithFilterData }
+  return {
+    isLoading,
+    isResettingForm,
+    expenseList,
+    categoryList,
+    watch,
+    setValue,
+    handleSubmit,
+    errors,
+    resetExpenseList,
+    fetchExpensesWithFilterData,
+    isLoadingMore,
+    fetchMoreExpense
+  }
 }
 
 export default useExpense;

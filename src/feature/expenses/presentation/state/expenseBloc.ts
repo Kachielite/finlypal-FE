@@ -37,6 +37,9 @@ export const expenseBloc = {
       case EXPENSE_EVENTS.GET_CATEGORIES:
         await getCategories(payload, useExpenseState.getState);
         break;
+        case EXPENSE_EVENTS.GET_MORE_EXPENSES:
+        await getMoreExpensesHandler(payload, useExpenseState.getState);
+        break;
       default:
         break
     }
@@ -79,6 +82,37 @@ export const getExpensesHandler = async (
     }
   )(response);
 }
+
+export const getMoreExpensesHandler = async (
+  payload: GetAllExpenseUseCaseParams,
+  getState: typeof useExpenseState.getState
+) => {
+  const { setExpenseList, setPage, setHasMore, page: currentPage } = getState();
+  const response = await getAllExpenseUseCase.execute(payload);
+
+  // Prevent duplicate requests
+  const nextPage = currentPage + 1;
+
+  fold<Failure, Expense[], void>(
+    (failure) => {
+      showToast('error', 'Error', failure.message || "Error fetching All Expense");
+    },
+    (expenses) => {
+      if (expenses.length === 0) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+        setPage(nextPage);  // Correctly update the page **only after a successful fetch**
+
+        // Prevent duplicates before updating state
+        setExpenseList((prevList) => {
+          const newList = [...prevList, ...expenses];
+          return Array.from(new Map(newList.map(exp => [exp.id, exp])).values());
+        });
+      }
+    }
+  )(response);
+};
 
 export const updateExpenseHandler = async (
   payload: UpdateExpenseUseCaseParams, getState: typeof useExpenseState.getState
