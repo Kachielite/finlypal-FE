@@ -3,16 +3,16 @@ import { CategoryService } from '@/src/core/service/categories';
 import { Exception } from '@/src/core/error/exception';
 
 export interface CategoryDatasource {
-  getCategories(): Promise<CategoryModel[]>
+  getCategories(page?: number, pageSize?: number): Promise<CategoryModel[]>
 }
 
 export class CategoryDatasourceImpl implements CategoryDatasource {
   constructor(private categoryService: CategoryService) {
   }
 
-  async getCategories(): Promise<CategoryModel[]> {
+  async getCategories(page?: number, pageSize?: number): Promise<CategoryModel[]> {
     try {
-      const response = await this.categoryService.getCategories();
+      const response = await this.categoryService.getCategories(page, pageSize);
       return CategoryModel.fromJSONList(response)
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {

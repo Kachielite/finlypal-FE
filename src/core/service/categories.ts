@@ -9,9 +9,11 @@ export class CategoryService {
   constructor() {
   }
 
-  async getCategories(): Promise<any> {
+  async getCategories(page?: number, pageSize?: number): Promise<any> {
+    const url = `${this.BASE_URL}${this.CATEGORIES_PATH}?page=${page || 0}&pageSize=${pageSize || 10}`
+
     try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.CATEGORIES_PATH}`);
+      const response = await customAxios.get(url);
       return response.data;
     } catch (error: unknown) {
       console.error("Get categories error", error);
