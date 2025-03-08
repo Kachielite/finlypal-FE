@@ -31,7 +31,7 @@ export default function RootLayout() {
     <>
       <StatusBar barStyle="light-content" />
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="tabs" />
+        <Stack.Screen name="(tabs)" />
         <Stack.Screen name="authentication" />
       </Stack>
       <ToastProvider/>
