@@ -14,9 +14,9 @@ export class CategoryService {
 
     try {
       const response = await customAxios.get(url);
-      return response.data;
+      return response.data.content;
     } catch (error: unknown) {
-      console.error("Get categories error", error);
+      console.error("Get categories error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }

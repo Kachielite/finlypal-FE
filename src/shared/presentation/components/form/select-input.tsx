@@ -8,7 +8,7 @@ type SelectInputProps = {
   error?: string;
   value: string;
   onChangeText: (text: string) => void;
-  data: { label: string; value: string }[];
+  data: {id: number, label: string; value: string }[];
   icon?: React.ReactNode;
 };
 
@@ -24,7 +24,7 @@ const SelectInput = ({ label, placeholder, error, value, onChangeText, data, ico
       {/* Pressable Wrapper to Open Modal */}
       <Pressable
         onPress={() => {
-          setSelectedValue(value); // Keep previous value when opening
+          setSelectedValue(value === placeholder ? "" : value); // Keep previous value when opening
           setModalVisible(true);
         }}
         className={`w-full flex flex-row justify-between items-center border-b pb-2 bg-transparent ${

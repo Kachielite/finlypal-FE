@@ -10,12 +10,26 @@ import Loader from '@/src/shared/presentation/components/loader';
 
 
 const ExpensesScreen = () => {
-  const modalizeRef = useRef<Modalize>(null);
-  const {isLoading, expenseList, watch, setValue, handleSubmit, errors} = useExpense();
-
   const onOpen = () => {
     modalizeRef.current?.open();
   };
+
+  const modalizeRef = useRef<Modalize>(null);
+
+  const {
+    isLoading,
+    expenseList,
+    categoryList,
+    watch,
+    setValue,
+    handleSubmit,
+    errors,
+    fetchExpensesWithFilterData,
+    isResettingForm,
+    resetExpenseList
+  } = useExpense(modalizeRef);
+
+
   return (
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
@@ -38,7 +52,18 @@ const ExpensesScreen = () => {
             </View>
         }
       </SafeAreaView>
-      <FilterExpenseModal modalizeRef={modalizeRef}/>
+      <FilterExpenseModal
+        modalizeRef={modalizeRef}
+        categoryList={categoryList}
+        watch={watch}
+        setValue={setValue}
+        handleSubmit={handleSubmit}
+        errors={errors}
+        isLoading={isLoading}
+        fetchExpensesWithFilterData={fetchExpensesWithFilterData}
+        isResettingForm={isResettingForm}
+        resetExpenseList={resetExpenseList}
+      />
     </>
   );
 };

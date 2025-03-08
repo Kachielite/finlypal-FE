@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 type DatePickerProps = {
   label: string;
@@ -42,7 +43,7 @@ const DatePickerInput = ({ label, placeholder, error, value, onChange, icon }: D
         }`}
       >
         <Text className={`text-lg ${value ? 'text-white' : 'text-gray-500'}`}>
-          {value ? value.toDateString() : placeholder}
+          {value ? moment(value).format("DD MMM, YYYY") : placeholder}
         </Text>
 
         {/* Icon (Optional) */}
@@ -66,7 +67,7 @@ const DatePickerInput = ({ label, placeholder, error, value, onChange, icon }: D
           <View className="flex-1 justify-end bg-black bg-opacity-50">
             <View className="bg-dark px-4 py-6 rounded-t-2xl">
               <RNDateTimePicker
-                value={tempDate || new Date()}
+                value={moment(value).toDate()}
                 mode="date"
                 display="spinner"
                 textColor="white" // White text

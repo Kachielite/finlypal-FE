@@ -5,7 +5,7 @@ export const ExpenseSchema = z
   .object({
     startDate: z.string().min(1, { message: 'Start date is required' }),
     endDate: z.string().min(1, { message: 'End date is required' }),
-    categoryID: z.number().min(1, { message: 'Category is required' }).nullable(),
+    category: z.string().min(1, { message: 'Category is required' }).nullable(),
     type: z
       .string()
       .nullable()

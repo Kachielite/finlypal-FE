@@ -11,7 +11,7 @@ export class CategoryModel extends Category {
   }
 
   static fromJSON(json: any): CategoryModel {
-    return new CategoryModel(json.id, json.name, json.displayName, json.description);
+    return new CategoryModel(json.id, json.name, json.display_name, json.description);
   }
 
   static fromJSONList(jsonList: any[]): CategoryModel[] {

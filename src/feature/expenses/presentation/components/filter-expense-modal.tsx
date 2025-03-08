@@ -5,13 +5,29 @@ import Button from '@/src/shared/presentation/components/form/button';
 import SelectInput from '@/src/shared/presentation/components/form/select-input';
 import { ArrowDownUp, ChartColumnStacked } from 'lucide-react-native';
 import DatePicker from '@/src/shared/presentation/components/form/date-picker';
+import { Category } from '@/src/feature/category/domain/entity/category';
+import moment from 'moment';
 
 const expenseType = [
-  { label: "Expense", value: "EXPENSE" },
-  { label: "Income", value: "INCOME" },
+  {id: 1, label: "Expense", value: "EXPENSE" },
+  {id: 2, label: "Income", value: "INCOME" },
 ]
 
-const FilterExpenseModal = ({ modalizeRef }: { modalizeRef: any }) => {
+type FilerExpenseModalProps = {
+  modalizeRef: any,
+  categoryList: Category[]
+  watch: (type: any) => any;
+  setValue: any;
+  handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+  errors: Record<string, any>;
+  isLoading: boolean;
+  fetchExpensesWithFilterData: () => void;
+  isResettingForm: boolean;
+  resetExpenseList: () => void;
+}
+
+const FilterExpenseModal = ({ modalizeRef, categoryList, watch, setValue, handleSubmit, errors, isResettingForm, isLoading, fetchExpensesWithFilterData, resetExpenseList}: FilerExpenseModalProps) => {
+  const formattedCategories = categoryList.map((item) => ({ id: item.id, label: item.displayName, value: item.displayName }))
   return (
     <Modalize
       ref={modalizeRef}
@@ -27,26 +43,40 @@ const FilterExpenseModal = ({ modalizeRef }: { modalizeRef: any }) => {
           data={expenseType}
           label="Type"
           placeholder="Select expense type"
-          value=""
-          onChangeText={() => console.log("select expense type")}
+          value={watch("type")}
+          onChangeText={(value) => setValue("type", value, { shouldValidate: true })}
           icon={<ArrowDownUp color="#9E9E9E" size={24}/>}
+          error={errors?.type?.message}
         />
         <SelectInput
-          data={expenseType}
+          data={formattedCategories}
           label="Category"
-          placeholder="Select expense category"
-          value=""
-          onChangeText={() => console.log("select expense type")}
+          placeholder="Select category"
+          value={watch('category')}
+          onChangeText={(value) => setValue("category", value, { shouldValidate: true })}
           icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
+          error={errors?.category?.message}
         />
-        <DatePicker label="Start Date" placeholder="Select start date" value={new Date()} onChange={() => console.log("select expense start date")}/>
-        <DatePicker label="End Date" placeholder="Select start date" value={new Date()} onChange={() => console.log("select expense end date")}/>
+        <DatePicker
+          label="Start Date"
+          placeholder="Select start date"
+          value={watch("startDate")}
+          onChange={(value) => setValue("startDate", moment(value).format("YYYY-MM-DD"), { shouldValidate: true })}
+          error={errors?.startDate?.message}
+        />
+        <DatePicker
+          label="End Date"
+          placeholder="Select start date"
+          value={watch("endDate")}
+          onChange={(value) => setValue("endDate", moment(value).format("YYYY-MM-DD"), { shouldValidate: true })}
+          error={errors?.endDate?.message}
+        />
         <View className="flex flex-row justify-between items-center w-full gap-x-[12px]">
           <View className="w-[30vw]">
-            <Button type="secondary" onPress={() => console.log("reset")} label="Reset" />
+            <Button type="secondary" onPress={resetExpenseList} label="Reset" isLoading={isResettingForm} />
           </View>
           <View className="w-[55vw]">
-            <Button onPress={() => console.log("apply")} label="Apply" />
+            <Button onPress={handleSubmit(fetchExpensesWithFilterData)} label="Apply" isLoading={isLoading} />
           </View>
         </View>
       </View>

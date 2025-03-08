@@ -15,6 +15,7 @@ export class CategoryDatasourceImpl implements CategoryDatasource {
       const response = await this.categoryService.getCategories(page, pageSize);
       return CategoryModel.fromJSONList(response)
     } catch (error: unknown) {
+      console.error("failed to fetch categories datasource", error)
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {
