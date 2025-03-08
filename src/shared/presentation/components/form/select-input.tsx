@@ -1,4 +1,4 @@
-import { Modal, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 
@@ -22,7 +22,7 @@ const SelectInput = ({ label, placeholder, error, value, onChangeText, data, ico
       <Text className="font-urbanist-bold text-lg text-white">{label}</Text>
 
       {/* Pressable Wrapper to Open Modal */}
-      <TouchableOpacity
+      <Pressable
         onPress={() => {
           setSelectedValue(value); // Keep previous value when opening
           setModalVisible(true);
@@ -33,7 +33,7 @@ const SelectInput = ({ label, placeholder, error, value, onChangeText, data, ico
       >
         <Text className="text-[#9E9E9E] text-lg">{value ? data.find(item => item.value === value)?.label : placeholder}</Text>
         {icon}
-      </TouchableOpacity>
+      </Pressable>
 
       {/* Modal for Bottom Sheet Picker */}
       <Modal visible={modalVisible} transparent animationType="slide">
@@ -52,17 +52,19 @@ const SelectInput = ({ label, placeholder, error, value, onChangeText, data, ico
 
             {/* Picker (Selection Updates Without Closing Modal) */}
             <Picker
+              dropdownIconColor="white"
               selectedValue={selectedValue}
               onValueChange={(itemValue) => setSelectedValue(itemValue)} // Update but don't close modal
-              mode="dropdown"
+              mode="dialog"
               style={{
                 color: '#FFFFFF',
                 fontSize: 16,
+                backgroundColor: '#1E2A32',
               }}
             >
-              <Picker.Item label={placeholder} value=""  color="white"/>
+              <Picker.Item label={placeholder} value=""  color="white" style={{fontSize: 16, fontWeight: "bold", backgroundColor: '#1E2A32'}}/>
               {data.map((item) => (
-                <Picker.Item key={item.value} label={item.label} value={item.value} color="white" style={{fontSize: 16, fontWeight: "bold"}} />
+                <Picker.Item key={item.value} label={item.label} value={item.value} color="white" style={{fontSize: 16, fontWeight: "bold", backgroundColor: '#1E2A32'}} />
               ))}
             </Picker>
           </View>

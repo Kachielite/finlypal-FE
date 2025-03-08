@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import Button from '@/src/shared/presentation/components/form/button';
 import SelectInput from '@/src/shared/presentation/components/form/select-input';
 import { ArrowDownUp, ChartColumnStacked } from 'lucide-react-native';
+import DatePicker from '@/src/shared/presentation/components/form/date-picker';
 
 const expenseType = [
   { label: "Expense", value: "EXPENSE" },
@@ -38,6 +39,8 @@ const FilterExpenseModal = ({ modalizeRef }: { modalizeRef: any }) => {
           onChangeText={() => console.log("select expense type")}
           icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
         />
+        <DatePicker label="Start Date" placeholder="Select start date" value={new Date()} onChange={() => console.log("select expense start date")}/>
+        <DatePicker label="End Date" placeholder="Select start date" value={new Date()} onChange={() => console.log("select expense end date")}/>
         <View className="flex flex-row justify-between items-center w-full gap-x-[12px]">
           <View className="w-[30vw]">
             <Button type="secondary" onPress={() => console.log("reset")} label="Reset" />
