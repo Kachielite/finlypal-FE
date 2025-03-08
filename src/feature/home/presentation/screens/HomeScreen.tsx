@@ -52,7 +52,7 @@ const HomeScreen = () => {
       <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] gap-y-[24px]">
         <View className="flex flex-col justify-start items-start gap-y-[8px]">
           <Text className="text-white font-urbanist-bold text-[24px]">{user.name}</Text>
-          <Text className="text-[#E0E0E0] text-sm text-[16px]" >Welcome back! 👋</Text>
+          <Text className="text-[#E0E0E0] text-[14px]" >Welcome back! 👋</Text>
         </View>
         <BalanceCard balance={(totalIncome - totalExpense)}/>
         <ExpenseSummary income={totalIncome} expense={totalExpense}/>

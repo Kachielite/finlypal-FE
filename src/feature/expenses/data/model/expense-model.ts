@@ -7,9 +7,10 @@ export class ExpenseModel extends Expense{
     public amount: number,
     public date: string,
     public type: string,
-    public categoryId: number
+    public categoryId: number,
+    public categoryName: string
   ) {
-    super(id, description, amount, date, type, categoryId);
+    super(id, description, amount, date, type, categoryId, categoryName);
   }
 
   static fromJsonList(response: ExpenseModel[]) {
@@ -17,7 +18,7 @@ export class ExpenseModel extends Expense{
   }
 
   static fromJson(response: any): ExpenseModel {
-    return new ExpenseModel(response.id, response.description, response.amount, response.date, response.type, response.categoryId)
+    return new ExpenseModel(response.id, response.description, response.amount, response.date, response.type, response.categoryId, response.categoryName)
 
   }
 }

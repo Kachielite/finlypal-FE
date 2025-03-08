@@ -5,7 +5,8 @@ export class Expense {
     public amount: number,
     public date: string,
     public type: string,
-    public categoryId: number
+    public categoryId: number,
+    public categoryName: string
   ) {
   }
 }

@@ -1,11 +1,7 @@
-import { Text, View } from 'react-native';
 import React from 'react';
+import ExpensesScreen from '@/src/feature/expenses/presentation/screens/ExpensesScreen';
 
 const Expense = () => {
-  return (
-    <View>
-      <Text>Expense</Text>
-    </View>
-  );
+  return <ExpensesScreen />;
 };
 export default Expense;
