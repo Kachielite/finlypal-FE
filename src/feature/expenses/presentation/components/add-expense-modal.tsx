@@ -22,7 +22,7 @@ type FilerExpenseModalProps = {
 }
 
 const AddExpenseModal = ({ modalizeRef}: FilerExpenseModalProps) => {
-  const {setValueExpense: setValue, watchExpense: watch, handleSubmitExpense: handleSubmit, errorsExpense: errors, resetExpenseForm, watch: watchAllExpenses} = useExpense(modalizeRef);
+  const {setValueExpense: setValue, watchExpense: watch, handleSubmitExpense: handleSubmit, errorsExpense: errors, resetExpenseForm} = useExpense();
   const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
   const modalType = useExpenseState((state) => state.modalType);
   const categoryList = useExpenseState((state) => state.categoryList);
