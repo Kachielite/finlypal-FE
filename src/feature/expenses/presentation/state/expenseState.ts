@@ -2,7 +2,7 @@ import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import { create } from 'zustand';
 import { Category } from '@/src/feature/category/domain/entity/category';
 
-interface ExpenseState {
+export interface ExpenseState {
   page: number,
   hasMore: boolean
   isLoading: boolean,

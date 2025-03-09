@@ -7,6 +7,8 @@ import { ArrowDownUp, ChartColumnStacked } from 'lucide-react-native';
 import DatePicker from '@/src/shared/presentation/components/form/date-picker';
 import { Category } from '@/src/feature/category/domain/entity/category';
 import moment from 'moment';
+import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
+import useExpense from '@/src/feature/expenses/presentation/state/useExpense';
 
 const expenseType = [
   {id: 1, label: "Expense", value: "EXPENSE" },
@@ -20,13 +22,13 @@ type FilerExpenseModalProps = {
   setValue: any;
   handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   errors: Record<string, any>;
-  isLoading: boolean;
-  fetchExpensesWithFilterData: () => void;
-  isResettingForm: boolean;
-  resetExpenseList: () => void;
 }
 
-const FilterExpenseModal = ({ modalizeRef, categoryList, watch, setValue, handleSubmit, errors, isResettingForm, isLoading, fetchExpensesWithFilterData, resetExpenseList}: FilerExpenseModalProps) => {
+const FilterExpenseModal = ({ modalizeRef, categoryList, watch, setValue, handleSubmit, errors}: FilerExpenseModalProps) => {
+  const isLoading = useExpenseState((state) => state.isLoading);
+  const isResettingForm = useExpenseState((state) => state.isResettingForm);
+  const {resetExpenseList, fetchExpensesWithFilterData} = useExpense(modalizeRef);
+
   const formattedCategories = categoryList.map((item) => ({ id: item.id, label: item.displayName, value: item.displayName }))
   return (
     <Modalize

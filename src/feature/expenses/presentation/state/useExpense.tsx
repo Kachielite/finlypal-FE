@@ -12,8 +12,6 @@ import { showToast } from '@/src/shared/presentation/components/toastProvider';
 import { debounce } from 'lodash';
 
 export type ExpenseHookType = {
-  isLoading: boolean;
-  isResettingForm: boolean;
   expenseList: Expense[];
   categoryList: Category[];
   watch: () => any;
@@ -22,19 +20,15 @@ export type ExpenseHookType = {
   fetchExpensesWithFilterData: () => void,
   resetExpenseList: () => void,
   errors: Record<string, any>;
-  isLoadingMore: boolean;
   fetchMoreExpense: () => void;
 }
 
 const useExpense = (modalizeRef: any): ExpenseHookType => {
   const today = moment();
-  const isLoading = useExpenseState((state) => state.isLoading);
-  const isResettingForm = useExpenseState((state) => state.isResettingForm);
   const expenseList = useExpenseState((state) => state.expenseList);
   const categoryList = useExpenseState((state) => state.categoryList);
   const page = useExpenseState((state) => state.page);
   const hasMore = useExpenseState((state) => state.hasMore);
-  const isLoadingMore = useExpenseState((state) => state.isLoadingMore);
 
   const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
     resolver: zodResolver(ExpenseSchema),
@@ -146,8 +140,6 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
   
 
   return {
-    isLoading,
-    isResettingForm,
     expenseList,
     categoryList,
     watch,
@@ -156,7 +148,6 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
     errors,
     resetExpenseList,
     fetchExpensesWithFilterData,
-    isLoadingMore,
     fetchMoreExpense
   }
 }

@@ -13,7 +13,7 @@ const ExpensesList = React.memo(({ data }: { data: ExpenseData }) => {
           {moment(data.date).format("DD MMM, YYYY")}
         </Text>
       </View>
-      <View className="rounded-lg bg-[#1E2A32] px-[12px] w-full">
+      <View className="w-full">
         {data.expenses.map((item) => (
           <ExpenseCard key={item.id} expense={item} />
         ))}

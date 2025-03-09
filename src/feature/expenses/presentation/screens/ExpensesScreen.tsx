@@ -7,6 +7,7 @@ import { Modalize } from 'react-native-modalize';
 import FilterExpenseModal from '@/src/feature/expenses/presentation/components/filter-expense-modal';
 import useExpense from '@/src/feature/expenses/presentation/state/useExpense';
 import Loader from '@/src/shared/presentation/components/loader';
+import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 
 
 const ExpensesScreen = () => {
@@ -17,21 +18,18 @@ const ExpensesScreen = () => {
   const modalizeRef = useRef<Modalize>(null);
 
   const {
-    isLoading,
     expenseList,
     categoryList,
     watch,
     setValue,
     handleSubmit,
     errors,
-    fetchExpensesWithFilterData,
-    isResettingForm,
-    resetExpenseList,
-    isLoadingMore,
     fetchMoreExpense
   } = useExpense(modalizeRef);
 
   const groupedExpenses = useMemo(() => groupExpenseByDate(expenseList), [expenseList]);
+  const isLoading = useExpenseState((state) => state.isLoading);
+  const isLoadingMore = useExpenseState((state) => state.isLoadingMore);
 
 
   return (
@@ -73,10 +71,6 @@ const ExpensesScreen = () => {
         setValue={setValue}
         handleSubmit={handleSubmit}
         errors={errors}
-        isLoading={isLoading}
-        fetchExpensesWithFilterData={fetchExpensesWithFilterData}
-        isResettingForm={isResettingForm}
-        resetExpenseList={resetExpenseList}
       />
     </>
   );
