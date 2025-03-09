@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useRef } from 'react';
 import { ArrowBigDown, ArrowBigUp, EditIcon, TrashIcon } from 'lucide-react-native';
 import formatNumber from '@/src/core/utils/formatCurrency';
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
@@ -24,11 +24,10 @@ const EditExpenseButton = ({handleSwipe}:{handleSwipe: (direction: 'left' | 'rig
 };
 
 
-
-
 const ExpenseCard = (
   {expense, createModalRef, deleteModalRef, optionModalRef} : {expense: Expense, createModalRef: any, deleteModalRef: any, optionModalRef: any}
 ) => {
+  const swipeRef = useRef<Swipeable>(null);
   const setModalType = useExpenseState((state) => state.setModalType);
   const setSelectedExpense = useExpenseState((state) => state.setSelectedExpense);
 
@@ -37,8 +36,10 @@ const ExpenseCard = (
     if (direction === 'right') {
       setModalType('edit');
       createModalRef.current?.open();
+      swipeRef.current?.close();
     } else if (direction === 'left') {
       deleteModalRef.current?.open();
+      swipeRef.current?.close();
     }
   };
 
@@ -49,12 +50,16 @@ const ExpenseCard = (
 
   return (
     <Swipeable
+      ref={swipeRef}
       overshootRight={false}
       overshootLeft={false}
       friction={2}
       containerStyle={{ width: '100%' }}
+      rightThreshold={0}
+      leftThreshold={0}
       renderLeftActions={() => <DeleteExpenseButton handleSwipe={handleSwipe} />}
       renderRightActions={() => <EditExpenseButton handleSwipe={handleSwipe} />}
+      onSwipeableOpen={(direction) => handleSwipe(direction)}
     >
       <TouchableOpacity activeOpacity={0.85} onLongPress={longPressHandler} className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] py-4 rounded-lg bg-[#1E2A32] px-[12px]">
         <View className="flex flex-row justify-start items-center gap-x-[12px]">

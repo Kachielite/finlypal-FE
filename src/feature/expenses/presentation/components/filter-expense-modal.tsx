@@ -58,7 +58,6 @@ const FilterExpenseModal = ({ modalizeRef, categoryList,}: FilerExpenseModalProp
       delete queryParams.type
     }
 
-    console.log("queryParams: ", queryParams)
 
     useExpenseState.getState().setIsLoading(true)
     try{
@@ -70,9 +69,7 @@ const FilterExpenseModal = ({ modalizeRef, categoryList,}: FilerExpenseModalProp
       useExpenseState.getState().setIsLoading(false)
     }
   }
-
-  console.log("watch: ", watch("startDate"))
-  console.log("watch: ", watch("endDate"))
+  
 
   const formattedCategories = categoryList.map((item) => ({ id: item.id, label: item.displayName, value: item.displayName }))
   return (
