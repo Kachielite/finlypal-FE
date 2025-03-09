@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 
-export const ExpenseSchema = z
+export const GetExpenseSchema = z
   .object({
     startDate: z.string().min(1, { message: 'Start date is required' }),
     endDate: z.string().min(1, { message: 'End date is required' }),
@@ -27,3 +27,16 @@ export const ExpenseSchema = z
       path: ['endDate'], // Attach error to endDate
     }
   );
+
+
+export const CreateExpenseSchema = z.object({
+  description: z.string().min(1, { message: 'Description is required' }),
+  amount: z.number().min(1, { message: 'Amount is required' }),
+  category: z.string().min(1, { message: 'Category is required' }).nullable(),
+  date: z.string().min(1, { message: 'Date is required' }),
+  type: z
+    .string()
+    .refine(val => val === 'INCOME' || val === 'EXPENSE', {
+      message: 'Type must be either INCOME or EXPENSE'
+    }).nullable()
+});

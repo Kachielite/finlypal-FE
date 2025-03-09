@@ -11,6 +11,7 @@ export interface ExpenseState {
   isResettingForm: boolean
   showFilterModal: boolean,
   showCreateExpenseModal: boolean,
+  modalType: 'add' | 'edit',
   expenseList: Expense[],
   categoryList: Category[],
   setPage: (update: number | ((prev: number) => number)) => void;
@@ -22,6 +23,7 @@ export interface ExpenseState {
   setShowFilterModal: (showFilterModal: boolean) => void,
   setShowCreateExpenseModal: (showCreateExpenseModal: boolean) => void,
   setExpenseList: (update: Expense[] | ((prev: Expense[]) => Expense[])) => void;
+  setModalType: (modalType: 'add' | 'edit') => void
   setCategoryList: (categoryList: Category[]) => void
 }
 
@@ -34,6 +36,7 @@ export const useExpenseState = create<ExpenseState>((set) => ({
   isResettingForm: false,
   showFilterModal: false,
   showCreateExpenseModal: false,
+  modalType: 'add',
   expenseList: [],
   categoryList: [],
 
@@ -50,12 +53,11 @@ export const useExpenseState = create<ExpenseState>((set) => ({
   setIsResettingForm: (isResettingForm) => set({ isResettingForm }),
   setShowFilterModal: (showFilterModal) => set({ showFilterModal }),
   setShowCreateExpenseModal: (showCreateExpenseModal) => set({ showCreateExpenseModal }),
-
+  setModalType: (modalType) => set({ modalType }),
   // ✅ Supports both direct and function-based updates
   setExpenseList: (update) =>
     set((state) => ({
       expenseList: typeof update === "function" ? update(state.expenseList) : update,
     })),
-
   setCategoryList: (categoryList) => set({ categoryList }),
 }));

@@ -1,6 +1,6 @@
 import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import React, { useMemo, useRef } from 'react';
-import { SlidersHorizontal } from 'lucide-react-native';
+import { CirclePlus, SlidersHorizontal } from 'lucide-react-native';
 import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
 import ExpensesList from '@/src/feature/expenses/presentation/components/expenses-list';
 import { Modalize } from 'react-native-modalize';
@@ -8,14 +8,24 @@ import FilterExpenseModal from '@/src/feature/expenses/presentation/components/f
 import useExpense from '@/src/feature/expenses/presentation/state/useExpense';
 import Loader from '@/src/shared/presentation/components/loader';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
+import AddExpenseModal from '@/src/feature/expenses/presentation/components/add-expense-modal';
+import AppModal from '@/src/shared/presentation/components/app-modal';
+import ExpenseOptionModal from '@/src/feature/expenses/presentation/components/expense-option-modal';
 
 
 const ExpensesScreen = () => {
+  const modalizeRef = useRef<Modalize>(null);
+  const createModalRef = useRef<Modalize>(null);
+  const deleteModalRef = useRef<Modalize>(null);
+  const optionModalRef = useRef<Modalize>(null);
+
   const onOpen = () => {
     modalizeRef.current?.open();
   };
 
-  const modalizeRef = useRef<Modalize>(null);
+  const openCreateModal = () => {
+    createModalRef.current?.open();
+  };
 
   const {
     expenseList,
@@ -43,6 +53,9 @@ const ExpensesScreen = () => {
           <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]">
             {/* Header Section */}
             <View className="flex flex-row justify-between items-center w-full">
+              <TouchableOpacity onPress={openCreateModal}>
+                <CirclePlus color="white" size={30} />
+              </TouchableOpacity>
               <Text className="text-white font-urbanist-bold text-[24px]">Expenses</Text>
               <TouchableOpacity onPress={onOpen}>
                 <SlidersHorizontal color="white" size={28} />
@@ -53,7 +66,14 @@ const ExpensesScreen = () => {
             <FlatList
               data={groupedExpenses}
               keyExtractor={(item) => item.date} // Ensure unique keys
-              renderItem={({ item }) => <ExpensesList data={item} />}
+              renderItem={({ item }) =>
+                <ExpensesList
+                  data={item}
+                  createModalRef={createModalRef}
+                  deleteModalRef={deleteModalRef}
+                  optionModalRef={optionModalRef}
+                />
+              }
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: 40 }} // Preserve bottom spacing
               onEndReached={fetchMoreExpense} // Trigger when near bottom
@@ -71,6 +91,19 @@ const ExpensesScreen = () => {
         setValue={setValue}
         handleSubmit={handleSubmit}
         errors={errors}
+      />
+      <AddExpenseModal modalizeRef={createModalRef}/>
+      <AppModal
+        modalizeRef={deleteModalRef}
+        title="Delete Expense"
+        description="Are you sure you want to delete this expense?"
+        proceedAction={() => console.log('Delete Expense')}
+        proceedButtonLabel="Delete"
+      />
+      <ExpenseOptionModal
+        modalizeRef={optionModalRef}
+        createModalRef={createModalRef}
+        deleteModalRef={deleteModalRef}
       />
     </>
   );

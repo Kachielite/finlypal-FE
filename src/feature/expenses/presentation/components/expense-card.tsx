@@ -4,6 +4,7 @@ import { ArrowBigDown, ArrowBigUp, EditIcon, TrashIcon } from 'lucide-react-nati
 import formatNumber from '@/src/core/utils/formatCurrency';
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import { Swipeable } from 'react-native-gesture-handler';
+import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 
 
 const DeleteExpenseButton = ({handleSwipe}:{handleSwipe: (direction: 'left' | 'right') => void}) => {
@@ -23,13 +24,17 @@ const EditExpenseButton = ({handleSwipe}:{handleSwipe: (direction: 'left' | 'rig
 };
 
 
-const ExpenseCard = ({expense} : {expense: Expense}) => {
+const ExpenseCard = (
+  {expense, createModalRef, deleteModalRef, optionModalRef} : {expense: Expense, createModalRef: any, deleteModalRef: any, optionModalRef: any}
+) => {
+  const setModalType = useExpenseState((state) => state.setModalType);
 
   const handleSwipe = (direction: 'left' | 'right') => {
     if (direction === 'right') {
-      console.log('Delete Expense:', expense.id);
+      setModalType('edit');
+      createModalRef.current?.open();
     } else if (direction === 'left') {
-      console.log('Edit Expense:', expense.id);
+      deleteModalRef.current?.open();
     }
   };
 
@@ -42,7 +47,7 @@ const ExpenseCard = ({expense} : {expense: Expense}) => {
       renderLeftActions={() => <DeleteExpenseButton handleSwipe={handleSwipe} />}
       renderRightActions={() => <EditExpenseButton handleSwipe={handleSwipe} />}
     >
-      <TouchableOpacity activeOpacity={0.85} onLongPress={() => console.log('Long Pressed')} className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] py-4 rounded-lg bg-[#1E2A32] px-[12px]">
+      <TouchableOpacity activeOpacity={0.85} onLongPress={() => optionModalRef.current?.open()} className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] py-4 rounded-lg bg-[#1E2A32] px-[12px]">
         <View className="flex flex-row justify-start items-center gap-x-[12px]">
           {expense.type === 'EXPENSE' && <ArrowBigDown color="#CE174B" size={24}/>}
           {expense.type === 'INCOME' && <ArrowBigUp color="#17CE92" size={24}/>}

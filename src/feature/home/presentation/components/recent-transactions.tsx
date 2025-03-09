@@ -20,7 +20,7 @@ const RecentTransactions = ({expenseList, isLoading}: {expenseList: Expense[], i
           <Loader/>
         </View>
       ):
-      <View className="rounded-lg bg-[#1E2A32] p-[12px] max-h-[300px] w-full">
+      <View className="rounded-lg bg-[#1E2A32] p-[12px] max-h-[40vh] w-full">
         <FlatList
           data={expenseList}
           showsVerticalScrollIndicator={false}
@@ -30,7 +30,7 @@ const RecentTransactions = ({expenseList, isLoading}: {expenseList: Expense[], i
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={{
             paddingHorizontal: 10,
-            paddingBottom: 60,
+            paddingBottom: 90,
             gap: 20
           }}
           renderItem={({ item }) => (

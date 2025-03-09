@@ -5,7 +5,9 @@ import ExpenseCard from '@/src/feature/expenses/presentation/components/expense-
 import { ExpenseData } from '@/src/core/utils/groupExpenseByDate';
 
 
-const ExpensesList = React.memo(({ data }: { data: ExpenseData }) => {
+const ExpensesList = React.memo(
+  ({ data, createModalRef, deleteModalRef, optionModalRef }: { data: ExpenseData, createModalRef: any, deleteModalRef: any, optionModalRef: any }
+  ) => {
   return (
     <View className="flex flex-col justify-start items-start w-full gap-y-[18px] mb-5">
       <View className="flex flex-row justify-between items-center w-full">
@@ -15,7 +17,13 @@ const ExpensesList = React.memo(({ data }: { data: ExpenseData }) => {
       </View>
       <View className="w-full">
         {data.expenses.map((item) => (
-          <ExpenseCard key={item.id} expense={item} />
+          <ExpenseCard
+            key={item.id}
+            expense={item}
+            createModalRef={createModalRef}
+            deleteModalRef={deleteModalRef}
+            optionModalRef={optionModalRef}
+          />
         ))}
       </View>
     </View>
