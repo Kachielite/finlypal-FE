@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateExpenseSchema, GetExpenseSchema } from '@/src/core/validation/expense-validation';
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import { Category } from '@/src/feature/category/domain/entity/category';
-import { showToast } from '@/src/shared/presentation/components/toastProvider';
 import { debounce } from 'lodash';
 
 export const expenseType = [
@@ -22,8 +21,6 @@ export type ExpenseHookType = {
   watch: (any: string) => any;
   setValue: any;
   handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
-  fetchExpensesWithFilterData: () => void,
-  resetExpenseList: () => void,
   errors: Record<string, any>;
   fetchMoreExpense: () => void;
   setValueExpense: any;
@@ -31,10 +28,10 @@ export type ExpenseHookType = {
   watchExpense: (any: string) => any;
   errorsExpense: Record<string, any>;
   resetExpenseForm: () => void,
-  createExpense: () => void
+  resetFilterForm:() => void
 }
 
-const useExpense = (modalizeRef: any): ExpenseHookType => {
+const useExpense = (): ExpenseHookType => {
   const today = moment();
   const expenseList = useExpenseState((state) => state.expenseList);
   const categoryList = useExpenseState((state) => state.categoryList);
@@ -66,76 +63,13 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
     }
   })
 
-  const createExpense = async () => {
-    useExpenseState.getState().setIsModifyingExpense(true);
-
-    const data = {
-      description: watchExpense("description"),
-      amount: watchExpense("amount"),
-      date: watchExpense("date"),
-      categoryID: watchExpense("category")?.id,
-      type: watchExpense("type")
-    }
-    try{
-      await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.CREATE_EXPENSE, data)
-      modalizeRef?.current?.close()
-      showToast('success', 'Success', "Expense created successfully")
-    } catch (error){
-      console.log("Error creating expense: ", error)
-      showToast('error', 'Error', "Error creating expense")
-    } finally {
-      useExpenseState.getState().setIsModifyingExpense(false);
-    }
-  }
-
-  const resetExpenseList = async () => {
-    useExpenseState.getState().setIsResettingForm(true)
-    try{
-      reset({
-        type: null,
-        category: null,
-        startDate: today.startOf('month').format('YYYY-MM-DD'),
-        endDate: today.endOf('month').format('YYYY-MM-DD')
-      })
-      await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.GET_EXPENSES, {startDate: today.startOf('month').format('YYYY-MM-DD'), endDate: today.endOf('month').format('YYYY-MM-DD')})
-    } catch (error){
-      console.log("Error resetting expense list: ", error)
-    } finally {
-      useExpenseState.getState().setIsResettingForm(false)
-    }
-  }
-
-  const fetchExpensesWithFilterData = async () => {
-    const queryParams: { [key: string]: any } = {
-      startDate: watch("startDate"),
-      endDate: watch("endDate"),
-    };
-
-    const categoryID = watch("category")?.id;
-    if (categoryID) {
-      queryParams.categoryID = categoryID;
-    }
-
-    const type = watch("type") as 'INCOME' | 'EXPENSE' | null;
-    if (type) {
-      queryParams.type = type;
-    }
-
-    useExpenseState.getState().setIsLoading(true)
-    try{
-      await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.GET_EXPENSES, queryParams )
-      modalizeRef?.current?.close()
-    } catch (error){
-      console.log("Error fetching expense list: ", error)
-    } finally {
-      useExpenseState.getState().setIsLoading(false)
-    }
-  }
 
   const fetchMoreExpense = async () => {
     const queryParams: { [key: string]: any } = {
       startDate: watch("startDate"),
       endDate: watch("endDate"),
+      categoryId: null,
+      type: null,
       page
     };
 
@@ -144,7 +78,7 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
       queryParams.categoryID = categoryID;
     }
 
-    const type = watch("type") as 'INCOME' | 'EXPENSE' | null;
+    const type = watch("type")?.value;
     if (type) {
       queryParams.type = type;
     }
@@ -179,8 +113,14 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
     });
   }
 
-
-
+  const resetFilterForm = () => {
+    reset({
+      type: null,
+      category: null,
+      startDate: today.startOf('month').format('YYYY-MM-DD'),
+      endDate: today.endOf('month').format('YYYY-MM-DD')
+    })
+  }
 
   useEffect(() => {
     (async () => {
@@ -216,7 +156,7 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
       });
     }
   }, [selectedExpense, modalType, resetExpense, expenseType]);
-  
+
   
 
   return {
@@ -226,15 +166,13 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
     setValue,
     handleSubmit,
     errors,
-    resetExpenseList,
-    fetchExpensesWithFilterData,
     fetchMoreExpense,
     setValueExpense,
     watchExpense,
     errorsExpense,
     resetExpenseForm,
     handleSubmitExpense,
-    createExpense
+    resetFilterForm
   }
 }
 

@@ -24,13 +24,10 @@ const ExpensesScreen = () => {
   const {
     expenseList,
     categoryList,
-    watch,
-    setValue,
-    handleSubmit,
-    errors,
     fetchMoreExpense,
+    resetFilterForm,
     resetExpenseForm
-  } = useExpense(modalizeRef);
+  } = useExpense();
 
   const groupedExpenses = useMemo(() => groupExpenseByDate(expenseList), [expenseList]);
   const isLoading = useExpenseState((state) => state.isLoading);
@@ -44,6 +41,7 @@ const ExpensesScreen = () => {
 
 
   const onOpen = () => {
+    resetFilterForm()
     modalizeRef.current?.open();
   };
 
@@ -113,10 +111,6 @@ const ExpensesScreen = () => {
       <FilterExpenseModal
         modalizeRef={modalizeRef}
         categoryList={categoryList}
-        watch={watch}
-        setValue={setValue}
-        handleSubmit={handleSubmit}
-        errors={errors}
       />
       <AddExpenseModal modalizeRef={createModalRef}/>
       <AppModal

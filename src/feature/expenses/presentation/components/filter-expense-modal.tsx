@@ -9,21 +9,70 @@ import { Category } from '@/src/feature/category/domain/entity/category';
 import moment from 'moment';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import useExpense, { expenseType } from '@/src/feature/expenses/presentation/state/useExpense';
+import { expenseBloc } from '@/src/feature/expenses/presentation/state/expenseBloc';
+import { EXPENSE_EVENTS } from '@/src/feature/expenses/presentation/state/expenseEvent';
 
 
 type FilerExpenseModalProps = {
   modalizeRef: any,
   categoryList: Category[]
-  watch: (type: any) => any;
-  setValue: any;
-  handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
-  errors: Record<string, any>;
 }
 
-const FilterExpenseModal = ({ modalizeRef, categoryList, watch, setValue, handleSubmit, errors}: FilerExpenseModalProps) => {
+const FilterExpenseModal = ({ modalizeRef, categoryList,}: FilerExpenseModalProps) => {
+  const today = moment();
   const isLoading = useExpenseState((state) => state.isLoading);
   const isResettingForm = useExpenseState((state) => state.isResettingForm);
-  const {resetExpenseList, fetchExpensesWithFilterData} = useExpense(modalizeRef);
+  const {watch, setValue, handleSubmit, errors, resetFilterForm} = useExpense();
+
+  const resetExpenseList = async () => {
+    useExpenseState.getState().setIsResettingForm(true)
+    try{
+      resetFilterForm()
+      await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.GET_EXPENSES, {startDate: today.startOf('month').format('YYYY-MM-DD'), endDate: today.endOf('month').format('YYYY-MM-DD')})
+    } catch (error){
+      console.log("Error resetting expense list: ", error)
+    } finally {
+      useExpenseState.getState().setIsResettingForm(false)
+    }
+  }
+
+  const fetchExpensesWithFilterData = async () => {
+    const queryParams: { [key: string]: any } = {
+      startDate: watch("startDate"),
+      endDate: watch("endDate"),
+      categoryId: null,
+      type: null,
+    };
+
+    const categoryID = watch("category")?.id;
+    if (categoryID) {
+      queryParams.categoryId = categoryID;
+    } else {
+      delete queryParams.categoryId
+    }
+
+    const type = watch("type")?.value;
+    if (type) {
+      queryParams.type = type;
+    } else {
+      delete queryParams.type
+    }
+
+    console.log("queryParams: ", queryParams)
+
+    useExpenseState.getState().setIsLoading(true)
+    try{
+      await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.GET_EXPENSES, queryParams )
+      modalizeRef?.current?.close()
+    } catch (error){
+      console.log("Error fetching expense list: ", error)
+    } finally {
+      useExpenseState.getState().setIsLoading(false)
+    }
+  }
+
+  console.log("watch: ", watch("startDate"))
+  console.log("watch: ", watch("endDate"))
 
   const formattedCategories = categoryList.map((item) => ({ id: item.id, label: item.displayName, value: item.displayName }))
   return (
