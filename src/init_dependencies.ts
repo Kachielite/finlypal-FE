@@ -21,6 +21,10 @@ import { GetAllExpenseUseCase } from '@/src/feature/expenses/domain/use-case/use
 import { GetExpenseByIdUseCase } from '@/src/feature/expenses/domain/use-case/use-get-expense-by-id';
 import { UpdateExpenseUseCase } from '@/src/feature/expenses/domain/use-case/use-update-expense';
 import { GetTotalSpendUseCase } from '@/src/feature/insights/domain/use-case/use-get-total-spend';
+import { CategoryService } from '@/src/core/service/categories';
+import { CategoryDatasourceImpl } from '@/src/feature/category/data/datasource/category-datasource';
+import { CategoryRepositoryImpl } from '@/src/feature/category/data/repositoryImpl/category-repositoryImpl';
+import { GetCategoriesUseCase } from '@/src/feature/category/domain/use-case/use-get-categories';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -54,3 +58,9 @@ export const deleteExpenseUseCase = new DeleteExpenseUseCase(expenseRepository);
 export const getAllExpenseUseCase = new GetAllExpenseUseCase(expenseRepository);
 export const getExpenseByIdUseCase = new GetExpenseByIdUseCase(expenseRepository);
 export const updateExpenseUseCase = new UpdateExpenseUseCase(expenseRepository);
+
+// Category Dependencies
+const categoryService = new CategoryService();
+const categoryDatasource = new CategoryDatasourceImpl(categoryService);
+const categoryRepository = new CategoryRepositoryImpl(categoryDatasource);
+export const getCategoriesUseCase = new GetCategoriesUseCase(categoryRepository);

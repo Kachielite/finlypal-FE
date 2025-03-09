@@ -5,12 +5,13 @@ import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { ExpenseModel } from '@/src/feature/expenses/data/model/expense-model';
 import { ExpenseDatasource } from '@/src/feature/expenses/data/datasource/expense-datasource';
 import Error from 'es-errors';
+import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 
 export class ExpenseRepositoryImpl implements ExpenseRepository{
   constructor(private expenseDatasource: ExpenseDatasource) {
   }
 
-  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<Either<Failure, GeneralResponse>> {
+  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<Either<Failure, Expense>> {
     try{
       const response =  await this.expenseDatasource.createExpense(amount, date, description, type, categoryId);
       return right(response)
@@ -50,7 +51,7 @@ export class ExpenseRepositoryImpl implements ExpenseRepository{
     }
   }
 
-  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<Either<Failure, GeneralResponse>> {
+  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<Either<Failure, Expense>> {
     try {
       const response = await this.expenseDatasource.updateExpense(id, amount, date, description, type, categoryId);
       return right(response);

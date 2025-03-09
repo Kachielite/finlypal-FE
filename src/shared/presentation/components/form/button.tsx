@@ -20,4 +20,3 @@ const Button = ({ onPress, label, isLoading, type = 'primary' }: ButtonProps) =>
   );
 };
 export default Button;
-6641

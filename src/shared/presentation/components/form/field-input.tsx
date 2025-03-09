@@ -6,9 +6,9 @@ type FieldInputProps = {
   label: string;
   placeholder: string;
   error?: string;
-  type?: string;
   value: string;
   onChangeText: (text: string) => void;
+  type?: "text" | "numeric";
 };
 
 const FieldIcons: { [key: string]: JSX.Element } = {
@@ -32,6 +32,7 @@ const FieldInput = forwardRef<TextInput, FieldInputProps>(
             placeholderClassName="font-urbanist-bold text-[20px] text-[#9E9E9E]"
             value={value}  // Ensure it is controlled
             onChangeText={onChangeText} // Handle text input updates
+            keyboardType={type === "numeric" ? "numeric" : "default"} // Conditionally set keyboardType
             {...rest}
           />
           {type && FieldIcons[type]}

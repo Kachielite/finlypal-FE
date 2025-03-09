@@ -16,7 +16,7 @@ export class ExpensesService {
         date,
         description,
         type,
-        categoryId
+        category_id: categoryId
       });
       return response.data;
     } catch (error: unknown) {
@@ -34,7 +34,7 @@ export class ExpensesService {
   }
 
   async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<any> {
-    const expense: {id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number} = {id};
+    const expense: {id: number, amount?: number, date?: string, description?: string, type?: string, category_id?: number} = {id};
 
     if(amount){
       expense.amount = amount;
@@ -53,7 +53,7 @@ export class ExpensesService {
     }
 
     if(categoryId){
-      expense.categoryId = categoryId;
+      expense.category_id = categoryId;
     }
 
     try {
@@ -74,7 +74,7 @@ export class ExpensesService {
   }
 
   async getExpense(startDate: string, endDate: string, categoryId?: number, type?: string, page?: number, pageSize?: number){
-    let url = `${this.BASE_URL}${this.EXPENSES_PATH}?start_date=${startDate}&end_date=${endDate}&page=${page || 0}&pageSize=${pageSize || 10}`
+    let url = `${this.BASE_URL}${this.EXPENSES_PATH}?start_date=${startDate}&end_date=${endDate}&page=${page || 0}&pageSize=${pageSize || 50}`
 
     if(categoryId){
       url += `&category_id=${categoryId}`

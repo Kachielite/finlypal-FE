@@ -1,11 +1,12 @@
-import { Text, View } from 'react-native';
 import React from 'react';
+import ExpensesScreen from '@/src/feature/expenses/presentation/screens/ExpensesScreen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Expense = () => {
   return (
-    <View>
-      <Text>Expense</Text>
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ExpensesScreen />
+    </GestureHandlerRootView>
   );
 };
 export default Expense;

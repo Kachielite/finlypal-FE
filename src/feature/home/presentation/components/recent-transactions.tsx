@@ -2,11 +2,13 @@ import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import TransactionCard from '@/src/feature/home/presentation/components/transaction-card';
 import EmptyTransactionList from '@/src/feature/home/presentation/components/empty-transaction-list';
-import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import Loader from '@/src/shared/presentation/components/loader';
 import { router } from 'expo-router';
+import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 
-const RecentTransactions = ({expenseList, isLoading}: {expenseList: Expense[], isLoading: boolean}) => {
+const RecentTransactions = () => {
+  const expensesList = useExpenseState((state) => state.expenseList);
+  const isLoading = useExpenseState((state) => state.isLoading);
   return (
     <View className="flex flex-col justify-start items-start w-full gap-y-[18px]">
       <View className="flex flex-row justify-between items-center w-full">
@@ -20,9 +22,9 @@ const RecentTransactions = ({expenseList, isLoading}: {expenseList: Expense[], i
           <Loader/>
         </View>
       ):
-      <View className="rounded-lg bg-[#1E2A32] p-[12px] max-h-[300px] w-full">
+      <View className="rounded-lg bg-[#1E2A32] p-[12px] max-h-[40vh] w-full">
         <FlatList
-          data={expenseList}
+          data={expensesList.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())}
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled={true}
           alwaysBounceVertical={false}
@@ -30,7 +32,7 @@ const RecentTransactions = ({expenseList, isLoading}: {expenseList: Expense[], i
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={{
             paddingHorizontal: 10,
-            paddingBottom: 60,
+            paddingBottom: 90,
             gap: 20
           }}
           renderItem={({ item }) => (
