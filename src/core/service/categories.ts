@@ -10,7 +10,7 @@ export class CategoryService {
   }
 
   async getCategories(page?: number, pageSize?: number): Promise<any> {
-    const url = `${this.BASE_URL}${this.CATEGORIES_PATH}?page=${page || 0}&pageSize=${pageSize || 10}`
+    const url = `${this.BASE_URL}${this.CATEGORIES_PATH}?page=${page || 0}&pageSize=${pageSize || 50}`
 
     try {
       const response = await customAxios.get(url);

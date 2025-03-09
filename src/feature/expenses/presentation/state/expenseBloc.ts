@@ -166,7 +166,7 @@ export const getCategories = async (
       showToast('error', 'Error', failure.message || "Error fetching categories")
     },
     (categories) => {
-      setCategoryList(categories)
+      setCategoryList(categories.sort((a, b) => a.displayName.localeCompare(b.displayName)))
     }
   )(response);
 }

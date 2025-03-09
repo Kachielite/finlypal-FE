@@ -11,6 +11,8 @@ import { useExpenseState } from '@/src/feature/expenses/presentation/state/expen
 import AddExpenseModal from '@/src/feature/expenses/presentation/components/add-expense-modal';
 import AppModal from '@/src/shared/presentation/components/app-modal';
 import ExpenseOptionModal from '@/src/feature/expenses/presentation/components/expense-option-modal';
+import { expenseBloc } from '@/src/feature/expenses/presentation/state/expenseBloc';
+import { EXPENSE_EVENTS } from '@/src/feature/expenses/presentation/state/expenseEvent';
 
 
 const ExpensesScreen = () => {
@@ -19,14 +21,6 @@ const ExpensesScreen = () => {
   const deleteModalRef = useRef<Modalize>(null);
   const optionModalRef = useRef<Modalize>(null);
 
-  const onOpen = () => {
-    modalizeRef.current?.open();
-  };
-
-  const openCreateModal = () => {
-    createModalRef.current?.open();
-  };
-
   const {
     expenseList,
     categoryList,
@@ -34,12 +28,44 @@ const ExpensesScreen = () => {
     setValue,
     handleSubmit,
     errors,
-    fetchMoreExpense
+    fetchMoreExpense,
+    resetExpenseForm
   } = useExpense(modalizeRef);
 
   const groupedExpenses = useMemo(() => groupExpenseByDate(expenseList), [expenseList]);
   const isLoading = useExpenseState((state) => state.isLoading);
   const isLoadingMore = useExpenseState((state) => state.isLoadingMore);
+  const selectedExpense = useExpenseState((state) => state.selectedExpense);
+  const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
+  const setModalType = useExpenseState((state) => state.setModalType);
+  const setSelectedExpense = useExpenseState((state) => state.setSelectedExpense);
+  const setExpenseList = useExpenseState((state) => state.setExpenseList);
+
+
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
+
+  const openCreateModal = () => {
+    setModalType('add')
+    setSelectedExpense(null)
+    resetExpenseForm();
+    createModalRef.current?.open();
+  };
+
+  const deleteExpense = async () => {
+    try {
+      await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.DELETE_EXPENSE, {
+        id: selectedExpense?.id
+      });
+      setExpenseList([...expenseList.filter((item) => item.id !== selectedExpense?.id)])
+      modalizeRef.current?.close();
+      deleteModalRef.current?.close()
+    } catch (error) {
+      console.log("Error deleting expense: ", error);
+    }
+  }
 
 
   return (
@@ -97,8 +123,9 @@ const ExpensesScreen = () => {
         modalizeRef={deleteModalRef}
         title="Delete Expense"
         description="Are you sure you want to delete this expense?"
-        proceedAction={() => console.log('Delete Expense')}
+        proceedAction={deleteExpense}
         proceedButtonLabel="Delete"
+        isLoading={isModifyingExpense}
       />
       <ExpenseOptionModal
         modalizeRef={optionModalRef}

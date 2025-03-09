@@ -8,12 +8,8 @@ import DatePicker from '@/src/shared/presentation/components/form/date-picker';
 import { Category } from '@/src/feature/category/domain/entity/category';
 import moment from 'moment';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
-import useExpense from '@/src/feature/expenses/presentation/state/useExpense';
+import useExpense, { expenseType } from '@/src/feature/expenses/presentation/state/useExpense';
 
-const expenseType = [
-  {id: 1, label: "Expense", value: "EXPENSE" },
-  {id: 2, label: "Income", value: "INCOME" },
-]
 
 type FilerExpenseModalProps = {
   modalizeRef: any,

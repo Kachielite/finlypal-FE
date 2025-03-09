@@ -42,7 +42,7 @@ const DatePickerInput = ({ label, placeholder, error, value, onChange, icon }: D
           error ? 'border-b-red-500' : 'border-b-secondary'
         }`}
       >
-        <Text className={`text-lg ${value ? 'text-white' : 'text-gray-500'}`}>
+        <Text className={`text-[20px] font-urbanist-bold ${value ? 'text-white' : 'text-gray-500'}`}>
           {value ? moment(value).format("DD MMM, YYYY") : placeholder}
         </Text>
 

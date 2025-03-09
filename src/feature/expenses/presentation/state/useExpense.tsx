@@ -11,10 +11,15 @@ import { Category } from '@/src/feature/category/domain/entity/category';
 import { showToast } from '@/src/shared/presentation/components/toastProvider';
 import { debounce } from 'lodash';
 
+export const expenseType = [
+  {id: 1, label: "Expense", value: "EXPENSE" },
+  {id: 2, label: "Income", value: "INCOME" },
+]
+
 export type ExpenseHookType = {
   expenseList: Expense[];
   categoryList: Category[];
-  watch: () => any;
+  watch: (any: string) => any;
   setValue: any;
   handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   fetchExpensesWithFilterData: () => void,
@@ -25,7 +30,7 @@ export type ExpenseHookType = {
   handleSubmitExpense: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   watchExpense: (any: string) => any;
   errorsExpense: Record<string, any>;
-  resetExpense: () => void,
+  resetExpenseForm: () => void,
   createExpense: () => void
 }
 
@@ -35,6 +40,10 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
   const categoryList = useExpenseState((state) => state.categoryList);
   const page = useExpenseState((state) => state.page);
   const hasMore = useExpenseState((state) => state.hasMore);
+  const selectedExpense = useExpenseState((state) => state.selectedExpense);
+  const setSelectedExpense = useExpenseState((state) => state.setSelectedExpense);
+  const modalType = useExpenseState((state) => state.modalType);
+  const defaultCategory = categoryList.length > 0 ? {id: categoryList[0]?.id, label: categoryList[0]?.displayName, value: categoryList[0]?.displayName } : {"id": 251, "label": "Bonuses", "value": "Bonuses"}
 
   const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
     resolver: zodResolver(GetExpenseSchema),
@@ -49,11 +58,11 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
   const {setValue: setValueExpense, handleSubmit: handleSubmitExpense, watch: watchExpense, formState: { errors: errorsExpense }, reset: resetExpense} = useForm({
     resolver: zodResolver(CreateExpenseSchema),
     defaultValues: {
-      description: '',
+      description: "",
       amount: 0,
-      category: null,
-      type: null,
-      date: today.format('YYYY-MM-DD')
+      category: defaultCategory,
+      type: expenseType[1],
+      date: moment().startOf("day").format("YYYY-MM-DD"),
     }
   })
 
@@ -64,7 +73,7 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
       description: watchExpense("description"),
       amount: watchExpense("amount"),
       date: watchExpense("date"),
-      categoryID: categoryList.find(c => c.displayName === watchExpense("category"))?.id,
+      categoryID: watchExpense("category")?.id,
       type: watchExpense("type")
     }
     try{
@@ -82,13 +91,15 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
   const resetExpenseList = async () => {
     useExpenseState.getState().setIsResettingForm(true)
     try{
-      reset()
+      reset({
+        type: null,
+        category: null,
+        startDate: today.startOf('month').format('YYYY-MM-DD'),
+        endDate: today.endOf('month').format('YYYY-MM-DD')
+      })
       await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.GET_EXPENSES, {startDate: today.startOf('month').format('YYYY-MM-DD'), endDate: today.endOf('month').format('YYYY-MM-DD')})
-      modalizeRef?.current?.close()
-      showToast('success', 'Success', "Expense list reset successfully")
     } catch (error){
       console.log("Error resetting expense list: ", error)
-      showToast('error', 'Error', "Error resetting expense list")
     } finally {
       useExpenseState.getState().setIsResettingForm(false)
     }
@@ -100,7 +111,7 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
       endDate: watch("endDate"),
     };
 
-    const categoryID = categoryList.find(c => c.displayName === watch("category"))?.id;
+    const categoryID = watch("category")?.id;
     if (categoryID) {
       queryParams.categoryID = categoryID;
     }
@@ -114,10 +125,8 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
     try{
       await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.GET_EXPENSES, queryParams )
       modalizeRef?.current?.close()
-      showToast('success', 'Success', "Expense list fetched successfully")
     } catch (error){
       console.log("Error fetching expense list: ", error)
-      showToast('error', 'Error', "Error fetching expense list")
     } finally {
       useExpenseState.getState().setIsLoading(false)
     }
@@ -130,7 +139,7 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
       page
     };
 
-    const categoryID = categoryList.find(c => c.displayName === watch("category"))?.id;
+    const categoryID = watch("category")?.id;
     if (categoryID) {
       queryParams.categoryID = categoryID;
     }
@@ -159,6 +168,18 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
     }
   };
 
+  const resetExpenseForm = () => {
+    setSelectedExpense(null)
+    resetExpense({
+      description: "",
+      amount: 0,
+      category: defaultCategory,
+      type: expenseType[1],
+      date: today.format('YYYY-MM-DD'),
+    });
+  }
+
+
 
 
   useEffect(() => {
@@ -176,6 +197,27 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
       }
     })()
   }, []);
+
+
+  useEffect(() => {
+    if (modalType === "edit" && selectedExpense) {
+      resetExpense({
+        description: selectedExpense.description || "",
+        amount: selectedExpense.amount || 0,
+        category: selectedExpense
+          ? {
+            id: selectedExpense.categoryId,
+            label: selectedExpense.categoryName,
+            value: selectedExpense.categoryName,
+          }
+          : defaultCategory,
+        type: expenseType.find((e) => e.value === selectedExpense?.type) || expenseType[1],
+        date: selectedExpense?.date || today.format("YYYY-MM-DD"),
+      });
+    }
+  }, [selectedExpense, modalType, resetExpense, expenseType]);
+
+  console.log("defaultCategory", defaultCategory)
   
 
   return {
@@ -191,7 +233,7 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
     setValueExpense,
     watchExpense,
     errorsExpense,
-    resetExpense,
+    resetExpenseForm,
     handleSubmitExpense,
     createExpense
   }
