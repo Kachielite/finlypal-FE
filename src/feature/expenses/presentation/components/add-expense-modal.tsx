@@ -9,7 +9,7 @@ import moment from 'moment';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import useExpense from '@/src/feature/expenses/presentation/state/useExpense';
 import FieldInput from '@/src/shared/presentation/components/form/field-input';
-import { expenseBloc, getMoreExpensesHandler } from '@/src/feature/expenses/presentation/state/expenseBloc';
+import { expenseBloc } from '@/src/feature/expenses/presentation/state/expenseBloc';
 import { EXPENSE_EVENTS } from '@/src/feature/expenses/presentation/state/expenseEvent';
 
 const expenseType = [
@@ -28,8 +28,7 @@ const AddExpenseModal = ({ modalizeRef}: FilerExpenseModalProps) => {
   const categoryList = useExpenseState((state) => state.categoryList);
   const formattedCategories = categoryList.map((item) => ({ id: item.id, label: item.displayName, value: item.displayName }));
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
-  const setSelectedExpense = useExpenseState((state) => state.setSelectedExpense);
-  const page = useExpenseState((state) => state.page);
+
 
 
   const createExpenseHandler = async () => {
@@ -41,23 +40,9 @@ const AddExpenseModal = ({ modalizeRef}: FilerExpenseModalProps) => {
         categoryId: watch("category")?.id,
         type: watch("type")?.value
       });
-      useExpenseState.getState().setIsLoading(true)
-      try {
-        await getMoreExpensesHandler({
-          startDate: watchAllExpenses("startDate"),
-          endDate: watchAllExpenses("endDate"),
-          categoryId: watchAllExpenses("category")?.id || null,
-          type: watchAllExpenses("type"),
-          page: page,
-          pageSize: 50
-        }, useExpenseState.getState)
-        resetExpenseForm();
-        modalizeRef?.current?.close();
-      } catch (error) {
-        console.log("Error fetching expense list: ", error);
-      } finally {
-        useExpenseState.getState().setIsLoading(false)
-      }
+
+      resetExpenseForm();
+      modalizeRef?.current?.close();
 
     } catch (error) {
       console.log("Error creating expense: ", error);
@@ -75,30 +60,12 @@ const AddExpenseModal = ({ modalizeRef}: FilerExpenseModalProps) => {
     }
     try {
       await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.UPDATE_EXPENSE, data);
-      useExpenseState.getState().setIsLoading(true)
-      try {
-        await getMoreExpensesHandler({
-          startDate: watchAllExpenses("startDate"),
-          endDate: watchAllExpenses("endDate"),
-          categoryId: watchAllExpenses("category")?.id || null,
-          type: watchAllExpenses("type"),
-          page: page,
-          pageSize: 50
-        }, useExpenseState.getState)
-        setSelectedExpense(null);
-        resetExpenseForm();
-        modalizeRef?.current?.close();
-      } catch (error) {
-        console.log("Error fetching expense list: ", error);
-      } finally {
-        useExpenseState.getState().setIsLoading(false)
-      }
+      resetExpenseForm();
+      modalizeRef?.current?.close();
     } catch (error) {
       console.log("Error updating expense: ", error);
     }
   }
-
-  console.log("watch(\"date\")", watch("date"))
 
   return (
     <Modalize

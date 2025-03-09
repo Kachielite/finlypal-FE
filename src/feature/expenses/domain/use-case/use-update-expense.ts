@@ -1,8 +1,8 @@
 import { UseCase } from '@/src/core/use-case/use-case';
-import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { Either } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
 import { ExpenseRepository } from '@/src/feature/expenses/domain/repository/expense-repository';
+import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 
 export class UpdateExpenseUseCaseParams{
   constructor(
@@ -16,13 +16,13 @@ export class UpdateExpenseUseCaseParams{
   }
 }
 
-export class UpdateExpenseUseCase extends UseCase<GeneralResponse, UpdateExpenseUseCaseParams>{
+export class UpdateExpenseUseCase extends UseCase<Expense, UpdateExpenseUseCaseParams>{
   constructor(private expenseRepository: ExpenseRepository) {
     super();
 
   }
 
-  async execute(params: UpdateExpenseUseCaseParams): Promise<Either<Failure, GeneralResponse>> {
+  async execute(params: UpdateExpenseUseCaseParams): Promise<Either<Failure, Expense>> {
     return await this.expenseRepository.updateExpense(params.id, params.amount, params.date, params.description, params.type, params.categoryId)
   }
 

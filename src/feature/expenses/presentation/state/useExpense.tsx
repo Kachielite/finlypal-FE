@@ -216,8 +216,7 @@ const useExpense = (modalizeRef: any): ExpenseHookType => {
       });
     }
   }, [selectedExpense, modalType, resetExpense, expenseType]);
-
-  console.log("defaultCategory", defaultCategory)
+  
   
 
   return {

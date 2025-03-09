@@ -49,19 +49,21 @@ export const expenseBloc = {
 export const createExpenseHandler = async (
   payload: CreateExpenseUseCaseParams, getState: typeof useExpenseState.getState
 ) => {
-  const {setIsModifyingExpense, setShowCreateExpenseModal} = getState();
+  const {setIsModifyingExpense, setShowCreateExpenseModal, setExpenseList} = getState();
+  const expenseList = useExpenseState.getState().expenseList;
   const response = await createExpenseUseCase.execute(payload);
 
   setIsModifyingExpense(false);
-  fold<Failure, GeneralResponse, void>(
+  fold<Failure, Expense, void>(
     (failure) => {
       setIsModifyingExpense(false);
       showToast('error', 'Error', failure.message || "Error creating expense")
     },
-    (generalResponse) => {
+    (expense) => {
+      setExpenseList([expense, ...expenseList]);
       setIsModifyingExpense(false);
       setShowCreateExpenseModal(false);
-      showToast('success', 'Success', generalResponse.message || "Expense created successfully")
+      showToast('success', 'Success', "Expense created successfully")
     }
   )(response);
 }
@@ -117,19 +119,21 @@ export const getMoreExpensesHandler = async (
 export const updateExpenseHandler = async (
   payload: UpdateExpenseUseCaseParams, getState: typeof useExpenseState.getState
 ) => {
-  const {setIsModifyingExpense, setShowCreateExpenseModal} = getState();
+  const {setIsModifyingExpense, setShowCreateExpenseModal, setExpenseList} = getState();
+  const expenseList = useExpenseState.getState().expenseList;
   const response = await updateExpenseUseCase.execute(payload);
 
   setIsModifyingExpense(false);
-  fold<Failure, GeneralResponse, void>(
+  fold<Failure, Expense, void>(
     (failure) => {
       setIsModifyingExpense(false);
       showToast('error', 'Error', failure.message || "Error updating expense")
     },
-    (generalResponse) => {
+    (expense) => {
+      setExpenseList(expenseList.map((exp) => exp.id === expense.id ? expense : exp));
       setIsModifyingExpense(false);
       setShowCreateExpenseModal(false);
-      showToast('success', 'Success', generalResponse.message || "Expense updated successfully")
+      showToast('success', 'Success', "Expense updated successfully")
     }
   )(response);
 }

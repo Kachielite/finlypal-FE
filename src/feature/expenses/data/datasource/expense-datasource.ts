@@ -4,8 +4,8 @@ import { ExpensesService } from '@/src/core/service/expenses';
 import { Exception } from '@/src/core/error/exception';
 
 export interface ExpenseDatasource {
-  createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<GeneralResponse>;
-  updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<GeneralResponse>;
+  createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<ExpenseModel>;
+  updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<ExpenseModel>;
   getAllExpense(startDate: string, endDate: string, categoryId?: number, type?: string, page?: number, pageSize?: number): Promise<ExpenseModel[]>;
   getExpenseById(id: number): Promise<ExpenseModel>;
   deleteExpense(id: number): Promise<GeneralResponse>
@@ -15,10 +15,10 @@ export class ExpenseDatasourceImpl implements ExpenseDatasource{
   constructor(private expensesService: ExpensesService) {
   }
 
-  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<GeneralResponse> {
+  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<ExpenseModel> {
     try{
       const response = await this.expensesService.createExpense(amount, date, description, type, categoryId);
-      return GeneralResponse.fromJson(response)
+      return ExpenseModel.fromJson(response)
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
@@ -67,10 +67,10 @@ export class ExpenseDatasourceImpl implements ExpenseDatasource{
     }
   }
 
-  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<GeneralResponse> {
+  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<ExpenseModel> {
     try{
       const response = await this.expensesService.updateExpense(id, amount, date, description, type, categoryId);
-      return GeneralResponse.fromJson(response)
+      return ExpenseModel.fromJson(response)
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
