@@ -16,10 +16,12 @@ export interface UseInsights {
   setValue: any;
   handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   errors: Record<string, any>;
+  resetInsightsFilterForm: () => void,
+  fetchInsightsWithFilterData: () => void
 }
 
-const useInsights = () => {
-  const {setValue, handleSubmit, watch, formState: { errors }} = useForm({
+const useInsights = (modalizeRef: any):UseInsights => {
+  const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
     resolver: zodResolver(insightsValidation),
     defaultValues: {
       type: expenseType[0],
@@ -28,36 +30,48 @@ const useInsights = () => {
     }
   })
 
+  const resetInsightsFilterForm = () => {
+    reset({
+      type: expenseType[0],
+      startDate: moment().startOf('month').format('YYYY-MM-DD'),
+      endDate: moment().endOf('month').format('YYYY-MM-DD')
+    })
+  }
+
+  const fetchInsightsWithFilterData = async () => {
+    const data = {
+      type: watch('type')?.value,
+      startDate: watch('startDate'),
+      endDate: watch('endDate')
+    }
+    try {
+      await Promise.all([
+        insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOTAL_INCOME, { type: 'INCOME', startDate: watch('startDate'), endDate: watch('endDate') }),
+        insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOTAL_EXPENSE, { type: 'EXPENSE', startDate: watch('startDate'), endDate: watch('endDate') }),
+        insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_MONTHLY_SPENDING, data),
+        insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOTAL_SPEND_BY_CATEGORY, data),
+        insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOP_EXPENSES, data),
+        insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_DAILY_SPENDING, data)
+      ]);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Failure ? e.message : "An unknown error occurred";
+      console.error("Error fetching insights", e)
+      showToast('error', 'Error', errorMessage)
+    } finally {
+      useInsightsState.getState().setIsLoading(false);
+      modalizeRef.current?.close();
+    }
+  }
+
   useEffect(() => {
     (
       async () => {
-        const data = {
-          type: watch('type')?.value,
-          startDate: watch('startDate'),
-          endDate: watch('endDate')
-        }
-        useInsightsState.getState().setIsLoading(true);
-        try {
-          await Promise.all([
-            insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOTAL_INCOME, { type: 'INCOME', startDate: watch('startDate'), endDate: watch('endDate') }),
-            insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOTAL_EXPENSE, { type: 'EXPENSE', startDate: watch('startDate'), endDate: watch('endDate') }),
-            insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_MONTHLY_SPENDING, data),
-            insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOTAL_SPEND_BY_CATEGORY, data),
-            insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOP_EXPENSES, data),
-            insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_DAILY_SPENDING, data)
-          ]);
-        } catch (e: unknown) {
-          const errorMessage = e instanceof Failure ? e.message : "An unknown error occurred";
-          console.error("Error fetching insights", e)
-          showToast('error', 'Error', errorMessage)
-        } finally {
-          useInsightsState.getState().setIsLoading(false);
-        }
+        await fetchInsightsWithFilterData();
       }
     )()
-  }, [watch('type'), watch('startDate'), watch('endDate')]);
+  }, []);
 
-  return {watch, setValue, handleSubmit, errors}
+  return {watch, setValue, handleSubmit, errors, resetInsightsFilterForm, fetchInsightsWithFilterData}
 }
 
 export default useInsights;
