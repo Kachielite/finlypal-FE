@@ -37,7 +37,7 @@ export class InsightsService {
 
   async getTotalSpendByCategory(type: string, startDate: string, endDate: string): Promise<any> {
     try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.TOTAL_SPEND_BY_CATEGORY_PATH}?type=${type}&startDate=${startDate}&endDate=${endDate}`, {
+      const response = await customAxios.get(`${this.BASE_URL}${this.TOTAL_SPEND_BY_CATEGORY_PATH}?type=${type}&start_date=${startDate}&end_date=${endDate}`, {
       });
 
       return response.data;
@@ -56,15 +56,12 @@ export class InsightsService {
   }
 
   async getTopExpenses(type: string, startDate?: string, endDate?: string): Promise<any> {
-    let url = `${this.BASE_URL}${this.TOTAL_SPEND_PATH}?type=${type}`;
-
-    if (startDate && endDate) {
-      url += `&startDate=${startDate}&endDate=${endDate}`;
-    }
+    let url = `${this.BASE_URL}${this.TOP_EXPENSES_PATH}?type=${type}&start_date=${startDate}&end_date=${endDate}&page=0&pageSize=100`;
+    
     try {
       const response = await customAxios.get(url);
 
-      return response.data;
+      return response.data.content;
     } catch (error: unknown) {
       console.error("Get top expenses error", error);
       if (axios.isAxiosError(error) && error.response) {
@@ -81,10 +78,10 @@ export class InsightsService {
 
   async getMonthlySpend(type: string, startDate?: string, endDate?: string): Promise<any> {
 
-    let url = `${this.BASE_URL}${this.TOTAL_SPEND_PATH}?type=${type}`;
+    let url = `${this.BASE_URL}${this.MONTHLY_SPEND_PATH}?type=${type}`;
 
     if (startDate && endDate) {
-      url += `&startDate=${startDate}&endDate=${endDate}`;
+      url += `&start_date=${startDate}&end_date=${endDate}`;
     }
 
     try {
@@ -106,10 +103,10 @@ export class InsightsService {
   }
 
   async getDailySpend(type: string, startDate?: string, endDate?: string): Promise<any> {
-    let url = `${this.BASE_URL}${this.TOTAL_SPEND_PATH}?type=${type}`;
+    let url = `${this.BASE_URL}${this.DAILY_SPEND_PATH}?type=${type}`;
 
     if (startDate && endDate) {
-      url += `&startDate=${startDate}&endDate=${endDate}`;
+      url += `&start_date=${startDate}&end_date=${endDate}`;
     }
     try {
       const response = await customAxios.get(url);

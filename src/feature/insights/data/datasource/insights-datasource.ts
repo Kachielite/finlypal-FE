@@ -23,6 +23,7 @@ export class InsightsDatasourceImpl implements InsightsDatasource {
       const response = await this.insightService.getDailySpend(type, startDate, endDate);
       return DailySpendModel.fromJsonList(response);
     } catch (error: unknown) {
+      console.error("failed to fetch daily spend", error);
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {

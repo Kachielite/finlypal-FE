@@ -10,10 +10,10 @@ export class TotalSpendByCategoryModel extends TotalSpendByCategory {
   }
 
   static fromJsonList(response: TotalSpendByCategoryModel[]) {
-    return response.map(item => item.fromJson(item));
+    return response.map(item => TotalSpendByCategoryModel.fromJson(item));
   }
 
-  fromJson(json: any): TotalSpendByCategoryModel {
+  static fromJson(json: any): TotalSpendByCategoryModel {
     return new TotalSpendByCategoryModel(json.totalSpend, json.category, json.percent);
   }
 }

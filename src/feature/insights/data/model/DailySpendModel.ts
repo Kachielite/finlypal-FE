@@ -9,10 +9,10 @@ export class DailySpendModel extends DailySpend{
   }
 
   static fromJsonList(response: DailySpendModel[]) {
-    return response.map(item => item.fromJson(item));
+    return response.map(item => DailySpendModel.fromJson(item));
   }
 
-  fromJson(json: any): DailySpendModel {
+  static fromJson(json: any): DailySpendModel {
     return new DailySpendModel(json.amount, json.date);
   }
 }
