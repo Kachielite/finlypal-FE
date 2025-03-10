@@ -1,11 +1,13 @@
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { SlidersHorizontal } from 'lucide-react-native';
 import FilterInsightsModal from '@/src/feature/insights/presentation/components/filter-insights-modal';
 import { Modalize } from 'react-native-modalize';
+import InsightsExpenseSummary from '@/src/feature/insights/presentation/components/insights-expense-summary';
 
 const InsightsScreen = () => {
   const modalizeRef = React.useRef<Modalize>(null);
+
 
   const onOpen = () => {
     modalizeRef.current?.open();
@@ -22,6 +24,9 @@ const InsightsScreen = () => {
               <SlidersHorizontal color="white" size={28} />
             </TouchableOpacity>
           </View>
+          <ScrollView contentContainerClassName="w-full flex flex-col justify-start items-start gap-y-[24px]">
+            <InsightsExpenseSummary />
+          </ScrollView>
         </View>
       </SafeAreaView>
       <FilterInsightsModal  modalizeRef={modalizeRef}/>
