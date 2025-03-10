@@ -28,7 +28,7 @@ const InsightsScreen = () => {
           </View>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            contentContainerClassName="w-full flex flex-col justify-start items-start gap-y-[24px]"
+            contentContainerClassName="w-full flex flex-col justify-start items-start gap-y-[24px] pb-20"
           >
             <InsightsExpenseSummary />
             <CategorySpendChart/>

@@ -24,7 +24,7 @@ const MonthlySpendChart = () => {
       label: month,
       spacing: 1, // Adjust spacing
       labelWidth: 20,
-      labelTextStyle: { color: '#A0AEC0' },
+      labelTextStyle: { color: '#A0AEC0', fontSize: 12 },
       frontColor: '#17CE92',
     },
     {
@@ -34,9 +34,10 @@ const MonthlySpendChart = () => {
   ]);
 
   return (
-    <View className="flex flex-col justify-center items-start py-[20px] px-[15px] w-full bg-alternative gap-y-[24px] rounded-[12px]">
+    <View className="flex flex-col justify-center items-start py-[20px] px-[15px] w-full bg-alternative gap-y-[16px] rounded-[12px]">
       <Text className="text-white font-urbanist-bold text-[18px]">Monthly Spend</Text>
       <BarChart
+        stepHeight={10}
         data={barData}
         barWidth={9} // Adjust width for visibility
         spacing={6.4} // Ensure bars fit within the screen
@@ -50,6 +51,16 @@ const MonthlySpendChart = () => {
         yAxisLabelTexts={[0, 10_000, 50_000, 100_000, 500_000, 1_000_000].map(formatValue)} // Format Y-axis labels
         yAxisLabelWidth={0}
       />
+      <View className="flex flex-row justify-center items-center gap-x-[24px] w-full">
+        <View className="flex flex-row justify-center items-center gap-x-[8px]">
+          <View className="h-3 w-3 bg-secondary rounded-full"/>
+          <Text className="font-urbanist-bold text-[14px] text-white">Income</Text>
+        </View>
+        <View className="flex flex-row justify-center items-center gap-x-[8px]">
+          <View className="h-3 w-3 bg-expense rounded-full"/>
+          <Text className="font-urbanist-bold text-[14px] text-white">Expense</Text>
+        </View>
+      </View>
     </View>
   );
 };
