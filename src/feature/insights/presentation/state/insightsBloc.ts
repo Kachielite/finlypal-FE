@@ -9,7 +9,6 @@ import {
 } from '@/src/init_dependencies';
 import { fold } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
-import { showToast } from '@/src/shared/presentation/components/toastProvider';
 import { TotalSpend } from '@/src/feature/insights/domain/entity/TotalSpend';
 import { MonthlySpend } from '@/src/feature/insights/domain/entity/MonthlySpend';
 import { TotalSpendByCategory } from '@/src/feature/insights/domain/entity/TotalSpendByCategory';
@@ -52,7 +51,7 @@ export const getTotalIncomeHandler =  async (
 
   fold<Failure, TotalSpend, void>(
     (failure) => {
-      showToast('error', 'Error', failure.message || "Error fetching total income")
+      console.error("getTotalIncomeHandler", failure.message || "Error fetching total income")
     },
     (totalIncome) => {
       setTotalIncome(totalIncome.totalSpend)
@@ -68,7 +67,7 @@ export const getTotalExpenseHandler =  async (
 
   fold<Failure, TotalSpend, void>(
     (failure) => {
-      showToast('error', 'Error', failure.message || "Error fetching total income")
+      console.error("getTotalExpenseHandler", failure.message || "Error fetching total expense")
     },
     (totalExpense) => {
       setTotalExpense(totalExpense.totalSpend)
@@ -84,7 +83,7 @@ export const getMonthlySpendingHandler =  async (
 
   fold<Failure, MonthlySpend[], void>(
     (failure) => {
-      showToast('error', 'Error', failure.message || "Error fetching monthly spending")
+      console.error("getMonthlySpendingHandler", failure.message || "Error fetching monthly spending")
     },
     (monthlySpending) => {
       setMonthlySpending(monthlySpending)
@@ -100,7 +99,7 @@ export const getTotalSpendByCategoryHandler =  async (
 
   fold<Failure, TotalSpendByCategory[], void>(
     (failure) => {
-      showToast('error', 'Error', failure.message || "Error fetching total spend by category")
+      console.error("getTotalSpendByCategoryHandler", failure.message || "Error fetching total spend by category")
     },
     (totalSpendByCategory) => {
       setTotalSpendByCategory(totalSpendByCategory)
@@ -117,7 +116,7 @@ export const getTopExpensesHandler =  async (
 
   fold<Failure, TopExpenses[], void>(
     (failure) => {
-      showToast('error', 'Error', failure.message || "Error fetching top expenses")
+      console.error("getTopExpensesHandler", failure.message || "Error fetching top expenses")
     },
     (topExpenses) => {
       setTopExpenses(topExpenses)
@@ -134,7 +133,7 @@ export const getDailySpendHandler =  async (
 
   fold<Failure, DailySpend[], void>(
     (failure) => {
-      showToast('error', 'Error', failure.message || "Error fetching daily spend")
+      console.error("getDailySpendHandler", failure.message || "Error fetching daily spend")
     },
     (dailySpend) => {
       setDailySpend(dailySpend)
