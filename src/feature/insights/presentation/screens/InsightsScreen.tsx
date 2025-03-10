@@ -4,6 +4,7 @@ import { SlidersHorizontal } from 'lucide-react-native';
 import FilterInsightsModal from '@/src/feature/insights/presentation/components/filter-insights-modal';
 import { Modalize } from 'react-native-modalize';
 import InsightsExpenseSummary from '@/src/feature/insights/presentation/components/insights-expense-summary';
+import MonthlySpendChart from '@/src/feature/insights/presentation/components/monthly-spend-chart';
 
 const InsightsScreen = () => {
   const modalizeRef = React.useRef<Modalize>(null);
@@ -26,6 +27,7 @@ const InsightsScreen = () => {
           </View>
           <ScrollView contentContainerClassName="w-full flex flex-col justify-start items-start gap-y-[24px]">
             <InsightsExpenseSummary />
+            <MonthlySpendChart/>
           </ScrollView>
         </View>
       </SafeAreaView>

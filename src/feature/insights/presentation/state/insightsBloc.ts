@@ -77,18 +77,29 @@ export const getTotalExpenseHandler =  async (
 
 export const getMonthlySpendingHandler =  async (
   payload: any, getState: typeof useInsightsState.getState) => {
-  const {setMonthlySpending} = getState();
+  const {setMonthlySpendingIncome, setMonthlySpendingExpense} = getState();
 
-  const response = await getMonthlySpendUseCase.execute(payload);
+  const monthlySpendingIncome = await getMonthlySpendUseCase.execute({ ...payload, type: 'INCOME' });
 
   fold<Failure, MonthlySpend[], void>(
     (failure) => {
       console.error("getMonthlySpendingHandler", failure.message || "Error fetching monthly spending")
     },
-    (monthlySpending) => {
-      setMonthlySpending(monthlySpending)
+    (monthlySpendingIncome) => {
+      setMonthlySpendingIncome(monthlySpendingIncome)
     }
-  )(response);
+  )(monthlySpendingIncome);
+
+  const monthlySpendingExpense = await getMonthlySpendUseCase.execute({ ...payload, type: 'EXPENSE' });
+
+  fold<Failure, MonthlySpend[], void>(
+    (failure) => {
+      console.error("getMonthlySpendingHandler", failure.message || "Error fetching monthly spending")
+    },
+    (monthlySpendingExpense) => {
+      setMonthlySpendingExpense(monthlySpendingExpense)
+    }
+  )(monthlySpendingExpense);
 }
 
 export const getTotalSpendByCategoryHandler =  async (

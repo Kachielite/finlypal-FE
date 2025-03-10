@@ -24,6 +24,7 @@ module.exports = {
         tertiary: '#FFFFFF',
         quaternary: '#35383F',
         alternative: '#1E2A32',
+        expense: '#CE174B',
       },
     },
   },
