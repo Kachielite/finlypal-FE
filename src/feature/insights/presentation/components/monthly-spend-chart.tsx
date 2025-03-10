@@ -23,7 +23,7 @@ const MonthlySpendChart = () => {
       value: monthlySpendIncome[index]?.totalSpend || 0, // Prevent undefined values
       label: month,
       spacing: 1, // Adjust spacing
-      labelWidth: 30,
+      labelWidth: 20,
       labelTextStyle: { color: '#A0AEC0' },
       frontColor: '#17CE92',
     },

@@ -14,6 +14,6 @@ export class TotalSpendByCategoryModel extends TotalSpendByCategory {
   }
 
   static fromJson(json: any): TotalSpendByCategoryModel {
-    return new TotalSpendByCategoryModel(json.totalSpend, json.category, json.percent);
+    return new TotalSpendByCategoryModel(json.total_spend, json.category, json.percentage);
   }
 }
