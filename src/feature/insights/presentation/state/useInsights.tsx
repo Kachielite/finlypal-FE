@@ -25,16 +25,16 @@ const useInsights = (modalizeRef: any):UseInsights => {
     resolver: zodResolver(insightsValidation),
     defaultValues: {
       type: expenseType[0],
-      startDate: moment().startOf('year').format('YYYY-MM-DD'),
-      endDate: moment().endOf('year').format('YYYY-MM-DD')
+      startDate: moment().subtract(1, 'year').format('YYYY-MM-DD'),
+      endDate: moment().format('YYYY-MM-DD')
     }
   })
 
   const resetInsightsFilterForm = () => {
     reset({
       type: expenseType[0],
-      startDate: moment().startOf('year').format('YYYY-MM-DD'),
-      endDate: moment().endOf('year').format('YYYY-MM-DD')
+      startDate: moment().subtract(1, 'year').format('YYYY-MM-DD'),
+      endDate: moment().format('YYYY-MM-DD')
     })
   }
 

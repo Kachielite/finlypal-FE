@@ -11,7 +11,7 @@ const InsightsExpenseSummary = () => {
 
   return (
     <View className="flex flex-col justify-center items-start py-[20px] px-[15px] w-full bg-alternative gap-y-[24px] rounded-[12px]">
-      <Text className="text-white font-urbanist-bold text-[18px]">Expense Summary</Text>
+      <Text className="text-white font-urbanist-bold text-[18px]">Expense and Income Summary</Text>
       <View className="w-full flex flex-row justify-between items-center">
         <View className="flex flex-row justify-start items-start gap-x-[12px]">
           <View className="rounded-md p-[10px] bg-secondary">

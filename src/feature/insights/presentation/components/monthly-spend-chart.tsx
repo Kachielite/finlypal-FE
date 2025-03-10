@@ -2,6 +2,7 @@ import { Text, View } from 'react-native';
 import React from 'react';
 import { BarChart } from 'react-native-gifted-charts';
 import { useInsightsState } from '@/src/feature/insights/presentation/state/insightsState';
+import moment from 'moment';
 
 // Function to format values as K (thousands) or M (millions)
 const formatValue = (value: number): string => {
@@ -10,15 +11,22 @@ const formatValue = (value: number): string => {
   return `${value}`; // Less than 1K
 };
 
+// Generate month labels dynamically
+const generateMonthLabels = () => {
+  return Array.from({ length: 12 }, (_, i) => {
+    const date = moment().subtract(11 - i, 'months'); // Rolling 12-month window
+    return date.format('MMM').substring(0, 2); // Ensure it matches day format
+  });
+};
+
 const MonthlySpendChart = () => {
   const monthlySpendIncome = useInsightsState((state) => state.monthlySpendingIncome);
   const monthlySpendExpense = useInsightsState((state) => state.monthlySpendingExpense);
 
-  // Define months array
-  const months = ['Ja', 'Fe', 'Ma', 'Ap', 'Ma', 'Ju', 'Ju', 'Au', 'Se', 'Oc', 'No', 'De'];
+  const monthLabels = generateMonthLabels();
 
   // Generate bar data dynamically
-  const barData = months.flatMap((month, index) => [
+  const barData = monthLabels.flatMap((month, index) => [
     {
       value: monthlySpendIncome[index]?.totalSpend || 0, // Prevent undefined values
       label: month,

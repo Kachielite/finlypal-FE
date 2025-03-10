@@ -104,18 +104,28 @@ export const getMonthlySpendingHandler =  async (
 
 export const getTotalSpendByCategoryHandler =  async (
   payload: any, getState: typeof useInsightsState.getState) => {
-  const {setTotalSpendByCategory} = getState();
+  const {setTotalIncomeSpendByCategory, setTotalExpenseSpendByCategory} = getState();
 
-  const response = await getTotalSpendByCategoryUseCase.execute(payload);
+  const totalIncomeSpendByCategory = await getTotalSpendByCategoryUseCase.execute({ ...payload, type: 'INCOME' });
+  const totalExpenseSpendByCategory = await getTotalSpendByCategoryUseCase.execute({ ...payload, type: 'EXPENSE' });
 
   fold<Failure, TotalSpendByCategory[], void>(
     (failure) => {
-      console.error("getTotalSpendByCategoryHandler", failure.message || "Error fetching total spend by category")
+      console.error("getTotalIncomeSpendByCategoryHandler", failure.message || "Error fetching total spend by category")
     },
-    (totalSpendByCategory) => {
-      setTotalSpendByCategory(totalSpendByCategory)
+    (totalIncomeSpendByCategory) => {
+      setTotalIncomeSpendByCategory(totalIncomeSpendByCategory)
     }
-  )(response);
+  )(totalIncomeSpendByCategory);
+
+  fold<Failure, TotalSpendByCategory[], void>(
+    (failure) => {
+      console.error("getTotalExpenseSpendByCategoryHandler", failure.message || "Error fetching total spend by category")
+    },
+    (totalExpenseSpendByCategory) => {
+      setTotalExpenseSpendByCategory(totalExpenseSpendByCategory)
+    }
+  )(totalExpenseSpendByCategory);
 }
 
 export const getTopExpensesHandler =  async (

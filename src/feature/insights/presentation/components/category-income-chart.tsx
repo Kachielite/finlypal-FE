@@ -17,8 +17,8 @@ const categoryColors = [
   '#153947', // Muted Dark Blue (Primary Variant)
 ];
 
-const CategorySpendChart = () => {
-  const totalSpendByCategory = useInsightsState((state) => state.totalSpendByCategory);
+const CategoryIncomeChart = () => {
+  const totalSpendByCategory = useInsightsState((state) => state.totalIncomeSpendByCategory);
 
   if (!totalSpendByCategory || totalSpendByCategory.length === 0) {
     return <Text style={{ color: 'white', textAlign: 'center' }}>No data available</Text>;
@@ -64,8 +64,9 @@ const CategorySpendChart = () => {
 
   return (
     <View className="flex flex-col justify-center items-center py-[20px] px-[15px] w-full bg-alternative gap-y-[24px] rounded-[12px]">
-      <Text className="text-white font-urbanist-bold text-[18px] self-start">Top Spend by Category</Text>
-
+      <Text className="text-white font-urbanist-bold text-[18px] self-start">
+        Top Categories by Income
+      </Text>
       <View className="w-full flex flex-col justify-center items-center">
         <PieChart
           data={pieData}
@@ -101,4 +102,4 @@ const CategorySpendChart = () => {
   );
 };
 
-export default CategorySpendChart;
+export default CategoryIncomeChart;

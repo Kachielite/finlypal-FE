@@ -10,7 +10,8 @@ export interface InsightsState {
   totalExpense: number;
   monthlySpendingIncome: MonthlySpend[];
   monthlySpendingExpense: MonthlySpend[];
-  totalSpendByCategory: TotalSpendByCategory[];
+  totalExpenseSpendByCategory: TotalSpendByCategory[];
+  totalIncomeSpendByCategory: TotalSpendByCategory[];
   topExpenses: TopExpenses[];
   dailySpend: DailySpend[];
   setIsLoading: (isLoading: boolean) => void;
@@ -18,7 +19,8 @@ export interface InsightsState {
   setTotalExpense: (totalExpense: number) => void;
   setMonthlySpendingIncome: (monthlySpending: MonthlySpend[]) => void;
   setMonthlySpendingExpense: (monthlySpending: MonthlySpend[]) => void;
-  setTotalSpendByCategory: (totalSpendByCategory: TotalSpendByCategory[]) => void;
+  setTotalExpenseSpendByCategory: (totalExpenseSpendByCategory: TotalSpendByCategory[]) => void;
+  setTotalIncomeSpendByCategory: (totalIncomeSpendByCategory: TotalSpendByCategory[]) => void;
   setTopExpenses: (topExpenses: TopExpenses[]) => void;
   setDailySpend: (dailySpend: DailySpend[]) => void;
 }
@@ -30,7 +32,8 @@ export const useInsightsState = create<InsightsState>((set) => ({
   totalExpense: 0,
   monthlySpendingIncome: [],
   monthlySpendingExpense: [],
-  totalSpendByCategory: [],
+  totalIncomeSpendByCategory: [],
+  totalExpenseSpendByCategory: [],
   topExpenses: [],
   dailySpend: [],
   setIsLoading: (isLoading: boolean) => set({ isLoading }),
@@ -38,7 +41,8 @@ export const useInsightsState = create<InsightsState>((set) => ({
   setTotalExpense: (totalExpense: number) => set({ totalExpense }),
   setMonthlySpendingIncome: (monthlySpendingIncome: MonthlySpend[]) => set({ monthlySpendingIncome }),
   setMonthlySpendingExpense: (monthlySpendingExpense: MonthlySpend[]) => set({ monthlySpendingExpense }),
-  setTotalSpendByCategory: (totalSpendByCategory: TotalSpendByCategory[]) => set({ totalSpendByCategory }),
+  setTotalIncomeSpendByCategory: (totalIncomeSpendByCategory: TotalSpendByCategory[]) => set({ totalIncomeSpendByCategory }),
+  setTotalExpenseSpendByCategory: (totalExpenseSpendByCategory: TotalSpendByCategory[]) => set({ totalExpenseSpendByCategory }),
   setTopExpenses: (topExpenses: TopExpenses[]) => set({ topExpenses }),
   setDailySpend: (dailySpend: DailySpend[]) => set({ dailySpend }),
 }));
