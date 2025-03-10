@@ -131,9 +131,19 @@ export const getTotalSpendByCategoryHandler =  async (
 export const getTopExpensesHandler =  async (
   payload: any, getState: typeof useInsightsState.getState
 ) => {
-  const {setTopExpenses} = getState();
+  const {setTopExpenses, setTopIncomes} = getState();
 
-  const response = await getTopExpensesUseCase.execute(payload);
+  const topIncomes = await getTopExpensesUseCase.execute({...payload, type: 'INCOME'});
+  const topExpenses = await getTopExpensesUseCase.execute({...payload, type: 'EXPENSE'});
+
+  fold<Failure, TopExpenses[], void>(
+    (failure) => {
+      console.error("getTopExpensesHandler", failure.message || "Error fetching top expenses")
+    },
+    (topIncomes) => {
+      setTopIncomes(topIncomes)
+    }
+  )(topIncomes);
 
   fold<Failure, TopExpenses[], void>(
     (failure) => {
@@ -142,7 +152,7 @@ export const getTopExpensesHandler =  async (
     (topExpenses) => {
       setTopExpenses(topExpenses)
     }
-  )(response);
+  )(topExpenses);
 }
 
 export const getDailySpendHandler =  async (

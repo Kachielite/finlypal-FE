@@ -9,6 +9,7 @@ import CategoryExpenseChart from '@/src/feature/insights/presentation/components
 import CategoryIncomeChart from '@/src/feature/insights/presentation/components/category-income-chart';
 import useInsights from '@/src/feature/insights/presentation/state/useInsights';
 import moment from 'moment';
+import TopExpensesIncomesList from '@/src/feature/insights/presentation/components/top-expenses-incomes-list';
 
 const InsightsScreen = () => {
   const modalizeRef = React.useRef<Modalize>(null);
@@ -21,7 +22,7 @@ const InsightsScreen = () => {
 
   return (
     <>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#102632', width: '100%' }}>
+      <SafeAreaView className="flex-1 bg-[#102632] w-[100vw]">
         <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] gap-y-[24px]">
           <View className="flex flex-row justify-between items-center w-full">
             <View/>
@@ -44,6 +45,7 @@ const InsightsScreen = () => {
             <MonthlySpendChart/>
             <CategoryExpenseChart/>
             <CategoryIncomeChart/>
+            <TopExpensesIncomesList/>
           </ScrollView>
         </View>
       </SafeAreaView>

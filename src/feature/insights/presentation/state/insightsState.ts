@@ -12,6 +12,7 @@ export interface InsightsState {
   monthlySpendingExpense: MonthlySpend[];
   totalExpenseSpendByCategory: TotalSpendByCategory[];
   totalIncomeSpendByCategory: TotalSpendByCategory[];
+  topIncomes: TopExpenses[];
   topExpenses: TopExpenses[];
   dailySpend: DailySpend[];
   setIsLoading: (isLoading: boolean) => void;
@@ -21,6 +22,7 @@ export interface InsightsState {
   setMonthlySpendingExpense: (monthlySpending: MonthlySpend[]) => void;
   setTotalExpenseSpendByCategory: (totalExpenseSpendByCategory: TotalSpendByCategory[]) => void;
   setTotalIncomeSpendByCategory: (totalIncomeSpendByCategory: TotalSpendByCategory[]) => void;
+  setTopIncomes: (topIncomes: TopExpenses[]) => void;
   setTopExpenses: (topExpenses: TopExpenses[]) => void;
   setDailySpend: (dailySpend: DailySpend[]) => void;
 }
@@ -34,6 +36,7 @@ export const useInsightsState = create<InsightsState>((set) => ({
   monthlySpendingExpense: [],
   totalIncomeSpendByCategory: [],
   totalExpenseSpendByCategory: [],
+  topIncomes: [],
   topExpenses: [],
   dailySpend: [],
   setIsLoading: (isLoading: boolean) => set({ isLoading }),
@@ -43,6 +46,7 @@ export const useInsightsState = create<InsightsState>((set) => ({
   setMonthlySpendingExpense: (monthlySpendingExpense: MonthlySpend[]) => set({ monthlySpendingExpense }),
   setTotalIncomeSpendByCategory: (totalIncomeSpendByCategory: TotalSpendByCategory[]) => set({ totalIncomeSpendByCategory }),
   setTotalExpenseSpendByCategory: (totalExpenseSpendByCategory: TotalSpendByCategory[]) => set({ totalExpenseSpendByCategory }),
+  setTopIncomes: (topIncomes: TopExpenses[]) => set({topIncomes}),
   setTopExpenses: (topExpenses: TopExpenses[]) => set({ topExpenses }),
   setDailySpend: (dailySpend: DailySpend[]) => set({ dailySpend }),
 }));

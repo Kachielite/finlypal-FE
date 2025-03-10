@@ -3,6 +3,7 @@ import React from 'react';
 import { HandCoins } from 'lucide-react-native';
 import images from '@/src/core/constants/images';
 import formatNumber from '@/src/core/utils/formatCurrency';
+import moment from 'moment';
 
 const BalanceCard = ({balance}:{balance: number}) => {
   return (
@@ -16,7 +17,7 @@ const BalanceCard = ({balance}:{balance: number}) => {
             ${formatNumber(balance)}
           </Text>
           <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}   className="text-white text-sm text-[16px]">
-            Current Month Balance
+            {moment().format("MMMM")} Current Balance
           </Text>
         </View>
         <HandCoins color="white" size={60} strokeWidth={4} absoluteStrokeWidth  />

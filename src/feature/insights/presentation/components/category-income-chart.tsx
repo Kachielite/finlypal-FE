@@ -15,7 +15,7 @@ const categoryColors = [
   '#14B483', // Aqua-Green (Secondary Variant)
   '#8C0E20', // Rich Crimson Red (Expense Variant)
   '#153947', // Muted Dark Blue (Primary Variant)
-];
+].reverse();
 
 const CategoryIncomeChart = () => {
   const totalSpendByCategory = useInsightsState((state) => state.totalIncomeSpendByCategory);
