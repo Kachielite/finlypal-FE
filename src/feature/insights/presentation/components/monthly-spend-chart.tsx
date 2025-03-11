@@ -12,43 +12,44 @@ const formatValue = (value: number): string => {
 };
 
 // Generate month labels dynamically
-const generateMonthLabels = () => {
-  return Array.from({ length: 12 }, (_, i) => {
-    const date = moment().subtract(11 - i, 'months'); // Rolling 12-month window
-    return date.format('MMM').substring(0, 2); // Ensure it matches day format
-  });
+const generateMonthLabels = (data: { month: string }[]) => {
+  return data.map((item) => moment(item.month, 'YYYY-MM').format('MMM'));
 };
 
 const MonthlySpendChart = () => {
   const monthlySpendIncome = useInsightsState((state) => state.monthlySpendingIncome);
   const monthlySpendExpense = useInsightsState((state) => state.monthlySpendingExpense);
 
-  const monthLabels = generateMonthLabels();
+  const monthLabels = generateMonthLabels(monthlySpendIncome);
 
-  // Generate bar data dynamically
-  const barData = monthLabels.flatMap((month, index) => [
-    {
-      value: monthlySpendIncome[index]?.totalSpend || 0, // Prevent undefined values
-      label: month,
-      spacing: 1, // Adjust spacing
-      labelWidth: 20,
-      labelTextStyle: { color: '#A0AEC0', fontSize: 12 },
-      frontColor: '#17CE92',
-    },
-    {
-      value: monthlySpendExpense[index]?.totalSpend || 0, // Prevent undefined values
-      frontColor: '#CE174B',
-    },
-  ]);
+  const totalBars = monthLabels.length * 2; // 2 bars per month (Income + Expense)
+  const paddingBars = Math.max(0, (12 - totalBars) / 2);
+
+  const barData = [
+    ...Array(paddingBars).fill({ value: 0, frontColor: 'transparent' }),
+    ...monthLabels.flatMap((month, index) => [
+      {
+        value: monthlySpendIncome[index]?.totalSpend || 0,
+        label: month,
+        frontColor: '#17CE92',
+        labelTextStyle: { color: '#A0AEC0', fontSize: 10 },
+      },
+      {
+        value: monthlySpendExpense[index]?.totalSpend || 0,
+        frontColor: '#CE174B',
+      },
+    ]),
+    ...Array(paddingBars).fill({ value: 0, frontColor: 'transparent' }),
+  ];
 
   return (
-    <View className="flex flex-col justify-center items-start py-[20px] px-[15px] w-full bg-alternative gap-y-[16px] rounded-[12px]">
+    <View className="flex flex-col justify-center items-start py-[20px] pl-[15px] w-[88vw] bg-alternative gap-y-[16px] rounded-[12px]">
       <Text className="text-white font-urbanist-bold text-[18px]">Monthly Spend</Text>
       <BarChart
-        stepHeight={10}
+        stepHeight={12}
         data={barData}
         barWidth={9} // Adjust width for visibility
-        spacing={6.4} // Ensure bars fit within the screen
+        spacing={11} // Ensure bars fit within the screen
         roundedTop
         roundedBottom
         hideRules

@@ -28,16 +28,8 @@ const CategoryIncomeChart = () => {
   const sortedCategories = [...totalSpendByCategory].sort((a, b) => b.percent - a.percent);
 
   // Extract top 9 categories
-  const topCategories = sortedCategories.slice(0, 9);
+  const topCategories = sortedCategories.slice(0, 10);
 
-// Sum percentages & total spend of remaining categories and group under "Others"
-  const remainingCategories = sortedCategories.slice(9);
-  const othersTotalPercent = remainingCategories.reduce((sum, item) => sum + item.percent, 0);
-  const othersTotalSpend = remainingCategories.reduce((sum, item) => sum + item.totalSpend, 0);
-
-  if (othersTotalPercent > 0) {
-    topCategories.push({ category: 'Others', percent: othersTotalPercent, totalSpend: othersTotalSpend });
-  }
 
   // Find the highest percentage(s)
   const maxPercent = topCategories[0]?.percent;
@@ -63,7 +55,7 @@ const CategoryIncomeChart = () => {
   );
 
   return (
-    <View className="flex flex-col justify-center items-center py-[20px] px-[15px] w-full bg-alternative gap-y-[24px] rounded-[12px]">
+    <View className="flex flex-col justify-center items-center py-[20px] px-[15px] w-[88vw] bg-alternative gap-y-[24px] rounded-[12px]">
       <Text className="text-white font-urbanist-bold text-[18px] self-start">
         Top Categories by Income
       </Text>
@@ -82,7 +74,7 @@ const CategoryIncomeChart = () => {
                 {maxPercent}%
               </Text>
               <Text style={{ fontSize: 12, color: 'white' }}>
-                {topCategories.filter(item => item.percent === maxPercent).map(item => item.category).join(', ')}
+                {topCategories.filter(item => item.percent === maxPercent)[0].category}
               </Text>
             </View>
           )}

@@ -7,7 +7,6 @@ import { Failure } from '@/src/core/error/failure';
 import { useForm } from 'react-hook-form';
 import { insightsValidation } from '@/src/core/validation/insights-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { expenseType } from '@/src/feature/expenses/presentation/state/useExpense';
 import moment from 'moment';
 
 
@@ -17,14 +16,14 @@ export interface UseInsights {
   handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   errors: Record<string, any>;
   resetInsightsFilterForm: () => void,
-  fetchInsightsWithFilterData: () => void
+  fetchInsightsWithFilterData: () => void;
 }
 
 const useInsights = (modalizeRef: any):UseInsights => {
+
   const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
     resolver: zodResolver(insightsValidation),
     defaultValues: {
-      type: expenseType[0],
       startDate: moment().subtract(1, 'year').format('YYYY-MM-DD'),
       endDate: moment().format('YYYY-MM-DD')
     }
@@ -32,7 +31,6 @@ const useInsights = (modalizeRef: any):UseInsights => {
 
   const resetInsightsFilterForm = () => {
     reset({
-      type: expenseType[0],
       startDate: moment().subtract(1, 'year').format('YYYY-MM-DD'),
       endDate: moment().format('YYYY-MM-DD')
     })
@@ -40,7 +38,6 @@ const useInsights = (modalizeRef: any):UseInsights => {
 
   const fetchInsightsWithFilterData = async () => {
     const data = {
-      type: watch('type')?.value,
       startDate: watch('startDate'),
       endDate: watch('endDate')
     }
@@ -51,7 +48,6 @@ const useInsights = (modalizeRef: any):UseInsights => {
         insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_MONTHLY_SPENDING, data),
         insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOTAL_SPEND_BY_CATEGORY, data),
         insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_TOP_EXPENSES, data),
-        insightsBloc.handleInsightsEvent(INSIGHTS_EVENT.GET_DAILY_SPENDING, data)
       ]);
     } catch (e: unknown) {
       const errorMessage = e instanceof Failure ? e.message : "An unknown error occurred";
@@ -70,6 +66,12 @@ const useInsights = (modalizeRef: any):UseInsights => {
       }
     )()
   }, []);
+
+  useEffect(() => {
+    useInsightsState.getState().setStartDate(watch("startDate"))
+    useInsightsState.getState().setEndDate(watch("endDate"))
+  }, [watch("startDate"), watch("endDate")]);
+
 
   return {watch, setValue, handleSubmit, errors, resetInsightsFilterForm, fetchInsightsWithFilterData}
 }

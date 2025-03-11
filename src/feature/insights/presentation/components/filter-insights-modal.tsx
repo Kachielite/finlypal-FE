@@ -1,9 +1,6 @@
 import { Text, View } from 'react-native';
 import React from 'react';
 import { Modalize } from 'react-native-modalize';
-import SelectInput from '@/src/shared/presentation/components/form/select-input';
-import { expenseType } from '@/src/feature/expenses/presentation/state/useExpense';
-import { ArrowDownUp } from 'lucide-react-native';
 import DatePicker from '@/src/shared/presentation/components/form/date-picker';
 import moment from 'moment/moment';
 import Button from '@/src/shared/presentation/components/form/button';
@@ -25,15 +22,6 @@ const FilterInsightsModal = ({modalizeRef}:{modalizeRef: any}) => {
         <Text className="text-white font-urbanist-bold text-center text-[24px] pb-[24px] border-b-[1px] border-b-[#35383F] w-full">
           Filter
         </Text>
-        <SelectInput
-          data={expenseType}
-          label="Type"
-          placeholder="Select expense type"
-          value={watch("type")}
-          onChangeText={(value) => setValue("type", value, { shouldValidate: true })}
-          icon={<ArrowDownUp color="#9E9E9E" size={24}/>}
-          error={errors?.type?.message}
-        />
         <DatePicker
           label="Start Date"
           placeholder="Select start date"

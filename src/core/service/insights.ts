@@ -56,7 +56,7 @@ export class InsightsService {
   }
 
   async getTopExpenses(type: string, startDate?: string, endDate?: string): Promise<any> {
-    let url = `${this.BASE_URL}${this.TOP_EXPENSES_PATH}?type=${type}&start_date=${startDate}&end_date=${endDate}&page=0&pageSize=100`;
+    let url = `${this.BASE_URL}${this.TOP_EXPENSES_PATH}?type=${type}&start_date=${startDate}&end_date=${endDate}&page=0&pageSize=10`;
     
     try {
       const response = await customAxios.get(url);
