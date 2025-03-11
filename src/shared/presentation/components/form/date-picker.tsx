@@ -53,7 +53,7 @@ const DatePickerInput = ({ label, placeholder, error, value, onChange, icon }: D
       {/* Android Date Picker (Shows Inline) */}
       {showPicker && Platform.OS === 'android' && (
         <RNDateTimePicker
-          value={value || new Date()}
+          value={moment(value).toDate() || new Date()}
           mode="date"
           display="default"
           textColor="white" // White text

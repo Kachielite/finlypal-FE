@@ -25,6 +25,8 @@ import { CategoryService } from '@/src/core/service/categories';
 import { CategoryDatasourceImpl } from '@/src/feature/category/data/datasource/category-datasource';
 import { CategoryRepositoryImpl } from '@/src/feature/category/data/repositoryImpl/category-repositoryImpl';
 import { GetCategoriesUseCase } from '@/src/feature/category/domain/use-case/use-get-categories';
+import { GetMonthlySpendUseCase } from '@/src/feature/insights/domain/use-case/use-get-monthly-spend';
+import { GetTotalSpendByCategoryUseCase } from '@/src/feature/insights/domain/use-case/use-get-total-spend-by-category';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -43,10 +45,10 @@ const insightsService = new InsightsService();
 const insightDatasource = new InsightsDatasourceImpl(insightsService);
 const insightsRepository = new InsightRepositoryImpl(insightDatasource);
 export const getDailySpendUseCase = new GetDailySpendUseCase(insightsRepository);
-export const getMonthlySpendUseCase = new GetDailySpendUseCase(insightsRepository);
+export const getMonthlySpendUseCase = new GetMonthlySpendUseCase(insightsRepository);
 export const getTopExpensesUseCase = new GetTopExpensesUseCase(insightsRepository);
 export const getTotalSpendUseCase = new GetTotalSpendUseCase(insightsRepository);
-export const getTotalSpendByCategoryUseCase = new GetTopExpensesUseCase(insightsRepository);
+export const getTotalSpendByCategoryUseCase = new GetTotalSpendByCategoryUseCase(insightsRepository);
 
 
 // Expense Dependencies

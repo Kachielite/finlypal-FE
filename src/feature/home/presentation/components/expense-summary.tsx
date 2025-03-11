@@ -24,7 +24,6 @@ const ExpenseSummary = ({income, expense}: {income: number, expense: number}) =>
           <Text className="font-urbanist-bold text-[18px] text-white">${formatNumber(expense)}</Text>
         </View>
       </View>
-
     </View>
   );
 };

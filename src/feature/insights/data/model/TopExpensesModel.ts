@@ -10,10 +10,10 @@ export class TopExpensesModel extends TopExpenses{
   }
 
   static fromJsonList(response: TopExpensesModel[]) {
-    return response.map(item => item.fromJson(item));
+    return response.map(item => TopExpensesModel.fromJson(item));
   }
 
-  fromJson(json: any): TopExpensesModel {
+  static fromJson(json: any): TopExpensesModel {
     return new TopExpensesModel(json.description, json.amount, json.date);
   }
 }
