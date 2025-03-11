@@ -67,9 +67,11 @@ const useInsights = (modalizeRef: any):UseInsights => {
     )()
   }, []);
 
+  const { setStartDate, setEndDate } = useInsightsState.getState();
+
   useEffect(() => {
-    useInsightsState.getState().setStartDate(watch("startDate"))
-    useInsightsState.getState().setEndDate(watch("endDate"))
+    setStartDate(watch("startDate"));
+    setEndDate(watch("endDate"));
   }, [watch("startDate"), watch("endDate")]);
 
 

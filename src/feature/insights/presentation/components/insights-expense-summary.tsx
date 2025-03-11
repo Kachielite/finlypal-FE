@@ -10,7 +10,7 @@ const InsightsExpenseSummary = () => {
   const totalIncome = useInsightsState((state) => state.totalIncome);
 
   return (
-    <View className="flex flex-col justify-center items-start py-[20px] px-[15px] w-[88vw] bg-alternative gap-y-[24px] rounded-[12px]">
+    <View className="flex flex-col justify-center items-start py-[20px] px-[15px] w-[87.5vw] bg-alternative gap-y-[24px] rounded-[12px]">
       <Text className="text-white font-urbanist-bold text-[18px]">Expense and Income Summary</Text>
       <View className="w-full flex flex-row justify-between items-center">
         <View className="flex flex-row justify-start items-start gap-x-[12px]">
@@ -19,7 +19,7 @@ const InsightsExpenseSummary = () => {
           </View>
           <View className="gap-y-1.5">
             <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Income</Text>
-            <Text className="font-urbanist-bold text-[18px] text-white">${formatNumber(totalIncome)}</Text>
+            <Text className="font-urbanist-bold text-[18px] text-white">${formatNumber(totalIncome || 0)}</Text>
           </View>
         </View>
         <View className="flex flex-row justify-start items-start gap-x-[12px]">
@@ -28,7 +28,7 @@ const InsightsExpenseSummary = () => {
           </View>
           <View className="gap-y-1.5">
             <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Expense</Text>
-            <Text className="font-urbanist-bold text-[18px] text-white">${formatNumber(totalExpense)}</Text>
+            <Text className="font-urbanist-bold text-[18px] text-white">${formatNumber(totalExpense || 0)}</Text>
           </View>
         </View>
       </View>

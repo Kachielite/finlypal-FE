@@ -6,7 +6,6 @@ import { Modalize } from 'react-native-modalize';
 import InsightsExpenseSummary from '@/src/feature/insights/presentation/components/insights-expense-summary';
 import MonthlySpendChart from '@/src/feature/insights/presentation/components/monthly-spend-chart';
 import CategoryExpenseChart from '@/src/feature/insights/presentation/components/category-expense-chart';
-import CategoryIncomeChart from '@/src/feature/insights/presentation/components/category-income-chart';
 import moment from 'moment';
 import TopExpensesIncomesList from '@/src/feature/insights/presentation/components/top-expenses-incomes-list';
 import { useInsightsState } from '@/src/feature/insights/presentation/state/insightsState';
@@ -15,17 +14,19 @@ const InsightsScreen = () => {
   const modalizeRef = React.useRef<Modalize>(null);
   const startDate = useInsightsState((state) => state.startDate)
   const endDate = useInsightsState((state) => state.endDate)
+  const totalIncomeSpendByCategory = useInsightsState((state) => state.totalIncomeSpendByCategory);
+  const totalExpenseSpendByCategory = useInsightsState((state) => state.totalExpenseSpendByCategory)
 
 
   const onOpen = () => {
     modalizeRef.current?.open();
   };
-  
+
 
   return (
     <>
       <SafeAreaView className="flex-1 bg-[#102632] w-[100vw]">
-        <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] gap-y-[24px]">
+        <View className="w-full flex flex-col justify-start items-center h-full px-[24px] pt-[16px] gap-y-[24px]">
           <View className="flex flex-row justify-between items-center w-full">
             <View/>
             <Text className="text-white font-urbanist-bold text-[24px]">Insights</Text>
@@ -45,8 +46,8 @@ const InsightsScreen = () => {
           >
             <InsightsExpenseSummary />
             <MonthlySpendChart/>
-            <CategoryExpenseChart/>
-            <CategoryIncomeChart/>
+            <CategoryExpenseChart data={totalIncomeSpendByCategory} type="income"/>
+            <CategoryExpenseChart data={totalExpenseSpendByCategory} type="expense"/>
             <TopExpensesIncomesList/>
           </ScrollView>
         </View>
