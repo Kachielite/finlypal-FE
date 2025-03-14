@@ -5,8 +5,11 @@ import { Failure } from '@/src/core/error/failure';
 import { BudgetRepository } from '@/src/feature/budget/domain/repository/budget-repository';
 
 export class GetAllBudgetUseCaseParams {
-  page?: number;
-  pageSize?: number;
+  constructor(
+    public page?: number,
+    public pageSize?: number
+  ) {
+  }
 }
 
 export class GetBudgetUseCaseParams extends UseCase<Budget[], GetAllBudgetUseCaseParams>{

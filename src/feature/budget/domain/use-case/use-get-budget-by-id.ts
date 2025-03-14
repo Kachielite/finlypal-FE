@@ -5,7 +5,7 @@ import { Either } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
 
 export class GetBudgetByIdBudgetUseCaseParams {
-  constructor(public id: number) {}
+  constructor(public budgetId: number) {}
 }
 
 export class GetBudgetByIdBudgetUseCase extends UseCase<Budget, GetBudgetByIdBudgetUseCaseParams>{
@@ -14,6 +14,6 @@ export class GetBudgetByIdBudgetUseCase extends UseCase<Budget, GetBudgetByIdBud
   }
 
   async execute(params: GetBudgetByIdBudgetUseCaseParams): Promise<Either<Failure, Budget>> {
-    return await this.budgetRepository.getBudgetById(params.id)
+    return await this.budgetRepository.getBudgetById(params.budgetId)
   }
 }
