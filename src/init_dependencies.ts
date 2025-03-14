@@ -27,6 +27,14 @@ import { CategoryRepositoryImpl } from '@/src/feature/category/data/repositoryIm
 import { GetCategoriesUseCase } from '@/src/feature/category/domain/use-case/use-get-categories';
 import { GetMonthlySpendUseCase } from '@/src/feature/insights/domain/use-case/use-get-monthly-spend';
 import { GetTotalSpendByCategoryUseCase } from '@/src/feature/insights/domain/use-case/use-get-total-spend-by-category';
+import { BudgetService } from '@/src/core/service/budget';
+import { BudgetDatasourceImpl } from '@/src/feature/budget/data/datasource/budget-datasource';
+import { BudgetRepositoryImpl } from '@/src/feature/budget/data/repositoryImp/budget-repositoryImp';
+import { DeleteBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-delete-budget';
+import { UpdateBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-update-budget';
+import { CreateBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-create-budget';
+import { GetBudgetByIdBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-get-budget-by-id';
+import { GetAllBudgetsUseCase } from '@/src/feature/budget/domain/use-case/use-get-all-budgets';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -66,3 +74,13 @@ const categoryService = new CategoryService();
 const categoryDatasource = new CategoryDatasourceImpl(categoryService);
 const categoryRepository = new CategoryRepositoryImpl(categoryDatasource);
 export const getCategoriesUseCase = new GetCategoriesUseCase(categoryRepository);
+
+// Budget Dependencies
+const budgetService = new BudgetService();
+const budgetDatasource = new BudgetDatasourceImpl(budgetService);
+const budgetRepository = new BudgetRepositoryImpl(budgetDatasource);
+export const getAllBudgetsUseCase = new GetAllBudgetsUseCase(budgetRepository);
+export const getBudgetByIdUseCase = new GetBudgetByIdBudgetUseCase(budgetRepository);
+export const createBudgetUseCase = new CreateBudgetUseCase(budgetRepository);
+export const updateBudgetUseCase = new UpdateBudgetUseCase(budgetRepository);
+export const deleteBudgetUseCase = new DeleteBudgetUseCase(budgetRepository);

@@ -6,7 +6,7 @@ import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { BudgetDatasource } from '@/src/feature/budget/data/datasource/budget-datasource';
 import Error from 'es-errors';
 
-export class BudgetRepositoryImp implements BudgetRepository {
+export class BudgetRepositoryImpl implements BudgetRepository {
   constructor(private budgetDatasource: BudgetDatasource) {
   }
   async createBudget({ budgetName, startDate, endDate, totalBudget }: {

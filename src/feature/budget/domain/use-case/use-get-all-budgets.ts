@@ -12,7 +12,7 @@ export class GetAllBudgetUseCaseParams {
   }
 }
 
-export class GetBudgetUseCaseParams extends UseCase<Budget[], GetAllBudgetUseCaseParams>{
+export class GetAllBudgetsUseCase extends UseCase<Budget[], GetAllBudgetUseCaseParams>{
   constructor(private budgetRepository: BudgetRepository) {
     super();
   }
