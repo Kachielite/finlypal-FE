@@ -8,5 +8,5 @@ export interface BudgetRepository {
   getAllBudgets(page?: number, pageSize?: number): Promise<Either<Failure, Budget[]>>;
   createBudget({budgetName, startDate, endDate, totalBudget}: {budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<Either<Failure, Budget>>;
   updateBudget({budgetId, budgetName, startDate, endDate, totalBudget}: {budgetId: number, budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<Either<Failure, Budget>>;
-  deleteBudget(budgetId: string): Promise<GeneralResponse>;
+  deleteBudget(budgetId: string): Promise<Either<Failure, GeneralResponse>>;
 }
