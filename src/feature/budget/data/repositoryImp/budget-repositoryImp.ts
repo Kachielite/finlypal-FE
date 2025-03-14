@@ -44,9 +44,9 @@ export class BudgetRepositoryImp implements BudgetRepository {
     }
   }
 
-  async getBudget(budgetId: string): Promise<Either<Failure, Budget>> {
+  async getBudgetById(budgetId: number): Promise<Either<Failure, Budget>> {
     try {
-      const budget = await this.budgetDatasource.getBudgetById(parseInt(budgetId));
+      const budget = await this.budgetDatasource.getBudgetById(budgetId);
       return right(budget);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred while getting budget";
