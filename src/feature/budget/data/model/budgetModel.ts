@@ -16,7 +16,7 @@ export class BudgetModel extends Budget {
     super(id, name, status, statusTooltip, startDate, endDate, totalBudget, budgetItems, createdAt);
   }
 
-  static fromJSON(json: any): BudgetModel {
+  static fromJson(json: any): BudgetModel {
     return new BudgetModel(
       json.id,
       json.name,
@@ -30,7 +30,7 @@ export class BudgetModel extends Budget {
     );
   }
 
-  static fromJSONList(jsonList: any[]): BudgetModel[] {
-    return jsonList.map(BudgetModel.fromJSON);
+  static fromJsonList(jsonList: any[]): BudgetModel[] {
+    return jsonList.map(BudgetModel.fromJson);
   }
 }
