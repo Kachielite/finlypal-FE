@@ -1,6 +1,4 @@
-import Any = jasmine.Any;
-
-export class BudgetService {
+export class Budget {
   constructor(
     public id: number,
     public name: string,
@@ -9,7 +7,7 @@ export class BudgetService {
     public startDate: string,
     public endDate: string,
     public totalBudget: number,
-    public budgetItems: Any[],
+    public budgetItems: String[],
     public createdAt: string
   ) {}
 }
