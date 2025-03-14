@@ -1,15 +1,16 @@
-import { Budget } from '@/src/feature/budget/domain/entity/budget';
+import { Budget, BudgetStatus } from '@/src/feature/budget/domain/entity/budget';
+import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
 
 export class BudgetModel extends Budget {
   constructor(
     public id: number,
     public name: string,
-    public status: string,
+    public status: BudgetStatus,
     public statusTooltip: string,
     public startDate: string,
     public endDate: string,
     public totalBudget: number,
-    public budgetItems: String[],
+    public budgetItems: BudgetItem[],
     public createdAt: string
   ) {
     super(id, name, status, statusTooltip, startDate, endDate, totalBudget, budgetItems, createdAt);
