@@ -27,8 +27,8 @@ export class BudgetModel extends Budget {
       json.status_tooltip,
       json.start_date,
       json.end_date,
-      json.created_at,
       json.total_budget,
+      json.created_at,
       json.actual_spend,
       json.budget_items,
     );

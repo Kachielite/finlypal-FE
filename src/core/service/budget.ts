@@ -4,7 +4,7 @@ import customAxios from '@/src/core/utils/customAxios';
 
 export class BudgetService {
   private BASE_URL = SECRET.BASE_URL;
-  private BUDGET_PATH = '/budget';
+  private BUDGET_PATH = '/budget/';
 
   constructor() {}
 
@@ -13,7 +13,7 @@ export class BudgetService {
       const response = await customAxios.delete(`${this.BASE_URL}${this.BUDGET_PATH}/${budgetId}`);
       return response.data
     } catch (error: unknown) {
-      console.error("Get categories error service", error);
+      console.error("Error deleting budget => budget service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -31,7 +31,7 @@ export class BudgetService {
       const response = await customAxios.get(`${this.BASE_URL}${this.BUDGET_PATH}/${budgetId}`);
       return response.data
     } catch (error: unknown) {
-      console.error("Get categories error service", error);
+      console.error("Error getting budget => budget service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -47,9 +47,9 @@ export class BudgetService {
   async getAllBudgets(page?: number, pageSize?: number): Promise<any> {
     try{
       const response = await customAxios.get(`${this.BASE_URL}${this.BUDGET_PATH}?page=${page || 0}&pageSize=${pageSize || 10}`);
-      return response.data
+      return response.data.content
     } catch (error: unknown) {
-      console.error("Get categories error service", error);
+      console.error("Error getting budgets => budget service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -70,7 +70,7 @@ export class BudgetService {
       const response =  await customAxios.post(`${this.BASE_URL}${this.BUDGET_PATH}`, data);
       return response.data
     } catch (error: unknown) {
-      console.error("Get categories error service", error);
+      console.error("Error creating budget => budget service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -91,7 +91,7 @@ export class BudgetService {
       const response = await customAxios.put(`${this.BASE_URL}${this.BUDGET_PATH}/${budgetId}`, data);
       return response.data
     } catch (error: unknown) {
-      console.error("Get categories error service", error);
+      console.error("Error updating budget => budget service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
