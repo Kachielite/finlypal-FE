@@ -5,6 +5,7 @@ import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetSt
 import BudgetList from '@/src/feature/budget/presentation/components/budget-list';
 import Loader from '@/src/shared/presentation/components/loader';
 import useBudget from '@/src/feature/budget/presentation/state/useBudget';
+import { router } from 'expo-router';
 
 const PlanningScreen = () => {
   const {} = useBudget();
@@ -25,7 +26,7 @@ const PlanningScreen = () => {
           <Text className="text-white font-urbanist-bold text-[24px]">Planning</Text>
         </View>
         <EasyAccess />
-        <BudgetList type="Budget" onPressSeeAll={() => console.log('budget')} ListItems={budgetList} />
+        <BudgetList type="Budget" onPressSeeAll={() => router.push('/budget')} ListItems={budgetList.slice(0, 3)} />
       </View>}
     </SafeAreaView>
   );
