@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import TabIcon from '@/src/shared/presentation/components/tab-icon';
-import { ChartNoAxesCombined, House, ReceiptText, UserRound } from 'lucide-react-native';
+import { ChartNoAxesCombined, House, ReceiptText, UserRound, WalletMinimal } from 'lucide-react-native';
 
 const TabLayout = () => {
   return (
@@ -36,6 +36,16 @@ const TabLayout = () => {
           title: 'Expenses',
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={ReceiptText}/>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="budget"
+        options={{
+          headerShown: false,
+          title: 'Budget',
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon={WalletMinimal}/>
           ),
         }}
       />
