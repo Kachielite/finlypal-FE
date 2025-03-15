@@ -8,6 +8,7 @@ export class UpdateBudgetUseCaseParams {
   constructor(
     public budgetId: number,
     public budgetName: string,
+    public icon: string,
     public startDate: string,
     public endDate: string,
     public totalBudget: number
@@ -24,6 +25,7 @@ export class UpdateBudgetUseCase extends UseCase<Budget, UpdateBudgetUseCasePara
     return await this.budgetRepository.updateBudget({
       budgetId: params.budgetId,
       budgetName: params.budgetName,
+      icon: params.icon,
       startDate: params.startDate,
       endDate: params.endDate,
       totalBudget: params.totalBudget

@@ -6,8 +6,8 @@ import { Exception } from '@/src/core/error/exception';
 export interface BudgetDatasource {
   getBudgetById(budgetId: number): Promise<BudgetModel>,
   getAllBudgets(page?: number, pageSize?: number): Promise<BudgetModel[]>;
-  createBudget({budgetName, startDate, endDate, totalBudget}: {budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel>;
-  updateBudget({budgetId, budgetName, startDate, endDate, totalBudget}: {budgetId: number, budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel>;
+  createBudget({budgetName, icon, startDate, endDate, totalBudget}: {budgetName: string, icon: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel>;
+  updateBudget({budgetId, budgetName, icon, startDate, endDate, totalBudget}: {budgetId: number,  budgetName: string, icon: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel>;
   deleteBudget(budgetId: number): Promise<GeneralResponseModel>;
 }
 
@@ -38,9 +38,9 @@ export class BudgetDatasourceImpl implements BudgetDatasource {
       }
     }
   }
-  async createBudget({budgetName, startDate, endDate, totalBudget}: {budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel> {
+  async createBudget({budgetName, icon, startDate, endDate, totalBudget}: {budgetName: string, icon: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel> {
     try{
-      const response = await this.budgetService.createBudget({budgetName, startDate, endDate, totalBudget});
+      const response = await this.budgetService.createBudget({budgetName, icon, startDate, endDate, totalBudget});
       return BudgetModel.fromJson(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
@@ -50,9 +50,9 @@ export class BudgetDatasourceImpl implements BudgetDatasource {
       }
     }
   }
-  async updateBudget({budgetId, budgetName, startDate, endDate, totalBudget}: {budgetId: number, budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel> {
+  async updateBudget({budgetId, budgetName, icon, startDate, endDate, totalBudget}: {budgetId: number, budgetName: string, icon: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel> {
     try {
-      const response = await this.budgetService.updateBudget({budgetId, budgetName, startDate, endDate, totalBudget});
+      const response = await this.budgetService.updateBudget({budgetId, budgetName, icon, startDate, endDate, totalBudget});
       return BudgetModel.fromJson(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {

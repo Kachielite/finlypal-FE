@@ -62,12 +62,12 @@ export class BudgetService {
     }
   }
 
-  async createBudget({budgetName, startDate, endDate, totalBudget}: {budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<any> {
+  async createBudget({budgetName, icon, startDate, endDate, totalBudget}: {budgetName: string, icon: string, startDate: string, endDate: string, totalBudget: number}): Promise<any> {
 
-    const {budget_name, start_date, end_date, total_budget} = {budget_name: budgetName, start_date: startDate, end_date: endDate, total_budget: totalBudget}
+    const data = {budget_name: budgetName, icon: icon, start_date: startDate, end_date: endDate, total_budget: totalBudget}
 
     try{
-      const response =  await customAxios.post(`${this.BASE_URL}${this.BUDGET_PATH}`, {budget_name, start_date, end_date, total_budget});
+      const response =  await customAxios.post(`${this.BASE_URL}${this.BUDGET_PATH}`, data);
       return response.data
     } catch (error: unknown) {
       console.error("Get categories error service", error);
@@ -83,12 +83,12 @@ export class BudgetService {
     }
   }
 
-  async updateBudget({budgetId, budgetName, startDate, endDate, totalBudget}: {budgetId: number, budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<any> {
+  async updateBudget({budgetId, icon, budgetName, startDate, endDate, totalBudget}: {budgetId: number, icon: string, budgetName: string, startDate: string, endDate: string, totalBudget: number}): Promise<any> {
 
-    const {budget_name, start_date, end_date, total_budget} = {budget_name: budgetName, start_date: startDate, end_date: endDate, total_budget: totalBudget}
+    const data = {budget_name: budgetName, icon: icon, start_date: startDate, end_date: endDate, total_budget: totalBudget}
 
     try{
-      const response = await customAxios.put(`${this.BASE_URL}${this.BUDGET_PATH}/${budgetId}`, {budget_name, start_date, end_date, total_budget});
+      const response = await customAxios.put(`${this.BASE_URL}${this.BUDGET_PATH}/${budgetId}`, data);
       return response.data
     } catch (error: unknown) {
       console.error("Get categories error service", error);

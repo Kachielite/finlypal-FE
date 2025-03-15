@@ -9,14 +9,15 @@ import Error from 'es-errors';
 export class BudgetRepositoryImpl implements BudgetRepository {
   constructor(private budgetDatasource: BudgetDatasource) {
   }
-  async createBudget({ budgetName, startDate, endDate, totalBudget }: {
+  async createBudget({ budgetName, icon, startDate, endDate, totalBudget }: {
     budgetName: string;
+    icon: string;
     startDate: string;
     endDate: string;
     totalBudget: number
   }): Promise<Either<Failure, Budget>> {
     try {
-      const budget = await this.budgetDatasource.createBudget({ budgetName, startDate, endDate, totalBudget });
+      const budget = await this.budgetDatasource.createBudget({ budgetName, icon, startDate, endDate, totalBudget });
       return right(budget);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred while creating budget";
@@ -24,9 +25,9 @@ export class BudgetRepositoryImpl implements BudgetRepository {
     }
   }
 
-  async deleteBudget(budgetId: string): Promise<Either<Failure, GeneralResponse>> {
+  async deleteBudget(budgetId: number): Promise<Either<Failure, GeneralResponse>> {
     try {
-      const response = await this.budgetDatasource.deleteBudget(parseInt(budgetId));
+      const response = await this.budgetDatasource.deleteBudget(budgetId);
       return right(response);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred deleting budget";
@@ -54,15 +55,16 @@ export class BudgetRepositoryImpl implements BudgetRepository {
     }
   }
 
-  async updateBudget({ budgetId, budgetName, startDate, endDate, totalBudget }: {
+  async updateBudget({ budgetId, budgetName, icon, startDate, endDate, totalBudget }: {
     budgetId: number;
     budgetName: string;
+    icon: string;
     startDate: string;
     endDate: string;
     totalBudget: number
   }): Promise<Either<Failure, Budget>> {
     try {
-      const budget = await this.budgetDatasource.updateBudget({ budgetId, budgetName, startDate, endDate, totalBudget });
+      const budget = await this.budgetDatasource.updateBudget({ budgetId, budgetName, icon, startDate, endDate, totalBudget });
       return right(budget);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred while updating budget";
