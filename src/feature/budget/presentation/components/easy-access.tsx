@@ -9,13 +9,13 @@ const EasyAccess = () => {
       <View className="flex-row justify-between mt-2 w-full gap-x-[12px]">
         {/* Add Savings Button */}
         <TouchableOpacity onPress={() => console.log('income')} className="flex-1 flex-row items-center justify-center bg-[#22C55E] rounded-lg py-4 mr-2">
-          <PiggyBank size={20} strokeWidth={4} color="white" />
+          <PiggyBank size={24} color="white" />
           <Text className="text-white font-bold text-lg ml-2">Add Savings</Text>
         </TouchableOpacity>
 
         {/* Add Budget Button */}
         <TouchableOpacity onPress={() => console.log('expense')} className="flex-1 flex-row items-center justify-center bg-[#007BFF]  rounded-lg py-4 ml-2 ">
-          <ClipboardList size={20} strokeWidth={4} color="white" />
+          <ClipboardList size={24} color="white" />
           <Text className="text-white font-bold text-lg ml-2">Add Budget</Text>
         </TouchableOpacity>
       </View>
