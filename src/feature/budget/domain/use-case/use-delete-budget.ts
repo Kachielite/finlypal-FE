@@ -5,7 +5,7 @@ import { Either } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
 
 export class DeleteBudgetUseCaseParams {
-  constructor(public id: string) {}
+  constructor(public budgetId: number) {}
 }
 
 export class DeleteBudgetUseCase extends UseCase<GeneralResponse, DeleteBudgetUseCaseParams>{
@@ -14,6 +14,6 @@ export class DeleteBudgetUseCase extends UseCase<GeneralResponse, DeleteBudgetUs
   }
 
   async execute(params: DeleteBudgetUseCaseParams): Promise<Either<Failure, GeneralResponse>> {
-    return await this.budgetRepository.deleteBudget(params.id);
+    return await this.budgetRepository.deleteBudget(params.budgetId);
   }
 }
