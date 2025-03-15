@@ -75,7 +75,7 @@ const categoryDatasource = new CategoryDatasourceImpl(categoryService);
 const categoryRepository = new CategoryRepositoryImpl(categoryDatasource);
 export const getCategoriesUseCase = new GetCategoriesUseCase(categoryRepository);
 
-// Budget Dependencies
+// Planning Dependencies
 const budgetService = new BudgetService();
 const budgetDatasource = new BudgetDatasourceImpl(budgetService);
 const budgetRepository = new BudgetRepositoryImpl(budgetDatasource);

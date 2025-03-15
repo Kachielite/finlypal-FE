@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
 import React from 'react';
 
-const Budget = () => {
+const BudgetList = () => {
   return (
     <View>
-      <Text>Budget</Text>
+      <Text>BudgetList</Text>
     </View>
   );
 };
-export default Budget;
+export default BudgetList;

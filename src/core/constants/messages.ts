@@ -4,17 +4,17 @@ const SIGN_UP_SUCCESS = "Welcome to the FinlyPal App";
 const RESET_PASSWORD_SUCCESS = "Password reset successful. Now you can sign in with your new password";
 const VERIFY_OTP_SUCCESS = "OTP verification successful";
 const REQUEST_RESET_PASSWORD_SUCCESS = "Reset password link sent to your email";
-//Budget
-const GET_BUDGET_SUCCESS = "Budget fetched successfully";
-const GET_BUDGET_FAILED = "Budget fetch failed";
+//Planning
+const GET_BUDGET_SUCCESS = "Planning fetched successfully";
+const GET_BUDGET_FAILED = "Planning fetch failed";
 const GET_ALL_BUDGETS_SUCCESS = "Budgets fetched successfully";
 const GET_ALL_BUDGETS_FAILED = "Budgets fetch failed";
-const CREATE_BUDGET_SUCCESS = "Budget created successfully";
-const CREATE_BUDGET_FAILED = "Budget creation failed";
-const UPDATE_BUDGET_SUCCESS = "Budget updated successfully";
-const UPDATE_BUDGET_FAILED = "Budget update failed";
-const DELETE_BUDGET_SUCCESS = "Budget deleted successfully";
-const DELETE_BUDGET_FAILED = "Budget deletion failed";
+const CREATE_BUDGET_SUCCESS = "Planning created successfully";
+const CREATE_BUDGET_FAILED = "Planning creation failed";
+const UPDATE_BUDGET_SUCCESS = "Planning updated successfully";
+const UPDATE_BUDGET_FAILED = "Planning update failed";
+const DELETE_BUDGET_SUCCESS = "Planning deleted successfully";
+const DELETE_BUDGET_FAILED = "Planning deletion failed";
 
 export default {
     ERROR,
