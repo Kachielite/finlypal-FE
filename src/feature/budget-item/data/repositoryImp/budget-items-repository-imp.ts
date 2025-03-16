@@ -1,13 +1,13 @@
-import { BudgetItemRepository } from '@/src/feature/budget-item/domain/repository/budget-item-repository';
+import { BudgetItemsRepository } from '@/src/feature/budget-item/domain/repository/budget-items-repository';
 import { Either, left, right } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
-import { BudgetItemDatasource } from '@/src/feature/budget-item/data/datasource/budget-item-datasource';
+import { BudgetItemsDatasource } from '@/src/feature/budget-item/data/datasource/budget-items-datasource';
 import Error from 'es-errors';
 
-export class BudgetItemRepositoryImp implements BudgetItemRepository{
-  constructor(private budgetDatasource: BudgetItemDatasource) {
+export class BudgetItemsRepositoryImp implements BudgetItemsRepository{
+  constructor(private budgetDatasource: BudgetItemsDatasource) {
   }
 
   async createBudgetItem({ budgetId, budgetItems }: {

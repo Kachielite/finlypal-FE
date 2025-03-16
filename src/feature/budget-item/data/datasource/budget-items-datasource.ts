@@ -3,7 +3,7 @@ import { GeneralResponseModel } from '@/src/shared/data/model/general-response-m
 import { BudgetItemsService } from '@/src/core/service/budget-items';
 import { Exception } from '@/src/core/error/exception';
 
-export interface BudgetItemDatasource {
+export interface BudgetItemsDatasource {
   getBudgetItems(budgetId: number): Promise<BudgetItemModel[]>;
   getBudgetItemById(budgetItemId: number): Promise<BudgetItemModel>;
   createBudgetItem({budgetId, budgetItems}: {budgetId: number, budgetItems: {name: string, icon: string, allocated_amount: number}[]}): Promise<GeneralResponseModel>;
@@ -11,7 +11,7 @@ export interface BudgetItemDatasource {
   deleteBudgetItem(budgetItemId: number): Promise<GeneralResponseModel>;
 }
 
-export class BudgetItemDatasourceImpl implements BudgetItemDatasource {
+export class BudgetItemsDatasourceImpl implements BudgetItemsDatasource {
   constructor(private budgetItemService: BudgetItemsService) {}
 
   async createBudgetItem({ budgetId, budgetItems }: {

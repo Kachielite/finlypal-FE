@@ -1,6 +1,6 @@
 import { UseCase } from '@/src/core/use-case/use-case';
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
-import { BudgetItemRepository } from '@/src/feature/budget-item/domain/repository/budget-item-repository';
+import { BudgetItemsRepository } from '@/src/feature/budget-item/domain/repository/budget-items-repository';
 import { Either } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
 
@@ -13,7 +13,7 @@ export class CreateBudgetItemUseCaseParams {
 }
 
 export class CreateBudgetItemUseCase extends UseCase<GeneralResponse, CreateBudgetItemUseCaseParams>{
-  constructor(private budgetItemRepository: BudgetItemRepository) {
+  constructor(private budgetItemRepository: BudgetItemsRepository) {
     super();
   }
 

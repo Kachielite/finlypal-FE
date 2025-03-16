@@ -35,6 +35,14 @@ import { UpdateBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-up
 import { CreateBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-create-budget';
 import { GetBudgetByIdBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-get-budget-by-id';
 import { GetAllBudgetsUseCase } from '@/src/feature/budget/domain/use-case/use-get-all-budgets';
+import { BudgetItemsService } from '@/src/core/service/budget-items';
+import { BudgetItemsDatasourceImpl } from '@/src/feature/budget-item/data/datasource/budget-items-datasource';
+import { BudgetItemsRepositoryImp } from '@/src/feature/budget-item/data/repositoryImp/budget-items-repository-imp';
+import { GetBudgetItemsUseCase } from '@/src/feature/budget-item/domain/use-case/use-get-budget-items';
+import { GetBudgetItemByIdUseCase } from '@/src/feature/budget-item/domain/use-case/use-get-budget-item-by-id';
+import { CreateBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-create-budget-item';
+import { UpdateBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-update-budget-item';
+import { DeleteBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-delete-budget-item';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -84,3 +92,14 @@ export const getBudgetByIdUseCase = new GetBudgetByIdBudgetUseCase(budgetReposit
 export const createBudgetUseCase = new CreateBudgetUseCase(budgetRepository);
 export const updateBudgetUseCase = new UpdateBudgetUseCase(budgetRepository);
 export const deleteBudgetUseCase = new DeleteBudgetUseCase(budgetRepository);
+
+
+// Budget Item Dependencies
+const budgetItemService = new BudgetItemsService();
+const budgetItemDatasource = new BudgetItemsDatasourceImpl(budgetItemService);
+const budgetItemRepository = new BudgetItemsRepositoryImp(budgetItemDatasource);
+export const getAllBudgetItemsUseCase = new GetBudgetItemsUseCase(budgetItemRepository);
+export const getBudgetItemByIdUseCase = new GetBudgetItemByIdUseCase(budgetItemRepository);
+export const createBudgetItemUseCase = new CreateBudgetItemUseCase(budgetItemRepository);
+export const updateBudgetItemUseCase = new UpdateBudgetItemUseCase(budgetItemRepository);
+export const deleteBudgetItemUseCase = new DeleteBudgetItemUseCase(budgetItemRepository);
