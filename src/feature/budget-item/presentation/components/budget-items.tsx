@@ -18,7 +18,7 @@ const BudgetItemsList = ({budgetItems}:{budgetItems: BudgetItem[]}) => {
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled={true}
           alwaysBounceVertical={false}
-          ListEmptyComponent={<EmptyTransactionList />}
+          ListEmptyComponent={<EmptyTransactionList title="No Budget Item Found" message="Get started by adding a budget item" />}
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={{
             paddingVertical: 10,
