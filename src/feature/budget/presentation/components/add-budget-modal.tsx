@@ -14,9 +14,10 @@ import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
 
 type AddBudgetModalProps = {
   modalizeRef: any,
+  includeTabPadding?: boolean
 }
 
-const AddBudgetModal = ({ modalizeRef}: AddBudgetModalProps) => {
+const AddBudgetModal = ({ modalizeRef, includeTabPadding}: AddBudgetModalProps) => {
   const { setValue, watch, handleSubmit, errors, resetAddBudgetForm} = useBudget({});
   const modalType = useBudgetState((state) => state.modalType);
   const isModifyingBudget = useBudgetState((state) => state.isModifyingBudget);
@@ -48,6 +49,7 @@ const AddBudgetModal = ({ modalizeRef}: AddBudgetModalProps) => {
     })()
   }
 
+
   return (
     <Modalize
       onClosed={() => resetAddBudgetForm()}
@@ -57,7 +59,7 @@ const AddBudgetModal = ({ modalizeRef}: AddBudgetModalProps) => {
       keyboardAvoidingBehavior="height"
       modalStyle={{ backgroundColor: '#102632', borderTopRightRadius: 32, borderTopLeftRadius: 32, borderWidth: 1, borderColor: '#35383F' }}
     >
-      <View className="flex flex-col justify-between items-center w-full px-[24px] py-[24px] gap-y-[18px]">
+        <View className={`flex flex-col justify-between items-center w-full px-[24px] ${includeTabPadding ? 'pt-[24px] pb-[90px]' : 'py-[24px]'} gap-y-[18px]`}>
         <Text className="text-white font-urbanist-bold text-center text-[24px] pb-[24px] border-b-[1px] border-b-[#35383F] w-full">
           {modalType === 'edit' ? 'Edit Budget' : 'Add Budget'}
         </Text>

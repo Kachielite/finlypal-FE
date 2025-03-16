@@ -12,12 +12,16 @@ import AddBudgetModal from '@/src/feature/budget/presentation/components/add-bud
 const PlanningScreen = () => {
   const modalizeRef = useRef<Modalize>(null);
 
-  const {} = useBudget({});
+  const {resetAddBudgetForm} = useBudget({});
   const budgetList = useBudgetState((state) => state.budgetList);
   const isLoadingBudgets = useBudgetState((state) => state.isLoadingBudgets);
+  const {setModalType, setSelectedBudget} = useBudgetState((state) => state);
 
 
   const onOpen = () => {
+    setModalType('add');
+    setSelectedBudget(null)
+    resetAddBudgetForm()
     modalizeRef.current?.open();
   };
 
@@ -38,7 +42,7 @@ const PlanningScreen = () => {
             <BudgetList type="Budget" onPressSeeAll={() => router.push('/budget')} ListItems={budgetList.slice(0, 3)} />
           </View>}
       </SafeAreaView>
-      <AddBudgetModal modalizeRef={modalizeRef} />
+      <AddBudgetModal modalizeRef={modalizeRef} includeTabPadding />
     </>
   );
 };

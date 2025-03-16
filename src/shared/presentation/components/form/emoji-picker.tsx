@@ -20,7 +20,7 @@ const EmojiPickerInput = ({
       <Text className="font-urbanist-bold text-[16px] text-white">{label}</Text>
       <Pressable
         onPress={() => setShowPicker(true)}
-        className={`w-[100px] h-[100px] flex flex-row justify-center items-center pb-[10px] border-[1px] bg-transparent rounded-lg self-center
+        className={`w-full h-[100px] flex flex-row justify-center items-center pb-[10px] border-[1px] bg-transparent rounded-lg self-center
           ${error ? "border-red-500" : "border-secondary"}`}
       >
         <Text className="font-urbanist-bold text-[75px] text-white text-center self-center">{value || "Select an emoji"} </Text>

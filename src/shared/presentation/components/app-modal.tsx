@@ -8,12 +8,13 @@ type AppModalProps = {
   title: string,
   description: string,
   proceedAction: () => void,
-  proceedButtonLabel?: string
-  isLoading?: boolean
+  proceedButtonLabel?: string,
+  isLoading?: boolean,
+  includeTabPadding?: boolean
 }
 
 const AddExpenseModal = (
-  { modalizeRef, title, proceedButtonLabel, proceedAction, description, isLoading}: AppModalProps
+  { modalizeRef, title, proceedButtonLabel, proceedAction, description, isLoading, includeTabPadding}: AppModalProps
 ) => {
 
   return (
@@ -23,7 +24,7 @@ const AddExpenseModal = (
       keyboardAvoidingBehavior="padding"
       modalStyle={{ backgroundColor: '#102632', borderTopRightRadius: 32, borderTopLeftRadius: 32, borderWidth: 1, borderColor: '#35383F' }}
     >
-      <View className="flex flex-col justify-between items-center w-full px-[24px] py-[24px] gap-y-[28px]">
+      <View className={`flex flex-col justify-between items-center w-full px-[24px] ${includeTabPadding ? 'pt-[24px] pb-[90px]' : 'py-[24px]'} gap-y-[28px]`}>
         <Text className="text-white font-urbanist-bold text-center text-[24px] pb-[24px] border-b-[1px] border-b-[#35383F] w-full">
           {title}
         </Text>

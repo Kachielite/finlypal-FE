@@ -32,7 +32,13 @@ const useBudget = ({budgetId} : {budgetId?: number}): UseBudgetProps => {
   })
 
   const resetAddBudgetForm = () => {
-    reset(defaultValues)
+    reset({
+      budgetName: '',
+      icon: '🚧',
+      startDate: moment().startOf('month').format('YYYY-MM-DD'),
+      endDate: moment().endOf('month').format('YYYY-MM-DD'),
+      totalBudget: 0
+    })
   }
 
   useEffect(() => {
@@ -54,9 +60,10 @@ const useBudget = ({budgetId} : {budgetId?: number}): UseBudgetProps => {
       )()
     }
   }, [budgetId]);
+  
 
   useEffect(() => {
-    if(selectedBudget !== null && modalType === 'edit'){
+    if(selectedBudget && modalType === 'edit'){
       reset({
         budgetName: selectedBudget?.name,
         icon: selectedBudget?.icon,
@@ -64,6 +71,8 @@ const useBudget = ({budgetId} : {budgetId?: number}): UseBudgetProps => {
         endDate: moment(selectedBudget?.endDate).format('YYYY-MM-DD'),
         totalBudget: selectedBudget?.totalBudget
       })
+    } else {
+      resetAddBudgetForm()
     }
 
   }, [modalType, selectedBudget]);
