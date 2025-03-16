@@ -7,5 +7,6 @@ export interface BudgetItemRepository{
   createBudgetItem({budgetId, budgetItems}: {budgetId: number, budgetItems: {name: string, icon: string, allocated_amount: number}[]}): Promise<Either<Failure, GeneralResponse>>;
   updateBudgetItem({budgetItemId, budgetItem}: {budgetItemId: number, budgetItem: {name: string, icon: string, allocated_amount: number}}): Promise<Either<Failure, BudgetItem>>;
   deleteBudgetItem(budgetItemId: number): Promise<Either<Failure, GeneralResponse>>;
-  getBudgetItemById(budgetItemId: number): Promise<any>;
+  getBudgetItemById(budgetItemId: number): Promise<Either<Failure, BudgetItem>>;
+  getBudgetItems(budgetId: number): Promise<Either<Failure, BudgetItem[]>>;
 }
