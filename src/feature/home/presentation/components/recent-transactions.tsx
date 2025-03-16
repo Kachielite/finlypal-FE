@@ -14,7 +14,7 @@ const RecentTransactions = () => {
       <View className="flex flex-row justify-between items-center w-full">
         <Text className="text-white font-urbanist-bold text-[20px]">Recent Transactions</Text>
         <TouchableOpacity onPress={() => router.push('/(tabs)/expense')}>
-          <Text className="text-white text-[16px]">See All</Text>
+          <Text className="text-white text-[14px]">See All</Text>
         </TouchableOpacity>
       </View>
       {isLoading ? (

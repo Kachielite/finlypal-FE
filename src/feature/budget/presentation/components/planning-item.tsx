@@ -22,7 +22,7 @@ const PlanningItem = ({budget}:{budget: Budget}) => {
       <View className="w-[85%] flex flex-col justify-center items-start gap-y-[10px]">
         <View className="w-full flex flex-row justify-between items-center">
           <Text className="text-white font-urbanist-bold text-[14px]">{budget.name}</Text>
-          <Text className="text-white font-urbanist-normal text-[14px]">{BudgetStatus[budget.status as unknown as keyof typeof BudgetStatus]}</Text>
+          <Text className="text-white font-urbanist-normal text-[10px]">{BudgetStatus[budget.status as unknown as keyof typeof BudgetStatus]}</Text>
         </View>
         <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
           <View style={{width: `${percentage}%`}} className="rounded-2xl h-full bg-[#17CE92]"/>
