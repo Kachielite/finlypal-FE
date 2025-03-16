@@ -88,7 +88,7 @@ export class BudgetService {
     const data = {budget_name: budgetName, icon: icon, start_date: startDate, end_date: endDate, total_budget: totalBudget}
 
     try{
-      const response = await customAxios.put(`${this.BASE_URL}${this.BUDGET_PATH}/${budgetId}`, data);
+      const response = await customAxios.put(`${this.BASE_URL}${this.BUDGET_PATH}${budgetId}`, data);
       return response.data
     } catch (error: unknown) {
       console.error("Error updating budget => budget service", error);

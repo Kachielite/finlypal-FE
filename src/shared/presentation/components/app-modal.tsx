@@ -23,7 +23,7 @@ const AddExpenseModal = (
       keyboardAvoidingBehavior="padding"
       modalStyle={{ backgroundColor: '#102632', borderTopRightRadius: 32, borderTopLeftRadius: 32, borderWidth: 1, borderColor: '#35383F' }}
     >
-      <View className="flex flex-col justify-between items-center w-full px-[24px] pt-[24px] pb-[100px] h-full gap-y-[28px]">
+      <View className="flex flex-col justify-between items-center w-full px-[24px] py-[24px] gap-y-[28px]">
         <Text className="text-white font-urbanist-bold text-center text-[24px] pb-[24px] border-b-[1px] border-b-[#35383F] w-full">
           {title}
         </Text>

@@ -20,6 +20,7 @@ const AddBudgetModal = ({ modalizeRef}: AddBudgetModalProps) => {
   const { setValue, watch, handleSubmit, errors, resetAddBudgetForm} = useBudget({});
   const modalType = useBudgetState((state) => state.modalType);
   const isModifyingBudget = useBudgetState((state) => state.isModifyingBudget);
+  const selectedBudget = useBudgetState((state) => state.selectedBudget);
 
   const createBudgetHandler = async () => {
     await handleSubmit(async (data) => {
@@ -37,8 +38,9 @@ const AddBudgetModal = ({ modalizeRef}: AddBudgetModalProps) => {
   const updateBudgetHandler = async () => {
     await handleSubmit(async (data) => {
       try{
-        await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.UPDATE_BUDGET, data);
+        await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.UPDATE_BUDGET, { budgetId: selectedBudget?.id, ...data });
         resetAddBudgetForm()
+        await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGET_BY_ID, { budgetId: selectedBudget?.id });
         modalizeRef.current?.close();
       } catch (e) {
         console.log("Error updating budget: ", e)
@@ -55,7 +57,7 @@ const AddBudgetModal = ({ modalizeRef}: AddBudgetModalProps) => {
       keyboardAvoidingBehavior="height"
       modalStyle={{ backgroundColor: '#102632', borderTopRightRadius: 32, borderTopLeftRadius: 32, borderWidth: 1, borderColor: '#35383F' }}
     >
-      <View className="flex flex-col justify-between items-center w-full px-[24px] pt-[24px] pb-[100px] h-full gap-y-[18px]">
+      <View className="flex flex-col justify-between items-center w-full px-[24px] py-[24px] gap-y-[18px]">
         <Text className="text-white font-urbanist-bold text-center text-[24px] pb-[24px] border-b-[1px] border-b-[#35383F] w-full">
           {modalType === 'edit' ? 'Edit Budget' : 'Add Budget'}
         </Text>

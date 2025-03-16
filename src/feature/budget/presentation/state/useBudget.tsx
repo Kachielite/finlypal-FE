@@ -66,7 +66,7 @@ const useBudget = ({budgetId} : {budgetId?: number}): UseBudgetProps => {
       })
     }
 
-  }, []);
+  }, [modalType, selectedBudget]);
 
 
   return { setValue, handleSubmit, watch, errors, resetAddBudgetForm};
