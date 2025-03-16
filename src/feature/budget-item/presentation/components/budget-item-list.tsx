@@ -1,0 +1,26 @@
+import { Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
+
+const BudgetListItem = ({budgetItem}:{budgetItem: BudgetItem}) => {
+
+  const totalBudget = budgetItem.allocatedAmount;
+  const actualSpend = budgetItem.actualSpend;
+  const percentage = (actualSpend / totalBudget) * 100;
+
+  return (
+    <TouchableOpacity onPress={() => console.log(budgetItem)} className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] pb-8">
+      <Text className="text-4xl">{budgetItem.icon}</Text>
+      <View className="w-[85%] flex flex-col justify-center items-start gap-y-[14px]">
+        <View className="w-full flex flex-row justify-between items-center">
+          <Text className="text-white font-urbanist-bold text-[14px]">{budgetItem.name}</Text>
+          <Text className="text-white font-urbanist-normal text-[12px]">${actualSpend} of ${totalBudget}</Text>
+        </View>
+        <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
+          <View style={{width: `${percentage}%`}} className="rounded-2xl h-full bg-[#17CE92]"/>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+export default BudgetListItem;

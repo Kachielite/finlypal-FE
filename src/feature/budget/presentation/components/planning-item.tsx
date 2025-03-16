@@ -1,6 +1,7 @@
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { Budget, BudgetStatus } from '@/src/feature/budget/domain/entity/budget';
+import { router } from 'expo-router';
 
 const PlanningItem = ({budget}:{budget: Budget}) => {
 
@@ -8,8 +9,15 @@ const PlanningItem = ({budget}:{budget: Budget}) => {
   const actualSpend = budget.actualSpend as number;
   const percentage = (actualSpend / totalBudget) * 100;
 
+  const handlePress = () => {
+    router.push({
+      pathname: "/budget/[budget_id]" as const,
+      params: { budget_id: budget.id }
+    });
+  };
+
   return (
-    <View className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] py-4 rounded-lg bg-[#1E2A32] px-[12px] shadow-lg">
+    <TouchableOpacity onPress={handlePress} className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] py-4 rounded-lg bg-[#1E2A32] px-[12px] shadow-lg">
       <Text className="text-4xl">{budget.icon}</Text>
       <View className="w-[85%] flex flex-col justify-center items-start gap-y-[10px]">
         <View className="w-full flex flex-row justify-between items-center">
@@ -20,7 +28,7 @@ const PlanningItem = ({budget}:{budget: Budget}) => {
           <View style={{width: `${percentage}%`}} className="rounded-2xl h-full bg-[#17CE92]"/>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default PlanningItem;

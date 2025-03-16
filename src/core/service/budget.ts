@@ -10,7 +10,7 @@ export class BudgetService {
 
   async deleteBudget(budgetId: string): Promise<any> {
     try{
-      const response = await customAxios.delete(`${this.BASE_URL}${this.BUDGET_PATH}/${budgetId}`);
+      const response = await customAxios.delete(`${this.BASE_URL}${this.BUDGET_PATH}${budgetId}`);
       return response.data
     } catch (error: unknown) {
       console.error("Error deleting budget => budget service", error);
@@ -28,7 +28,7 @@ export class BudgetService {
 
   async getBudget(budgetId: string): Promise<any> {
     try{
-      const response = await customAxios.get(`${this.BASE_URL}${this.BUDGET_PATH}/${budgetId}`);
+      const response = await customAxios.get(`${this.BASE_URL}${this.BUDGET_PATH}${budgetId}`);
       return response.data
     } catch (error: unknown) {
       console.error("Error getting budget => budget service", error);

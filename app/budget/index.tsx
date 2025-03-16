@@ -1,7 +1,7 @@
 import React from 'react';
-import BudgetScreen from '@/src/feature/budget/presentation/screens/BudgetScreen';
+import BudgetsScreen from '@/src/feature/budget/presentation/screens/BudgetsScreen';
 
 const Index = () => {
-  return <BudgetScreen/>
+  return <BudgetsScreen/>
 };
 export default Index;

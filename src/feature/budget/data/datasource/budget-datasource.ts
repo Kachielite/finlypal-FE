@@ -19,6 +19,7 @@ export class BudgetDatasourceImpl implements BudgetDatasource {
       const response = await this.budgetService.getBudget(budgetId.toString());
       return BudgetModel.fromJson(response)
     } catch (error: unknown) {
+      console.error("Could not fetch budget by id => budget datasource", error)
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {
@@ -31,6 +32,7 @@ export class BudgetDatasourceImpl implements BudgetDatasource {
       const response = await this.budgetService.getAllBudgets(page, pageSize);
       return BudgetModel.fromJsonList(response);
     } catch (error: unknown) {
+      console.error("Could not fetch budgets => budget datasource", error)
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {
@@ -43,6 +45,7 @@ export class BudgetDatasourceImpl implements BudgetDatasource {
       const response = await this.budgetService.createBudget({budgetName, icon, startDate, endDate, totalBudget});
       return BudgetModel.fromJson(response);
     } catch (error: unknown) {
+      console.error("Could not create budget => budget datasource", error)
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {
@@ -55,6 +58,7 @@ export class BudgetDatasourceImpl implements BudgetDatasource {
       const response = await this.budgetService.updateBudget({budgetId, budgetName, icon, startDate, endDate, totalBudget});
       return BudgetModel.fromJson(response);
     } catch (error: unknown) {
+      console.error("Could not update budget => budget datasource", error)
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {
@@ -67,6 +71,7 @@ export class BudgetDatasourceImpl implements BudgetDatasource {
       const response = await this.budgetService.deleteBudget(budgetId.toString());
       return GeneralResponseModel.fromJson(response);
     } catch (error: unknown) {
+      console.error("Could not delete budget => budget datasource", error)
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {

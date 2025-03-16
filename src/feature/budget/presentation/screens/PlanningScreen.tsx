@@ -8,7 +8,7 @@ import useBudget from '@/src/feature/budget/presentation/state/useBudget';
 import { router } from 'expo-router';
 
 const PlanningScreen = () => {
-  const {} = useBudget();
+  const {} = useBudget({});
   const budgetList = useBudgetState((state) => state.budgetList);
   const isLoadingBudgets = useBudgetState((state) => state.isLoadingBudgets);
 

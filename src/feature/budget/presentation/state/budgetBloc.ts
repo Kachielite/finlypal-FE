@@ -81,18 +81,17 @@ async function getBudgetsHandler(payload: GetAllBudgetUseCaseParams, getState: t
 }
 
 async function getBudgetByIdHandler(payload: GetBudgetByIdBudgetUseCaseParams, getState: typeof useBudgetState.getState) {
-  const {setIsLoadingBudgets, setSelectedBudget} = getState();
-
-  setIsLoadingBudgets(true);
+  const {setIsLoadingSelectedBudget, setSelectedBudget} = getState();
+  setIsLoadingSelectedBudget(true);
   const response = await getBudgetByIdUseCase.execute(payload);
 
   fold<Failure, Budget, void>(
     (failure) => {
-      setIsLoadingBudgets(false);
+      setIsLoadingSelectedBudget(false);
       showToast('error', 'Error!', failure.message || messages.GET_BUDGET_FAILED)
     },
     (budget) => {
-      setIsLoadingBudgets(false);
+      setIsLoadingSelectedBudget(false);
       setSelectedBudget(budget);
     }
   )(response)
