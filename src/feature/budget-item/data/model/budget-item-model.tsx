@@ -30,6 +30,6 @@ export class BudgetItemModel extends BudgetItem{
   }
 
   static fromJsonList(jsonList: any[]): BudgetItemModel[] {
-    return jsonList.map(BudgetItemModel.fromJson);
+    return jsonList?.map(BudgetItemModel.fromJson);
   }
 }

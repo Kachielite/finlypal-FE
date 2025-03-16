@@ -14,7 +14,7 @@ const BudgetItemsList = ({budgetItems}:{budgetItems: BudgetItem[]}) => {
       </View>
       <View className="rounded-xl p-[12px] max-h-[60vh] w-full bg-alternative shadow-md">
         <FlatList
-          data={formatedBudgetItems.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())}
+          data={formatedBudgetItems?.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())}
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled={true}
           alwaysBounceVertical={false}

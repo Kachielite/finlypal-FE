@@ -45,7 +45,7 @@ export const budgetBloc = {
 }
 
 async function createBudgetHandler(payload: CreateBudgetUseCaseParams, getState: typeof useBudgetState.getState) {
-  const {setIsModifyingBudget} = getState();
+  const {setIsModifyingBudget, budgetList, setBudgetList} = getState();
 
   setIsModifyingBudget(true);
   const response = await createBudgetUseCase.execute(payload);
@@ -55,8 +55,9 @@ async function createBudgetHandler(payload: CreateBudgetUseCaseParams, getState:
       setIsModifyingBudget(false);
       showToast('error', 'Error!', failure.message || messages.CREATE_BUDGET_FAILED)
     },
-    () => {
+    (budget) => {
       setIsModifyingBudget(false);
+      setBudgetList([...budgetList, budget]);
       showToast('success', 'Success!', messages.CREATE_BUDGET_SUCCESS)
     }
   )(response)
@@ -75,7 +76,7 @@ async function getBudgetsHandler(payload: GetAllBudgetUseCaseParams, getState: t
     },
     (budgets) => {
       setIsLoadingBudgets(false);
-      setBudgetList(budgets);
+      setBudgetList(budgets.reverse());
     }
   )(response)
 }

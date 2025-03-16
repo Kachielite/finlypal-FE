@@ -8,6 +8,9 @@ import { router } from 'expo-router';
 
 const BudgetsScreen = () => {
   const budgetList = useBudgetState((state) => state.budgetList);
+
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
       <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]">

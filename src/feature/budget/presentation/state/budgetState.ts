@@ -9,6 +9,7 @@ export interface BudgetState {
   showFilterModal: boolean;
   budgetList: Budget[];
   selectedBudget: Budget | null;
+  modalType: 'add' | 'edit';
   setIsLoadingBudgets: (isLoadingBudgets: boolean) => void;
   setIsModifyingBudget: (isModifyingBudget: boolean) => void;
   setIsLoadingSelectedBudget: (isLoadingSelectedBudget: boolean) => void;
@@ -16,6 +17,7 @@ export interface BudgetState {
   setShowFilterModal: (showFilterModal: boolean) => void;
   setBudgetList: (budgetList: Budget[]) => void;
   setSelectedBudget: (selectedBudget: Budget | null) => void;
+  setModalType: (modalType: 'add' | 'edit') => void
 }
 
 export const useBudgetState = create<BudgetState>((set) => ({
@@ -26,6 +28,7 @@ export const useBudgetState = create<BudgetState>((set) => ({
   showFilterModal: false,
   budgetList: [],
   selectedBudget: null,
+  modalType: 'add',
   setIsLoadingBudgets: (isLoadingBudgets) => set({ isLoadingBudgets }),
   setIsModifyingBudget: (isModifyingBudget) => set({ isModifyingBudget }),
   setIsLoadingSelectedBudget: (isLoadingSelectedBudget) => set({ isLoadingSelectedBudget }),
@@ -33,4 +36,5 @@ export const useBudgetState = create<BudgetState>((set) => ({
   setShowFilterModal: (showFilterModal) => set({ showFilterModal }),
   setBudgetList: (budgetList) => set({ budgetList }),
   setSelectedBudget: (selectedBudget) => set({ selectedBudget }),
+  setModalType: (modalType) => set({ modalType })
 }))

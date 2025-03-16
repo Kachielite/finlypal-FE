@@ -37,7 +37,7 @@ const BalanceCard = ({selectedBudget}: {selectedBudget: Budget}) => {
               </Text>
             </View>
             <Text className="text-white font-urbanist-medium text-[12px]">
-              {moment(selectedBudget?.endDate).diff(selectedBudget?.startDate, 'days')} Days left
+              {moment(selectedBudget?.endDate).diff(moment(), 'days')} Days left
             </Text>
           </View>
         </View>
