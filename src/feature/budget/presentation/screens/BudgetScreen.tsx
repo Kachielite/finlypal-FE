@@ -8,8 +8,8 @@ import useBudget from '@/src/feature/budget/presentation/state/useBudget';
 import images from '@/src/core/constants/images';
 import BalanceCard from '@/src/feature/budget/presentation/components/balance-card';
 import { Budget } from '@/src/feature/budget/domain/entity/budget';
-import BudgetItemsList from '@/src/feature/budget-item/presentation/components/budget-items';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
+import BudgetItemsList from '@/src/feature/budget-item/presentation/components/budget-items';
 
 const BudgetScreen = () => {
   const { budget_id } = useLocalSearchParams<{ budget_id: string }>();

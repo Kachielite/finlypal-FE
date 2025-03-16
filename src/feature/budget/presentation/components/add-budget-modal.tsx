@@ -8,8 +8,8 @@ import FieldInput from '@/src/shared/presentation/components/form/field-input';
 import useBudget from '@/src/feature/budget/presentation/state/useBudget';
 import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
 import EmojiPickerInput from '@/src/shared/presentation/components/form/emoji-picker';
-import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
 import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
+import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
 
 
 type AddBudgetModalProps = {
