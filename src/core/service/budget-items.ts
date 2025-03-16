@@ -24,7 +24,7 @@ export class BudgetItemsService {
     }
   }
 
-  async getBudgetItem( budgetItemId: string): Promise<any> {
+  async getBudgetItem( budgetItemId: number): Promise<any> {
     try{
       const response = await customAxios.get(`${this.BASE_URL}${this.BUDGET_PATH}${budgetItemId}`);
       return response.data
@@ -77,7 +77,7 @@ export class BudgetItemsService {
       })
   }}
 
-  async deleteBudgetItem(budgetItemId: string): Promise<any> {
+  async deleteBudgetItem(budgetItemId: number): Promise<any> {
     try{
       const response = await customAxios.delete(`${this.BASE_URL}${this.BUDGET_PATH}${budgetItemId}`);
       return response.data

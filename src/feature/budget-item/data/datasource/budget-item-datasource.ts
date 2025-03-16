@@ -5,10 +5,10 @@ import { Exception } from '@/src/core/error/exception';
 
 export interface BudgetItemDatasource {
   getBudgetItems(budgetId: number): Promise<BudgetItemModel[]>;
-  getBudgetItemById(budgetItemId: string): Promise<BudgetItemModel>;
+  getBudgetItemById(budgetItemId: number): Promise<BudgetItemModel>;
   createBudgetItem({budgetId, budgetItems}: {budgetId: number, budgetItems: {name: string, icon: string, allocated_amount: number}[]}): Promise<GeneralResponseModel>;
   updateBudgetItem({budgetItemId, budgetItem}: {budgetItemId: number, budgetItem: {name: string, icon: string, allocated_amount: number}}): Promise<BudgetItemModel>;
-  deleteBudgetItem(budgetItemId: string): Promise<GeneralResponseModel>;
+  deleteBudgetItem(budgetItemId: number): Promise<GeneralResponseModel>;
 }
 
 export class BudgetItemDatasourceImpl implements BudgetItemDatasource {
@@ -31,7 +31,7 @@ export class BudgetItemDatasourceImpl implements BudgetItemDatasource {
     }
   }
 
-  async deleteBudgetItem(budgetItemId: string): Promise<GeneralResponseModel> {
+  async deleteBudgetItem(budgetItemId: number): Promise<GeneralResponseModel> {
     try {
       const response = await this.budgetItemService.deleteBudgetItem(budgetItemId);
       return GeneralResponseModel.fromJson(response);
@@ -45,7 +45,7 @@ export class BudgetItemDatasourceImpl implements BudgetItemDatasource {
     }
   }
 
-  async getBudgetItemById(budgetItemId: string): Promise<BudgetItemModel> {
+  async getBudgetItemById(budgetItemId: number): Promise<BudgetItemModel> {
     try {
       const response = await this.budgetItemService.getBudgetItem(budgetItemId);
       return BudgetItemModel.fromJson(response);
