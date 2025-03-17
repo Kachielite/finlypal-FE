@@ -60,7 +60,7 @@ export class BudgetItemsService {
     }
   }
 
-  async updateBudgetItem({budgetItemId, budgetItem}: {budgetItemId: number, budgetItem: {name: string, icon: string, allocated_amount: number}}): Promise<any> {
+  async updateBudgetItem({budgetItemId, budgetItem}: {budgetItemId: number, budgetItem: {name: string, icon: string, allocated_amount: number, budget_id: number}}): Promise<any> {
     try{
       const response = await customAxios.put(`${this.BASE_URL}${this.BUDGET_PATH}${budgetItemId}`, budgetItem);
       return response.data

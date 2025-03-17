@@ -7,7 +7,7 @@ export interface BudgetItemsDatasource {
   getBudgetItems(budgetId: number): Promise<BudgetItemModel[]>;
   getBudgetItemById(budgetItemId: number): Promise<BudgetItemModel>;
   createBudgetItem({budgetId, budgetItems}: {budgetId: number, budgetItems: {name: string, icon: string, allocated_amount: number}[]}): Promise<GeneralResponseModel>;
-  updateBudgetItem({budgetItemId, budgetItem}: {budgetItemId: number, budgetItem: {name: string, icon: string, allocated_amount: number}}): Promise<BudgetItemModel>;
+  updateBudgetItem({budgetItemId, budgetItem}: {budgetItemId: number, budgetItem: {name: string, icon: string, allocated_amount: number, budget_id: number}}): Promise<BudgetItemModel>;
   deleteBudgetItem(budgetItemId: number): Promise<GeneralResponseModel>;
 }
 
@@ -75,7 +75,7 @@ export class BudgetItemsDatasourceImpl implements BudgetItemsDatasource {
 
   async updateBudgetItem({ budgetItemId, budgetItem }: {
     budgetItemId: number;
-    budgetItem: { name: string; icon: string; allocated_amount: number }
+    budgetItem: { name: string; icon: string; allocated_amount: number, budget_id: number }
   }): Promise<BudgetItemModel> {
     try {
       const response = await this.budgetItemService.updateBudgetItem({budgetItemId, budgetItem});

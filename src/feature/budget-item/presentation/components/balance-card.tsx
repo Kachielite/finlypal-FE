@@ -5,7 +5,10 @@ import { CirclePlus, EditIcon, TrashIcon } from 'lucide-react-native';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
 import barColor from '@/src/core/utils/barColor';
 
-const BalanceCard = ({budgetItem}:{budgetItem: BudgetItem}) => {
+const BalanceCard = (
+  {budgetItem, openEditBudgetItemModal}:{budgetItem: BudgetItem, openEditBudgetItemModal: () => void}
+) => {
+
   const allocatedAmount = budgetItem?.allocatedAmount;
   const actualSpend = budgetItem?.actualSpend as number;
   const percentage = (actualSpend / allocatedAmount) * 100;
@@ -52,7 +55,7 @@ const BalanceCard = ({budgetItem}:{budgetItem: BudgetItem}) => {
             <Text className="text-white font-urbanist-bold text-[10px]">Expense</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('add')} className="flex flex-col justify-start items-center gap-y-[10px] w-[100px] border-x-[1px] border-[#35383F]">
+        <TouchableOpacity onPress={openEditBudgetItemModal} className="flex flex-col justify-start items-center gap-y-[10px] w-[100px] border-x-[1px] border-[#35383F]">
           <EditIcon size={32} color="white" strokeWidth={1} />
           <View className="flex flex-col justify-center items-center">
             <Text className="text-white font-urbanist-bold text-[10px]">Edit</Text>

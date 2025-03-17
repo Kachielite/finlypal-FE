@@ -1,5 +1,5 @@
 import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 import Loader from '@/src/shared/presentation/components/loader';
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -8,11 +8,10 @@ import BalanceCard from '@/src/feature/budget-item/presentation/components/balan
 import useBudgetItem from '@/src/feature/budget-item/presentation/state/useBudgetItem';
 import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
 import ExpensesList from '@/src/feature/expenses/presentation/components/expenses-list';
-import AddExpenseModal from '@/src/feature/expenses/presentation/components/add-expense-modal';
 import AppModal from '@/src/shared/presentation/components/app-modal';
-import ExpenseOptionModal from '@/src/feature/expenses/presentation/components/expense-option-modal';
 import { Modalize } from 'react-native-modalize';
 import EmptyTransactionList from '@/src/feature/home/presentation/components/empty-transaction-list';
+import AddBudgetItemModal from '@/src/feature/budget-item/presentation/components/add-budget-item-modal';
 
 
 const BudgetItemScreen = () => {
@@ -24,10 +23,15 @@ const BudgetItemScreen = () => {
   const {budget_item_id} = useLocalSearchParams<{ budget_item_id: string}>()
   const {} = useBudgetItem({budget_item_id});
 
+  const {setModalType} = useBudgetItemState((state) => state);
   const isLoadingSelectedBudgetItem = useBudgetItemState((state) => state.isLoadingSelectedBudgetItem);
   const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
-  const groupedExpenses = selectedBudgetItem && useMemo(() => groupExpenseByDate(selectedBudgetItem.expenses), [selectedBudgetItem.expenses]);
+  const groupedExpenses = selectedBudgetItem && groupExpenseByDate(selectedBudgetItem.expenses);
 
+  const openEditBudgetItemModal = () => {
+    setModalType("edit");
+    modalizeRef.current?.open();
+  };
 
   return (
       <>
@@ -46,7 +50,10 @@ const BudgetItemScreen = () => {
                 <Text className="text-white font-urbanist-bold text-[24px]">Budget Item Details</Text>
                 <View/>
               </View>
-              <BalanceCard budgetItem={selectedBudgetItem} />
+              <BalanceCard
+                budgetItem={selectedBudgetItem}
+                openEditBudgetItemModal={openEditBudgetItemModal}
+              />
               {/* Expenses List with FlatList */}
               <FlatList
                 data={groupedExpenses}
@@ -72,7 +79,7 @@ const BudgetItemScreen = () => {
             </View>
           )}
         </SafeAreaView>
-        <AddExpenseModal modalizeRef={createModalRef}/>
+        <AddBudgetItemModal modalizeRef={modalizeRef}/>
         <AppModal
           modalizeRef={deleteModalRef}
           title="Delete Expense"
@@ -81,11 +88,6 @@ const BudgetItemScreen = () => {
           proceedButtonLabel="Delete"
           isLoading={false}
           includeTabPadding
-        />
-        <ExpenseOptionModal
-          modalizeRef={optionModalRef}
-          createModalRef={createModalRef}
-          deleteModalRef={deleteModalRef}
         />
       </>
   );

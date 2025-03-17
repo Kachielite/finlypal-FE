@@ -45,7 +45,7 @@ export class BudgetItemsRepositoryImp implements BudgetItemsRepository{
 
   async updateBudgetItem({ budgetItemId, budgetItem }: {
     budgetItemId: number;
-    budgetItem: { name: string; icon: string; allocated_amount: number }
+    budgetItem: { name: string; icon: string; allocated_amount: number, budget_id: number }
   }): Promise<Either<Failure, BudgetItem>> {
     try {
       const response = await this.budgetDatasource.updateBudgetItem({budgetItemId, budgetItem});

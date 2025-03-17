@@ -103,18 +103,18 @@ async function updateBudgetItemHandler(payload: any, getState: typeof useBudgetI
   fold<Failure, BudgetItem, void>(
     (failure) => {
       setIsModifyingBudgetItem(false);
-      showToast('error', 'Error!', failure.message || messages.CREATE_BUDGET_ITEMS_FAILED)
+      showToast('error', 'Error!', failure.message || messages.UPDATE_BUDGET_ITEMS_FAILED)
     },
     (budget) => {
       setIsModifyingBudgetItem(false);
       // find and update the budget item in the budget item list
       budgetItemList.map((item, index) => {
-        if (item.id === budget.id) {
+        if (item.budgetId === budget.id) {
           budgetItemList[index] = budget;
         }
         return item
       })
-      showToast('success', 'Success!', messages.CREATE_BUDGET_ITEMS_SUCCESS)
+      showToast('success', 'Success!', messages.UPDATE_BUDGET_ITEMS_SUCCESS)
     }
   )(response)
 }

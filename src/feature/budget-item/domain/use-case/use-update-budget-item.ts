@@ -7,7 +7,7 @@ import { Failure } from '@/src/core/error/failure';
 export class UpdateBudgetItemUseCaseParams {
   constructor(
     public budgetItemId: number,
-    public budgetItem: { name: string; icon: string; allocated_amount: number }
+    public budgetItem: { name: string; icon: string; allocated_amount: number, budget_id: number }
   ) {
   }
 }

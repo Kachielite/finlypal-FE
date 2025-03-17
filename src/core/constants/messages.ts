@@ -18,8 +18,8 @@ const DELETE_BUDGET_FAILED = "Planning deletion failed";
 // Budget Items
 const CREATE_BUDGET_ITEMS_SUCCESS = "Budget Items created successfully";
 const CREATE_BUDGET_ITEMS_FAILED = "Budget Items creation failed";
-const UPDATE_BUDGET_ITEMS_SUCCESS = "Budget Items updated successfully";
-const UPDATE_BUDGET_ITEMS_FAILED = "Budget Items update failed";
+const UPDATE_BUDGET_ITEMS_SUCCESS = "Budget Item updated successfully";
+const UPDATE_BUDGET_ITEMS_FAILED = "Budget Item update failed";
 const DELETE_BUDGET_ITEMS_SUCCESS = "Budget Items deleted successfully";
 const DELETE_BUDGET_ITEMS_FAILED = "Budget Items deletion failed";
 const GET_BUDGET_ITEMS_SUCCESS = "Budget Items fetched successfully";
