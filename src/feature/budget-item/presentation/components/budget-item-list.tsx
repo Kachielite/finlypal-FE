@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
+import { router } from 'expo-router';
 
 const BudgetListItem = ({budgetItem}:{budgetItem: BudgetItem}) => {
 
@@ -8,8 +9,12 @@ const BudgetListItem = ({budgetItem}:{budgetItem: BudgetItem}) => {
   const actualSpend = budgetItem.actualSpend;
   const percentage = (actualSpend / totalBudget) * 100;
 
+  const onPressHandler = () => {
+    router.push(`/budget-items/${budgetItem.id.toString()}`);
+  };
+
   return (
-    <TouchableOpacity onPress={() => console.log(budgetItem)} className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] pb-8">
+    <TouchableOpacity onPress={onPressHandler} className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] pb-8">
       <Text className="text-4xl">{budgetItem.icon}</Text>
       <View className="w-[85%] flex flex-col justify-center items-start gap-y-[14px]">
         <View className="w-full flex flex-row justify-between items-center">

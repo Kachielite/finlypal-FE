@@ -6,7 +6,7 @@ import { Failure } from '@/src/core/error/failure';
 
 export class GetBudgetItemByIdUseCaseParams {
   constructor(
-    public budgetId: number
+    public budgetItemId: number
   ) {}
 
 }
@@ -17,6 +17,6 @@ export class GetBudgetItemByIdUseCase extends UseCase<BudgetItem, GetBudgetItemB
   }
 
   async execute(params: GetBudgetItemByIdUseCaseParams): Promise<Either<Failure, BudgetItem>> {
-    return await this.budgetItemRepository.getBudgetItemById(params.budgetId);
+    return await this.budgetItemRepository.getBudgetItemById(params.budgetItemId);
   }
 }

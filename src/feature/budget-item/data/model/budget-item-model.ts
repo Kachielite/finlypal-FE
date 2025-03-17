@@ -6,13 +6,14 @@ export class BudgetItemModel extends BudgetItem{
     public name: string,
     public icon: string,
     public status: BudgetItemStatus,
+    public statusTooltip: string,
     public expenses: [],
     public allocatedAmount: number,
     public actualSpend: number,
     public budgetId: number,
     public createdAt: string
   ){
-    super(id, name, icon, status, expenses, allocatedAmount, actualSpend, budgetId, createdAt);
+    super(id, name, icon, status, statusTooltip, expenses, allocatedAmount, actualSpend, budgetId, createdAt);
   }
 
   static fromJson(json: any): BudgetItemModel {
@@ -21,6 +22,7 @@ export class BudgetItemModel extends BudgetItem{
       json.name,
       json.icon,
       json.status,
+      json.status_tooltip,
       json.expenses,
       json.allocated_amount,
       json.actual_spend,

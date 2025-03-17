@@ -61,7 +61,6 @@ const BudgetScreen = () => {
     <>
       <View className="relative flex-1 bg-[#102632] ">
         <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
-
         <ImageBackground
           source={images.budgetBackground}
           className="relative w-full h-[30vh] rounded-b-[40px] overflow-hidden"

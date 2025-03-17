@@ -12,6 +12,7 @@ export class BudgetItem {
     public name: string,
     public icon: string,
     public status: BudgetItemStatus,
+    public statusTooltip: string,
     public expenses: Expense[],
     public allocatedAmount: number,
     public actualSpend: number,
