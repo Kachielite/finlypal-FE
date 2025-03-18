@@ -1,5 +1,6 @@
 import { Budget, BudgetStatus } from '@/src/feature/budget/domain/entity/budget';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
+import { BudgetItemModel } from '@/src/feature/budget-item/data/model/budget-item-model';
 
 export class BudgetModel extends Budget {
   constructor(
@@ -30,7 +31,7 @@ export class BudgetModel extends Budget {
       json.total_budget,
       json.created_at,
       json.actual_spend,
-      json.budget_items,
+      BudgetItemModel.fromJsonList(json.budget_items),
     );
   }
 

@@ -8,6 +8,9 @@ import useBudgetItem from '@/src/feature/budget-item/presentation/state/useBudge
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
 import { budgetItemBloc } from '@/src/feature/budget-item/presentation/state/budgetItemBloc';
 import { BUDGET_ITEM_EVENTS } from '@/src/feature/budget-item/presentation/state/budgetItemEvent';
+import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
+import { Budget } from '@/src/feature/budget/domain/entity/budget';
+import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
 
 
 type AddBudgetItemModalProps = {
@@ -20,6 +23,7 @@ const AddBudgetItemModal = ({ modalizeRef, includeTabPadding}: AddBudgetItemModa
   const modalType = useBudgetItemState((state) => state.modalType);
   const isModifyingBudgetItem = useBudgetItemState((state) => state.isModifyingBudgetItem);
   const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
+  const selectedBudget = useBudgetState((state) => state.selectedBudget);
 
   const createBudgetItemHandler = async () => {
     await handleSubmit(async (data) => {
@@ -54,11 +58,33 @@ const AddBudgetItemModal = ({ modalizeRef, includeTabPadding}: AddBudgetItemModa
           budget_id: selectedBudgetItem?.budgetId
         }
       }
-      
+
+
+      // update budget item
+      const updatedBudgetItem = {
+        id: selectedBudgetItem?.id as number,
+        name: data.name as string,
+        icon: data.icon as string,
+        status: selectedBudgetItem?.status,
+        statusTooltip: selectedBudgetItem?.statusTooltip,
+        expenses: selectedBudgetItem?.expenses,
+        actualSpend: selectedBudgetItem?.actualSpend,
+        allocatedAmount: data.allocatedAmount as number,
+        budgetId: selectedBudgetItem?.budgetId,
+        createdAt: selectedBudgetItem?.createdAt
+      }
+
+
+
       try {
         await budgetItemBloc.handleBudgetItemEvent(
           BUDGET_ITEM_EVENTS.UPDATE_BUDGET_ITEM, payload
         );
+        // update selected budget
+        const selectedBugetBugdetItems = selectedBudget?.budgetItems as BudgetItem[]
+        const updatedBudgetItems = selectedBugetBugdetItems.map((budgetItem) => budgetItem.id === selectedBudgetItem?.id ? updatedBudgetItem : budgetItem);
+        const updatedSelectedBudget = {...selectedBudget, budgetItems: updatedBudgetItems} as Budget;
+        useBudgetState.getState().setSelectedBudget(updatedSelectedBudget);
         modalizeRef.current?.close();
       } catch (e) {
         console.log("Error updating budget item: ", e)
@@ -95,9 +121,9 @@ const AddBudgetItemModal = ({ modalizeRef, includeTabPadding}: AddBudgetItemModa
           type="numeric"
           label="Allocated Amount"
           placeholder="Enter allocated amount"
-          value={watch("allocatedAmount")?.toString() || ""} // Ensure it's a string
+          value={watch("allocatedAmount")?.toString() || ""}
           onChangeText={(value) => {
-            const numericValue = parseFloat(value) || 0; // Ensure parsing doesn't break
+            const numericValue = parseFloat(value) || 0;
             setValue("allocatedAmount", numericValue, { shouldValidate: true });
           }}
           error={errors?.allocatedAmount?.message}

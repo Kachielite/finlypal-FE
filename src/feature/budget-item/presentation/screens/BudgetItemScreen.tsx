@@ -6,7 +6,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
 import BalanceCard from '@/src/feature/budget-item/presentation/components/balance-card';
 import useBudgetItem from '@/src/feature/budget-item/presentation/state/useBudgetItem';
-import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
 import ExpensesList from '@/src/feature/expenses/presentation/components/expenses-list';
 import AppModal from '@/src/shared/presentation/components/app-modal';
 import { Modalize } from 'react-native-modalize';
@@ -26,7 +25,7 @@ const BudgetItemScreen = () => {
   const {setModalType} = useBudgetItemState((state) => state);
   const isLoadingSelectedBudgetItem = useBudgetItemState((state) => state.isLoadingSelectedBudgetItem);
   const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
-  const groupedExpenses = selectedBudgetItem && groupExpenseByDate(selectedBudgetItem.expenses);
+  const groupedExpenses = null;
 
   const openEditBudgetItemModal = () => {
     setModalType("edit");

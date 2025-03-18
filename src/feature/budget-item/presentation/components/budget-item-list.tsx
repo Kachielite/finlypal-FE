@@ -5,8 +5,8 @@ import { router } from 'expo-router';
 
 const BudgetListItem = ({budgetItem}:{budgetItem: BudgetItem}) => {
 
-  const totalBudget = budgetItem.allocatedAmount;
-  const actualSpend = budgetItem.actualSpend;
+  const totalBudget = budgetItem?.allocatedAmount;
+  const actualSpend = budgetItem?.actualSpend;
   const percentage = (actualSpend / totalBudget) * 100;
 
   const onPressHandler = () => {

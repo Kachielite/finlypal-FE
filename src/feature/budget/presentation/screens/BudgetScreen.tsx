@@ -56,6 +56,7 @@ const BudgetScreen = () => {
       console.log("Error deleting budget: ", e)
     }
   }
+  
 
   return (
     <>

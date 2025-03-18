@@ -95,7 +95,7 @@ async function getBudgetItemByIdHandler(payload: any, getState: typeof useBudget
 }
 
 async function updateBudgetItemHandler(payload: any, getState: typeof useBudgetItemState.getState) {
-  const {setIsModifyingBudgetItem, budgetItemList} = getState();
+  const {setIsModifyingBudgetItem, budgetItemList, setSelectedBudgetItem, setBudgetItemList} = getState();
 
   setIsModifyingBudgetItem(true);
   const response = await updateBudgetItemUseCase.execute(payload);
@@ -105,15 +105,10 @@ async function updateBudgetItemHandler(payload: any, getState: typeof useBudgetI
       setIsModifyingBudgetItem(false);
       showToast('error', 'Error!', failure.message || messages.UPDATE_BUDGET_ITEMS_FAILED)
     },
-    (budget) => {
+    async (budget) => {
       setIsModifyingBudgetItem(false);
-      // find and update the budget item in the budget item list
-      budgetItemList.map((item, index) => {
-        if (item.budgetId === budget.id) {
-          budgetItemList[index] = budget;
-        }
-        return item
-      })
+      // update the selected budget item
+      setSelectedBudgetItem(budget)
       showToast('success', 'Success!', messages.UPDATE_BUDGET_ITEMS_SUCCESS)
     }
   )(response)
