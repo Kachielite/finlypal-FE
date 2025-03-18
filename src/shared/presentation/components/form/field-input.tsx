@@ -9,6 +9,7 @@ type FieldInputProps = {
   value: string;
   onChangeText: (text: string) => void;
   type?: "text" | "numeric";
+  iconType?: string;
 };
 
 const FieldIcons: { [key: string]: JSX.Element } = {
@@ -17,7 +18,7 @@ const FieldIcons: { [key: string]: JSX.Element } = {
 };
 
 const FieldInput = forwardRef<TextInput, FieldInputProps>(
-  ({ label, placeholder, error, type, value, onChangeText, ...rest }, ref) => {
+  ({ label, placeholder, error, type, value, onChangeText, iconType, ...rest }, ref) => {
     return (
       <View className="w-full flex flex-col justify-start items-start gap-y-[16px]">
         <Text className="font-urbanist-bold text-[16px] text-white">{label}</Text>
@@ -35,7 +36,7 @@ const FieldInput = forwardRef<TextInput, FieldInputProps>(
             keyboardType={type === "numeric" ? "numeric" : "default"} // Conditionally set keyboardType
             {...rest}
           />
-          {type && FieldIcons[type]}
+          {iconType && FieldIcons[iconType]}
         </View>
         {error && <Text className="font-urbanist-regular text-[12px] text-red-500">{error}</Text>}
       </View>
