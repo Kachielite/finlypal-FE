@@ -59,7 +59,6 @@ const AddBudgetItemModal = ({ modalizeRef, includeTabPadding}: AddBudgetItemModa
         }
       }
 
-
       // update budget item
       const updatedBudgetItem = {
         id: selectedBudgetItem?.id as number,
@@ -73,8 +72,6 @@ const AddBudgetItemModal = ({ modalizeRef, includeTabPadding}: AddBudgetItemModa
         budgetId: selectedBudgetItem?.budgetId,
         createdAt: selectedBudgetItem?.createdAt
       }
-
-
 
       try {
         await budgetItemBloc.handleBudgetItemEvent(

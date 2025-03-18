@@ -11,6 +11,11 @@ import AppModal from '@/src/shared/presentation/components/app-modal';
 import { Modalize } from 'react-native-modalize';
 import EmptyTransactionList from '@/src/feature/home/presentation/components/empty-transaction-list';
 import AddBudgetItemModal from '@/src/feature/budget-item/presentation/components/add-budget-item-modal';
+import { budgetItemBloc } from '@/src/feature/budget-item/presentation/state/budgetItemBloc';
+import { BUDGET_ITEM_EVENTS } from '@/src/feature/budget-item/presentation/state/budgetItemEvent';
+import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
+import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
+import { Budget } from '@/src/feature/budget/domain/entity/budget';
 
 
 const BudgetItemScreen = () => {
@@ -25,11 +30,25 @@ const BudgetItemScreen = () => {
   const {setModalType} = useBudgetItemState((state) => state);
   const isLoadingSelectedBudgetItem = useBudgetItemState((state) => state.isLoadingSelectedBudgetItem);
   const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
+  const selectedBudget = useBudgetState((state) => state.selectedBudget);
   const groupedExpenses = null;
 
   const openEditBudgetItemModal = () => {
     setModalType("edit");
     modalizeRef.current?.open();
+  };
+
+  const openDeleteBudgetItemModal = () => {
+    deleteModalRef.current?.open();
+  };
+
+  const deleteBudgetItemHandler = async () => {
+    await budgetItemBloc.handleBudgetItemEvent(BUDGET_ITEM_EVENTS.DELETE_BUDGET_ITEM, {budgetItemId: selectedBudgetItem?.id});
+    const selectedBudgetBudgetItems = selectedBudget?.budgetItems as BudgetItem[];
+    const updatedBudgetItems = [...selectedBudgetBudgetItems?.filter((budgetItem) => budgetItem.id !== selectedBudgetItem?.id)]
+    useBudgetState.getState().setSelectedBudget({...selectedBudget, budgetItems: updatedBudgetItems} as Budget);
+    deleteModalRef.current?.close();
+    router.back();
   };
 
   return (
@@ -52,6 +71,7 @@ const BudgetItemScreen = () => {
               <BalanceCard
                 budgetItem={selectedBudgetItem}
                 openEditBudgetItemModal={openEditBudgetItemModal}
+                openDeleteBudgetItemModal={openDeleteBudgetItemModal}
               />
               {/* Expenses List with FlatList */}
               <FlatList
@@ -82,11 +102,10 @@ const BudgetItemScreen = () => {
         <AppModal
           modalizeRef={deleteModalRef}
           title="Delete Expense"
-          description="Are you sure you want to delete this expense?"
-          proceedAction={() => console.log()}
+          description="Deleting this budget item will also delete all expenses associated with it. Are you sure you want to proceed?"
+          proceedAction={deleteBudgetItemHandler}
           proceedButtonLabel="Delete"
           isLoading={false}
-          includeTabPadding
         />
       </>
   );

@@ -6,7 +6,7 @@ import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 
 export class DeleteBudgetItemUseCaseParams {
   constructor(
-    public budgetId: number
+    public budgetItemId: number
   ) {}
 
 }
@@ -17,6 +17,6 @@ export class DeleteBudgetItemUseCase extends UseCase<GeneralResponse, DeleteBudg
   }
 
   async execute(params: DeleteBudgetItemUseCaseParams): Promise<Either<Failure, GeneralResponse>> {
-    return await this.budgetItemRepository.deleteBudgetItem(params.budgetId);
+    return await this.budgetItemRepository.deleteBudgetItem(params.budgetItemId);
   }
 }

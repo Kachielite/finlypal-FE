@@ -6,7 +6,7 @@ import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item'
 import barColor from '@/src/core/utils/barColor';
 
 const BalanceCard = (
-  {budgetItem, openEditBudgetItemModal}:{budgetItem: BudgetItem, openEditBudgetItemModal: () => void}
+  {budgetItem, openEditBudgetItemModal, openDeleteBudgetItemModal}:{budgetItem: BudgetItem, openEditBudgetItemModal: () => void, openDeleteBudgetItemModal: () => void}
 ) => {
 
   const allocatedAmount = budgetItem?.allocatedAmount;
@@ -62,7 +62,7 @@ const BalanceCard = (
             <Text className="text-white font-urbanist-bold text-[10px]">Item</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('add')} className="flex flex-col justify-start items-center gap-y-[10px] w-[70px] ">
+        <TouchableOpacity onPress={openDeleteBudgetItemModal} className="flex flex-col justify-start items-center gap-y-[10px] w-[70px] ">
           <TrashIcon size={32} color="white" strokeWidth={1} />
           <View className="flex flex-col justify-center items-center">
             <Text className="text-white font-urbanist-bold text-[10px]">Delete</Text>

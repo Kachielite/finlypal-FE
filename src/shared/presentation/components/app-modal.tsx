@@ -28,7 +28,7 @@ const AddExpenseModal = (
         <Text className="text-white font-urbanist-bold text-center text-[24px] pb-[24px] border-b-[1px] border-b-[#35383F] w-full">
           {title}
         </Text>
-        <Text className="font-urbanist-bold text-white text-[20px] text-center">{description}</Text>
+        <Text className="font-urbanist-normal text-white text-[18px] text-center leading-[2rem]">{description}</Text>
         <View className="flex flex-row justify-between items-center w-full gap-x-[12px]">
           <View className="w-[30vw]">
             <Button
