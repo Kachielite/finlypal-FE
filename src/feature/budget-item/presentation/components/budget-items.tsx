@@ -10,7 +10,7 @@ const BudgetItemsList = ({budgetItems}:{budgetItems: BudgetItem[]}) => {
       <View className="flex flex-row justify-between items-center w-full">
         <Text className="text-white font-urbanist-bold text-[20px]">Budget items</Text>
       </View>
-      <View className="rounded-xl p-[12px] max-h-[60vh] w-full bg-alternative shadow-md">
+      <View className="rounded-xl p-[12px] max-h-[50vh] w-full bg-alternative shadow-md">
         <FlatList
           data={budgetItems?.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())}
           showsVerticalScrollIndicator={false}
@@ -19,8 +19,9 @@ const BudgetItemsList = ({budgetItems}:{budgetItems: BudgetItem[]}) => {
           ListEmptyComponent={<EmptyTransactionList title="No Budget Item Found" message="Get started by adding a budget item" />}
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={{
-            paddingVertical: 10,
+            paddingTop: 10,
             paddingHorizontal: 10,
+            paddingBottom: 40,
             gap: 20,
           }}
           renderItem={({ item }) => (

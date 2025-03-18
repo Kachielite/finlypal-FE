@@ -11,6 +11,8 @@ import { BUDGET_ITEM_EVENTS } from '@/src/feature/budget-item/presentation/state
 import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
 import { Budget } from '@/src/feature/budget/domain/entity/budget';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
+import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
+import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
 
 
 type AddBudgetItemModalProps = {
@@ -28,17 +30,20 @@ const AddBudgetItemModal = ({ modalizeRef, includeTabPadding}: AddBudgetItemModa
   const createBudgetItemHandler = async () => {
     await handleSubmit(async (data) => {
       const payload = {
-        budgetItemId: selectedBudgetItem?.id,
-        budgetItem: {
+        budgetId: selectedBudget?.id,
+        budgetItems: [{
           name: data.name,
           icon: data.icon,
           allocated_amount: data.allocatedAmount
-        }
+        }]
       }
       try {
         await budgetItemBloc.handleBudgetItemEvent(
           BUDGET_ITEM_EVENTS.CREATE_BUDGET_ITEM, payload
         );
+        // update selected budget
+        await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGET_BY_ID, {budgetId: selectedBudget?.id as number});
+        resetForm();
         modalizeRef.current?.close();
       } catch (e) {
         console.log("Error creating budget item: ", e)

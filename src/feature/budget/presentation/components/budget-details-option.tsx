@@ -7,9 +7,10 @@ type BudgetDetailsOptionProps = {
   modalizeRef: React.RefObject<Modalize>;
   openCreateModal: () => void;
   openDeleteModal: () => void;
+  openAddBudgetItemModal: () => void;
 }
 
-const BudgetDetailsOption = ({modalizeRef,openCreateModal, openDeleteModal }: BudgetDetailsOptionProps) => {
+const BudgetDetailsOption = ({modalizeRef,openCreateModal, openDeleteModal, openAddBudgetItemModal }: BudgetDetailsOptionProps) => {
   return (
     <Modalize
       ref={modalizeRef}
@@ -19,7 +20,7 @@ const BudgetDetailsOption = ({modalizeRef,openCreateModal, openDeleteModal }: Bu
       modalStyle={{ backgroundColor: '#102632', borderTopRightRadius: 32, borderTopLeftRadius: 32, borderWidth: 1, borderColor: '#35383F' }}
     >
       <View className="flex flex-col justify-between items-center w-full px-[24px] py-[32px]  gap-y-[32px]">
-        <TouchableOpacity onPress={() => console.log('add')} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-[#007BFF] rounded-[12px]">
+        <TouchableOpacity onPress={openAddBudgetItemModal} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-[#007BFF] rounded-[12px]">
           <CirclePlus size={24} color="white" />
           <Text className="text-white font-urbanist-bold text-[20px]">Add Budget Item</Text>
         </TouchableOpacity>

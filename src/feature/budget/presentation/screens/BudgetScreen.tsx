@@ -16,12 +16,15 @@ import AppModal from '@/src/shared/presentation/components/app-modal';
 import AddBudgetModal from '@/src/feature/budget/presentation/components/add-budget-modal';
 import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
 import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
+import AddBudgetItemModal from '@/src/feature/budget-item/presentation/components/add-budget-item-modal';
+import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
 
 const BudgetScreen = () => {
   const modalizeRef = useRef<Modalize>(null);
   const createModalRef = useRef<Modalize>(null);
   const deleteModalRef = useRef<Modalize>(null);
   const optionModalRef = useRef<Modalize>(null);
+  const addBudgetItemModalRef = useRef<Modalize>(null);
 
   const { budget_id } = useLocalSearchParams<{ budget_id: string }>();
   const {} = useBudget({budgetId: Number(budget_id)});
@@ -45,6 +48,12 @@ const BudgetScreen = () => {
     optionModalRef.current?.close();
   };
 
+  const openAddBudgetItemModal = () => {
+    useBudgetItemState.getState().setModalType("add");
+    addBudgetItemModalRef.current?.open();
+    optionModalRef.current?.close();
+  };
+
   const deleteBudgetHandler = async() => {
     try {
       await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.DELETE_BUDGET, {
@@ -56,7 +65,7 @@ const BudgetScreen = () => {
       console.log("Error deleting budget: ", e)
     }
   }
-  
+
 
   return (
     <>
@@ -103,6 +112,7 @@ const BudgetScreen = () => {
         modalizeRef={optionModalRef}
         openCreateModal={openCreateModal}
         openDeleteModal={openDeleteModal}
+        openAddBudgetItemModal={openAddBudgetItemModal}
       />
       <AddBudgetModal
         modalizeRef={createModalRef}
@@ -110,11 +120,12 @@ const BudgetScreen = () => {
       <AppModal
         modalizeRef={deleteModalRef}
         title="Delete Budget"
-        description="Are you sure you want to delete this expense? Deleting this budget will permanently remove all associated buget items and expenses."
+        description="Are you certain you want to delete this budget? This action will permanently remove all associated items and expenses."
         proceedAction={deleteBudgetHandler}
         proceedButtonLabel="Delete"
         isLoading={isModifyingBudget}
       />
+      <AddBudgetItemModal modalizeRef={addBudgetItemModalRef}/>
     </>
   );
 };
