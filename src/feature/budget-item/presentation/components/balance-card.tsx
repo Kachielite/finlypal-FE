@@ -4,6 +4,7 @@ import images from '@/src/core/constants/images';
 import { CirclePlus, EditIcon, TrashIcon } from 'lucide-react-native';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
 import barColor from '@/src/core/utils/barColor';
+import { router } from 'expo-router';
 
 const BalanceCard = (
   {budgetItem, openEditBudgetItemModal, openDeleteBudgetItemModal}:{budgetItem: BudgetItem, openEditBudgetItemModal: () => void, openDeleteBudgetItemModal: () => void}
@@ -48,7 +49,7 @@ const BalanceCard = (
         </View>
       </ImageBackground>
       <View className="w-full flex flex-row justify-center items-center gap-x-[20px]">
-        <TouchableOpacity onPress={() => console.log('add')} className="flex flex-col justify-start items-center gap-y-[10px] w-[70px] ">
+        <TouchableOpacity onPress={() => router.push("/expense/add-expense")} className="flex flex-col justify-start items-center gap-y-[10px] w-[70px] ">
           <CirclePlus size={32} color="white" strokeWidth={1} />
           <View className="flex flex-col justify-center items-center">
             <Text className="text-white font-urbanist-bold text-[10px]">Add</Text>
