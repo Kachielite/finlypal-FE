@@ -21,14 +21,24 @@ import FieldInput from '@/src/shared/presentation/components/form/field-input';
 import SelectInput from '@/src/shared/presentation/components/form/select-input';
 import DatePicker from '@/src/shared/presentation/components/form/date-picker';
 import moment from 'moment/moment';
+import CheckBox from '@/src/shared/presentation/components/form/checkbox';
+import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
+import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
 
 const AddExpenseScreen = () => {
-  const {setValueExpense: setValue, watchExpense: watch, handleSubmitExpense: handleSubmit, errorsExpense: errors, resetExpenseForm} = useExpense();
+  const {setValueExpense: setValue, watchExpense: watch, handleSubmitExpense: handleSubmit, errorsExpense: errors, resetExpenseForm, setErrorExpense} = useExpense();
   const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
   const modalType = useExpenseState((state) => state.modalType);
   const categoryList = useExpenseState((state) => state.categoryList);
   const formattedCategories = categoryList.map((item) => ({ id: item.id, label: item.displayName, value: item.displayName }));
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
+  const budgetList = useBudgetState((state) => state.budgetList);
+  const budgetItemList = useBudgetItemState((state) => state.budgetItemList);
+
+  const formattedBudgets = budgetList.map((item) => ({ id: item.id, label: item.name, value: item.name }));
+  const formattedBudgetItems = budgetItemList.map((item) => ({ id: item.id, label: item.name, value: item.name }));
+
+
 
 
 
@@ -66,6 +76,8 @@ const AddExpenseScreen = () => {
       console.log("Error updating expense: ", error);
     }
   }
+
+
   return (
     <SafeAreaView className="bg-primary h-full w-screen">
       <KeyboardAvoidingView
@@ -88,7 +100,6 @@ const AddExpenseScreen = () => {
                   </Text>
                   <View/>
                 </View>
-
                 <View className="flex flex-col justify-start items-center w-full my-[24px] gap-y-[24px]">
                   <FieldInput
                     label="Description"
@@ -133,6 +144,41 @@ const AddExpenseScreen = () => {
                     onChange={(value) => setValue("date", moment(value).format("YYYY-MM-DD"), { shouldValidate: true })}
                     error={errors?.startDate?.message}
                   />
+                  <View className="flex flex-row justify-start items-start w-full gap-x-[12px] mt-7">
+                    <CheckBox
+                      onChange={() => setValue("isRelatedToBudgetOrSavings", !watch("isRelatedToBudgetOrSavings"))}
+                      isChecked={watch("isRelatedToBudgetOrSavings")}
+                    />
+                    <View className="flex flex-row justify-start items-center">
+                      <Text className="text-white font-urbanist-regular text-[16px]">Is this expense related to a specific budget or savings goal?</Text>
+                    </View>
+                  </View>
+                  {watch("isRelatedToBudgetOrSavings") && watch("type")?.value === "EXPENSE" && <>
+                    <View className="flex flex-col justify-start items-start w-full gap-y-[7px]">
+                      <SelectInput
+                        data={formattedBudgets}
+                        label="Select expense's budget"
+                        placeholder="Select budget"
+                        value={ watch('budget') || null}
+                        onChangeText={(value) => setValue("budget", value, { shouldValidate: true })}
+                        icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
+                        error={errors?.budget?.message}
+                      />
+                      {formattedBudgetItems.length === 0 && watch("budget") && <Text className="font-urbanist-regular text-sm text-red-500">
+                        No budget items found for the selected budget. Please create a budget item for this budget from the planning screen.
+                      </Text>}
+                    </View>
+                    {formattedBudgetItems.length > 0 && <SelectInput
+                      data={formattedBudgetItems}
+                      enabled={formattedBudgetItems.length > 0}
+                      label="Select expense's budget item"
+                      placeholder="Select budget"
+                      value={ watch('budgetItem') || null}
+                      onChangeText={(value) => setValue("budgetItem", value, { shouldValidate: true })}
+                      icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
+                      error={errors?.budgetItem?.message}
+                    />}
+                  </>}
                 </View>
               </View>
               <View className="w-screen p-[24px] border-t-[1px] border-t-quaternary">

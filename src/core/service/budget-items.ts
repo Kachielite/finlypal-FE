@@ -9,7 +9,7 @@ export class BudgetItemsService {
   async getBudgetItems(budgetId: number): Promise<any> {
     try{
       const response = await customAxios.get(`${this.BASE_URL}${this.BUDGET_PATH}${budgetId}/items`);
-      return response.data
+      return response.data.content
     } catch (error: unknown) {
       console.error("Error getting budget items => budget items service", error);
       if (axios.isAxiosError(error) && error.response) {

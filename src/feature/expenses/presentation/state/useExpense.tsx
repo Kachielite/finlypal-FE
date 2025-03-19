@@ -9,6 +9,10 @@ import { CreateExpenseSchema, GetExpenseSchema } from '@/src/core/validation/exp
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import { Category } from '@/src/feature/category/domain/entity/category';
 import { debounce } from 'lodash';
+import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
+import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
+import { budgetItemBloc } from '@/src/feature/budget-item/presentation/state/budgetItemBloc';
+import { BUDGET_ITEM_EVENTS } from '@/src/feature/budget-item/presentation/state/budgetItemEvent';
 
 export const expenseType = [
   {id: 1, label: "Expense", value: "EXPENSE" },
@@ -28,7 +32,8 @@ export type ExpenseHookType = {
   watchExpense: (any: string) => any;
   errorsExpense: Record<string, any>;
   resetExpenseForm: () => void,
-  resetFilterForm:() => void
+  resetFilterForm:() => void,
+  setErrorExpense: any
 }
 
 const useExpense = (): ExpenseHookType => {
@@ -52,7 +57,7 @@ const useExpense = (): ExpenseHookType => {
     }
   });
 
-  const {setValue: setValueExpense, handleSubmit: handleSubmitExpense, watch: watchExpense, formState: { errors: errorsExpense }, reset: resetExpense} = useForm({
+  const {setValue: setValueExpense, handleSubmit: handleSubmitExpense, watch: watchExpense, setError: setErrorExpense , formState: { errors: errorsExpense }, reset: resetExpense} = useForm({
     resolver: zodResolver(CreateExpenseSchema),
     defaultValues: {
       description: "",
@@ -60,6 +65,9 @@ const useExpense = (): ExpenseHookType => {
       category: defaultCategory,
       type: expenseType[1],
       date: moment().startOf("day").format("YYYY-MM-DD"),
+      isRelatedToBudgetOrSavings: false,
+      budget: null,
+      budgetItem: null
     }
   })
 
@@ -157,7 +165,33 @@ const useExpense = (): ExpenseHookType => {
     }
   }, [selectedExpense, modalType, resetExpense, expenseType]);
 
-  
+
+  // Fetch Budgets or Savings if expense is related to budget or savings
+  const fetchBudget = async () => budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {page: 0, pageSize: 50});
+
+  useEffect(() => {
+    (
+      async () => {
+        if(watchExpense('isRelatedToBudgetOrSavings') === true && watch('type')?.value === 'EXPENSE'){
+          await fetchBudget();
+        }
+      }
+    )()
+  }, [watchExpense('isRelatedToBudgetOrSavings'), watch('type')]);
+
+  // Fetch budget items for selected budget
+  const fetchBudgetItems = async (budgetId: number) => await budgetItemBloc.handleBudgetItemEvent(BUDGET_ITEM_EVENTS.GET_ALL_BUDGET_ITEMS, {page: 0, pageSize: 50, budgetId: budgetId});
+
+  useEffect(() => {
+    (
+      async () => {
+        if (watchExpense('budget') && watchExpense('budget')?.id) {
+          await fetchBudgetItems(watchExpense('budget')?.id as number);
+        }
+      }
+    )()
+  }, [watchExpense('budget')]);
+
 
   return {
     expenseList,
@@ -172,7 +206,8 @@ const useExpense = (): ExpenseHookType => {
     errorsExpense,
     resetExpenseForm,
     handleSubmitExpense,
-    resetFilterForm
+    resetFilterForm,
+    setErrorExpense
   }
 }
 
