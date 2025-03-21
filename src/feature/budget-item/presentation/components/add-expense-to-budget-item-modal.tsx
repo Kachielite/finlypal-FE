@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modalize } from 'react-native-modalize';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import Button from '@/src/shared/presentation/components/form/button';
 import SelectInput from '@/src/shared/presentation/components/form/select-input';
 import { ChartColumnStacked } from 'lucide-react-native';
@@ -92,7 +92,8 @@ const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModal
     <Modalize
       ref={modalizeRef}
       adjustToContentHeight
-      keyboardAvoidingBehavior="height"
+      keyboardAvoidingBehavior={Platform.OS === "ios" ? "padding" : "height"}
+      scrollViewProps={{ keyboardShouldPersistTaps: "handled" }}
       modalStyle={{ backgroundColor: '#102632', borderTopRightRadius: 32, borderTopLeftRadius: 32, borderWidth: 1, borderColor: '#35383F' }}
     >
       <View className="flex flex-col justify-between items-center w-full px-[24px] pt-[24px] pb-10 h-full gap-y-[18px]">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modalize } from 'react-native-modalize';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import Button from '@/src/shared/presentation/components/form/button';
 import DatePicker from '@/src/shared/presentation/components/form/date-picker';
 import moment from 'moment';
@@ -58,7 +58,8 @@ const AddBudgetModal = ({ modalizeRef, includeTabPadding}: AddBudgetModalProps) 
       onClose={() => resetAddBudgetForm()}
       ref={modalizeRef}
       adjustToContentHeight
-      keyboardAvoidingBehavior="height"
+      keyboardAvoidingBehavior={Platform.OS === "ios" ? "padding" : "height"}
+      scrollViewProps={{ keyboardShouldPersistTaps: "handled" }}
       modalStyle={{ backgroundColor: '#102632', borderTopRightRadius: 32, borderTopLeftRadius: 32, borderWidth: 1, borderColor: '#35383F' }}
     >
         <View className={`flex flex-col justify-between items-center w-full px-[24px] ${includeTabPadding ? 'pt-[24px] pb-[90px]' : 'py-[24px]'} gap-y-[18px]`}>
