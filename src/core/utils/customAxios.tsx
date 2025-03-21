@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 import { SECRET } from '@/src/core/secret/secret';
+import { router } from 'expo-router';
+import { suppressAllToasts } from '@/src/shared/presentation/components/toastProvider';
 
 
 const customAxios = axios.create({
@@ -23,7 +25,9 @@ const onRefreshed = (newToken: string) => {
 const refreshAccessToken = async () => {
   const { token, setToken, logout } = useAuthState.getState(); // Access Zustand store directly
   if (!token?.refresh_token) {
+    suppressAllToasts(true); // Prevent any toasts from showing
     logout();
+    router.push("/authentication/welcome");
     return null;
   }
 

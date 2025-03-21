@@ -27,6 +27,22 @@ import { CategoryRepositoryImpl } from '@/src/feature/category/data/repositoryIm
 import { GetCategoriesUseCase } from '@/src/feature/category/domain/use-case/use-get-categories';
 import { GetMonthlySpendUseCase } from '@/src/feature/insights/domain/use-case/use-get-monthly-spend';
 import { GetTotalSpendByCategoryUseCase } from '@/src/feature/insights/domain/use-case/use-get-total-spend-by-category';
+import { BudgetService } from '@/src/core/service/budget';
+import { BudgetDatasourceImpl } from '@/src/feature/budget/data/datasource/budget-datasource';
+import { BudgetRepositoryImpl } from '@/src/feature/budget/data/repositoryImp/budget-repositoryImp';
+import { DeleteBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-delete-budget';
+import { UpdateBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-update-budget';
+import { CreateBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-create-budget';
+import { GetBudgetByIdBudgetUseCase } from '@/src/feature/budget/domain/use-case/use-get-budget-by-id';
+import { GetAllBudgetsUseCase } from '@/src/feature/budget/domain/use-case/use-get-all-budgets';
+import { BudgetItemsService } from '@/src/core/service/budget-items';
+import { BudgetItemsDatasourceImpl } from '@/src/feature/budget-item/data/datasource/budget-items-datasource';
+import { BudgetItemsRepositoryImp } from '@/src/feature/budget-item/data/repositoryImp/budget-items-repository-imp';
+import { GetBudgetItemsUseCase } from '@/src/feature/budget-item/domain/use-case/use-get-budget-items';
+import { GetBudgetItemByIdUseCase } from '@/src/feature/budget-item/domain/use-case/use-get-budget-item-by-id';
+import { CreateBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-create-budget-item';
+import { UpdateBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-update-budget-item';
+import { DeleteBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-delete-budget-item';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -66,3 +82,24 @@ const categoryService = new CategoryService();
 const categoryDatasource = new CategoryDatasourceImpl(categoryService);
 const categoryRepository = new CategoryRepositoryImpl(categoryDatasource);
 export const getCategoriesUseCase = new GetCategoriesUseCase(categoryRepository);
+
+// Planning Dependencies
+const budgetService = new BudgetService();
+const budgetDatasource = new BudgetDatasourceImpl(budgetService);
+const budgetRepository = new BudgetRepositoryImpl(budgetDatasource);
+export const getAllBudgetsUseCase = new GetAllBudgetsUseCase(budgetRepository);
+export const getBudgetByIdUseCase = new GetBudgetByIdBudgetUseCase(budgetRepository);
+export const createBudgetUseCase = new CreateBudgetUseCase(budgetRepository);
+export const updateBudgetUseCase = new UpdateBudgetUseCase(budgetRepository);
+export const deleteBudgetUseCase = new DeleteBudgetUseCase(budgetRepository);
+
+
+// Budget Item Dependencies
+const budgetItemService = new BudgetItemsService();
+const budgetItemDatasource = new BudgetItemsDatasourceImpl(budgetItemService);
+const budgetItemRepository = new BudgetItemsRepositoryImp(budgetItemDatasource);
+export const getAllBudgetItemsUseCase = new GetBudgetItemsUseCase(budgetItemRepository);
+export const getBudgetItemByIdUseCase = new GetBudgetItemByIdUseCase(budgetItemRepository);
+export const createBudgetItemUseCase = new CreateBudgetItemUseCase(budgetItemRepository);
+export const updateBudgetItemUseCase = new UpdateBudgetItemUseCase(budgetItemRepository);
+export const deleteBudgetItemUseCase = new DeleteBudgetItemUseCase(budgetItemRepository);

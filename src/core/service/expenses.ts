@@ -9,14 +9,16 @@ export class ExpensesService {
   constructor() {
   }
 
-  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<any> {
+  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number, budgetItemId?: number, savingsID?: number): Promise<any> {
     try {
       const response = await customAxios.post(`${this.BASE_URL}${this.EXPENSES_PATH}`, {
         amount,
         date,
         description,
         type,
-        category_id: categoryId
+        category_id: categoryId,
+        budget_item_id: budgetItemId,
+        savings_id: savingsID
       });
       return response.data;
     } catch (error: unknown) {
@@ -33,8 +35,8 @@ export class ExpensesService {
     }
   }
 
-  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<any> {
-    const expense: {id: number, amount?: number, date?: string, description?: string, type?: string, category_id?: number} = {id};
+  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number, budgetItemId?: number, savingsID?: number): Promise<any> {
+    const expense: {id: number, amount?: number, date?: string, description?: string, type?: string, category_id?: number, budget_item_id?: number, savings_id?: number} = {id};
 
     if(amount){
       expense.amount = amount;
@@ -54,6 +56,14 @@ export class ExpensesService {
 
     if(categoryId){
       expense.category_id = categoryId;
+    }
+
+    if(budgetItemId){
+      expense.budget_item_id = budgetItemId;
+    }
+
+    if(savingsID){
+      expense.savings_id = savingsID;
     }
 
     try {

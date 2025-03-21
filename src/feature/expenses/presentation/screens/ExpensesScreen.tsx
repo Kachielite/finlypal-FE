@@ -120,6 +120,7 @@ const ExpensesScreen = () => {
         proceedAction={deleteExpense}
         proceedButtonLabel="Delete"
         isLoading={isModifyingExpense}
+        includeTabPadding
       />
       <ExpenseOptionModal
         modalizeRef={optionModalRef}

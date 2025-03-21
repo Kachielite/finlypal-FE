@@ -11,7 +11,9 @@ export class UpdateExpenseUseCaseParams{
     public date?: string,
     public description?: string,
     public type?: string,
-    public categoryId?: number
+    public categoryId?: number,
+    public budgetItemId?: number,
+    public savingsID?: number
   ) {
   }
 }
@@ -23,7 +25,7 @@ export class UpdateExpenseUseCase extends UseCase<Expense, UpdateExpenseUseCaseP
   }
 
   async execute(params: UpdateExpenseUseCaseParams): Promise<Either<Failure, Expense>> {
-    return await this.expenseRepository.updateExpense(params.id, params.amount, params.date, params.description, params.type, params.categoryId)
+    return await this.expenseRepository.updateExpense(params.id, params.amount, params.date, params.description, params.type, params.categoryId, params.budgetItemId, params.savingsID);
   }
 
 }

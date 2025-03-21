@@ -17,9 +17,10 @@ type SelectInputProps = {
   onChangeText: (selectedData: SelectInputData | null) => void;
   data: SelectInputData[];
   icon?: React.ReactNode;
+  enabled?: boolean
 };
 
-const SelectInput = ({ label, placeholder, error, value, onChangeText, data, icon }: SelectInputProps) => {
+const SelectInput = ({ label, placeholder, error, value, onChangeText, data, icon, enabled }: SelectInputProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState<SelectInputData | null>(null);
   
@@ -60,6 +61,7 @@ const SelectInput = ({ label, placeholder, error, value, onChangeText, data, ico
 
             {/* Picker (Selection Updates Without Closing Modal) */}
             <Picker
+              enabled={enabled}
               itemStyle={{ color: 'white', fontSize: 18, fontWeight: "bold", backgroundColor: '#1E2A32' }}
               dropdownIconColor="white"
               selectedValue={selectedValue?.value} // Use the value for comparison

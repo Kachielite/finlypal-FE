@@ -11,9 +11,9 @@ export class ExpenseRepositoryImpl implements ExpenseRepository{
   constructor(private expenseDatasource: ExpenseDatasource) {
   }
 
-  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<Either<Failure, Expense>> {
+  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number, budgetItemId?: number, savingsID?: number): Promise<Either<Failure, Expense>> {
     try{
-      const response =  await this.expenseDatasource.createExpense(amount, date, description, type, categoryId);
+      const response =  await this.expenseDatasource.createExpense(amount, date, description, type, categoryId, budgetItemId, savingsID);
       return right(response)
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
@@ -51,9 +51,9 @@ export class ExpenseRepositoryImpl implements ExpenseRepository{
     }
   }
 
-  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<Either<Failure, Expense>> {
+  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number, budgetItemId?: number, savingsID?: number): Promise<Either<Failure, Expense>> {
     try {
-      const response = await this.expenseDatasource.updateExpense(id, amount, date, description, type, categoryId);
+      const response = await this.expenseDatasource.updateExpense(id, amount, date, description, type, categoryId, budgetItemId, savingsID);
       return right(response);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";

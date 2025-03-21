@@ -1,9 +1,11 @@
 import logo from '@/assets/images/logo.png';
 import balanceBackground from '@/assets/images/background.jpg';
 import emptyState from '@/assets/images/EmptyState.png';
+import budgetBackground from '@/assets/images/budget-background.png';
 
 export default {
   logo,
   balanceBackground,
-  emptyState
+  emptyState,
+  budgetBackground
 }

@@ -69,7 +69,7 @@ const SignUpScreen = () => {
 
                 <View className="flex flex-col justify-start items-center w-full my-[24px] gap-y-[24px]">
                   <FieldInput
-                    type="name"
+                    iconType="name"
                     label="Name"
                     placeholder="Enter your name"
                     value={watch("name")}  // Ensure controlled behavior
@@ -78,7 +78,7 @@ const SignUpScreen = () => {
                   />
 
                   <FieldInput
-                    type="email"
+                    iconType="email"
                     label="Email"
                     placeholder="Enter your email"
                     value={watch("email")}

@@ -41,7 +41,7 @@ const RequestResetPasswordScreen = () => {
             </View>
           </View>
           <View className="flex flex-col justify-start items-center w-full my-[24px] gap-y-[24px]">
-            <FieldInput type="email" label="Email" placeholder="Enter your email" value={watch("email")} onChangeText={(text) => setValue("email", text.toLowerCase(), { shouldValidate: true })} error={errors.email?.message} />
+            <FieldInput iconType="email" label="Email" placeholder="Enter your email" value={watch("email")} onChangeText={(text) => setValue("email", text.toLowerCase(), { shouldValidate: true })} error={errors.email?.message} />
           </View>
         </View>
         <View className="w-screen p-[24px] border-t-[1px] border-t-quaternary">
