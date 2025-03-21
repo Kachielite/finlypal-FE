@@ -19,6 +19,9 @@ import { Budget } from '@/src/feature/budget/domain/entity/budget';
 import AddExpenseToBudgetItemModal
   from '@/src/feature/budget-item/presentation/components/add-expense-to-budget-item-modal';
 import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
+import { expenseBloc } from '@/src/feature/expenses/presentation/state/expenseBloc';
+import { EXPENSE_EVENTS } from '@/src/feature/expenses/presentation/state/expenseEvent';
+import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 
 
 const BudgetItemScreen = () => {
@@ -27,14 +30,18 @@ const BudgetItemScreen = () => {
   const deleteModalRef = useRef<Modalize>(null);
   const optionModalRef = useRef<Modalize>(null);
   const expenseModalRef = useRef<Modalize>(null);
+  const deleteExpenseModalRef = useRef<Modalize>(null);
 
   const {budget_item_id} = useLocalSearchParams<{ budget_item_id: string}>()
   const {} = useBudgetItem({budget_item_id});
 
   const {setModalType} = useBudgetItemState((state) => state);
   const isLoadingSelectedBudgetItem = useBudgetItemState((state) => state.isLoadingSelectedBudgetItem);
+  const isModifyingBudgetItem = useBudgetItemState((state) => state.isModifyingBudgetItem);
   const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
   const selectedBudget = useBudgetState((state) => state.selectedBudget);
+  const selectedExpense = useExpenseState((state) => state.selectedExpense);
+  const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
   const expenseList = selectedBudgetItem?.expenses || [];
   const groupedExpenses = useMemo(() => groupExpenseByDate(expenseList), [expenseList]);
 
@@ -61,6 +68,13 @@ const BudgetItemScreen = () => {
     deleteModalRef.current?.close();
     router.back();
   };
+
+  const deleteExpenseHandler = async () => {
+    await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.DELETE_EXPENSE, {id: selectedExpense?.id});
+    useExpenseState.getState().setSelectedExpense(null);
+    await budgetItemBloc.handleBudgetItemEvent(BUDGET_ITEM_EVENTS.GET_BUDGET_ITEM_BY_ID, {budgetItemId: selectedBudgetItem?.id});
+    deleteExpenseModalRef.current?.close();
+  }
 
   return (
       <>
@@ -92,8 +106,8 @@ const BudgetItemScreen = () => {
                 renderItem={({ item }) =>
                   <ExpensesList
                     data={item}
-                    createModalRef={expenseModalRef}
-                    deleteModalRef={deleteModalRef}
+                    createModalRef={modalizeRef}
+                    deleteModalRef={deleteExpenseModalRef}
                     optionModalRef={optionModalRef}
                   />
                 }
@@ -114,11 +128,19 @@ const BudgetItemScreen = () => {
         <AddExpenseToBudgetItemModal modalizeRef={expenseModalRef} />
         <AppModal
           modalizeRef={deleteModalRef}
-          title="Delete Expense"
-          description="Deleting this budget item will also delete all expenses associated with it. Are you sure you want to proceed?"
+          title="Delete Budget Category"
+          description="Deleting this budget category will also delete all expenses associated with it. Are you sure you want to proceed?"
           proceedAction={deleteBudgetItemHandler}
           proceedButtonLabel="Delete"
-          isLoading={false}
+          isLoading={isModifyingBudgetItem}
+        />
+        <AppModal
+          modalizeRef={deleteExpenseModalRef}
+          title="Delete Expense"
+          description="Are you sure you want to delete this expense?"
+          proceedAction={deleteExpenseHandler}
+          proceedButtonLabel="Delete"
+          isLoading={isModifyingExpense}
         />
       </>
   );
