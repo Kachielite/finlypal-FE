@@ -4,10 +4,16 @@ import images from '@/src/core/constants/images';
 import { CirclePlus, EditIcon, TrashIcon } from 'lucide-react-native';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
 import barColor from '@/src/core/utils/barColor';
-import { router } from 'expo-router';
+
+type BudgetItemBalanceCardProps = {
+  budgetItem: BudgetItem,
+  openEditBudgetItemModal: () => void,
+  openDeleteBudgetItemModal: () => void,
+  openExpenseModal: () => void
+}
 
 const BalanceCard = (
-  {budgetItem, openEditBudgetItemModal, openDeleteBudgetItemModal}:{budgetItem: BudgetItem, openEditBudgetItemModal: () => void, openDeleteBudgetItemModal: () => void}
+  {budgetItem, openEditBudgetItemModal, openDeleteBudgetItemModal, openExpenseModal}:BudgetItemBalanceCardProps
 ) => {
 
   const allocatedAmount = budgetItem?.allocatedAmount;
@@ -33,7 +39,7 @@ const BalanceCard = (
               </Text>
             </View>
             <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
-              <View style={{width: `${percentage}%`, backgroundColor: barColor(percentage)}} className="rounded-2xl h-full"/>
+              <View style={{width: `${percentage <= 100 ? percentage : 100}%`, backgroundColor: barColor(percentage)}} className="rounded-2xl h-full"/>
             </View>
             <View className="flex flex-row justify-between items-center w-full">
               <View className="flex flex-row justify-start items-center gap-x-[5px]">
@@ -49,7 +55,7 @@ const BalanceCard = (
         </View>
       </ImageBackground>
       <View className="w-full flex flex-row justify-center items-center gap-x-[20px]">
-        <TouchableOpacity onPress={() => router.push("/expense/add-expense")} className="flex flex-col justify-start items-center gap-y-[10px] w-[70px] ">
+        <TouchableOpacity onPress={openExpenseModal} className="flex flex-col justify-start items-center gap-y-[10px] w-[70px] ">
           <CirclePlus size={32} color="white" strokeWidth={1} />
           <View className="flex flex-col justify-center items-center">
             <Text className="text-white font-urbanist-bold text-[10px]">Add</Text>
@@ -60,14 +66,14 @@ const BalanceCard = (
           <EditIcon size={32} color="white" strokeWidth={1} />
           <View className="flex flex-col justify-center items-center">
             <Text className="text-white font-urbanist-bold text-[10px]">Edit</Text>
-            <Text className="text-white font-urbanist-bold text-[10px]">Item</Text>
+            <Text className="text-white font-urbanist-bold text-[10px]">Category</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={openDeleteBudgetItemModal} className="flex flex-col justify-start items-center gap-y-[10px] w-[70px] ">
           <TrashIcon size={32} color="white" strokeWidth={1} />
           <View className="flex flex-col justify-center items-center">
             <Text className="text-white font-urbanist-bold text-[10px]">Delete</Text>
-            <Text className="text-white font-urbanist-bold text-[10px]">Item</Text>
+            <Text className="text-white font-urbanist-bold text-[10px]">Category</Text>
           </View>
         </TouchableOpacity>
       </View>

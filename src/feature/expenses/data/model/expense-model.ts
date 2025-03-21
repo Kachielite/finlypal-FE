@@ -14,7 +14,7 @@ export class ExpenseModel extends Expense{
   }
 
   static fromJsonList(response: ExpenseModel[]) {
-    return response.map(item => ExpenseModel.fromJson(item));
+    return response?.map(item => ExpenseModel.fromJson(item));
   }
 
   static fromJson(response: any): ExpenseModel {

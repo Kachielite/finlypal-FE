@@ -4,7 +4,8 @@ import { budgetItemBloc } from '@/src/feature/budget-item/presentation/state/bud
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { budgetItemSchema } from '@/src/core/validation/budget-item-validation';
+import { budgetItemExpenseSchema, budgetItemSchema } from '@/src/core/validation/budget-item-validation';
+import moment from 'moment';
 
 export interface UseBudgetItemReturnValues {
   setValue: any;
@@ -12,6 +13,11 @@ export interface UseBudgetItemReturnValues {
   watch: (any: string) => any;
   errors: Record<string, any>;
   resetForm: () => void;
+  setExpenseValue: any;
+  handleSubmitExpense: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+  watchExpense: (any: string) => any;
+  errorsExpense: Record<string, any>;
+  resetExpenseForm: () => void;
 }
 
 const useBudgetItem = (
@@ -30,11 +36,30 @@ const useBudgetItem = (
     },
   })
 
+  const {setValue: setExpenseValue, handleSubmit: handleSubmitExpense, watch: watchExpense, formState: { errors: errorsExpense }, reset: resetExpense} = useForm({
+    resolver: zodResolver(budgetItemExpenseSchema),
+    defaultValues: {
+      description: "",
+      amount: 0,
+      category: null,
+      date: moment().format('YYYY-MM-DD'),
+    },
+  })
+
   const resetForm = () => {
     reset({
       name: "",
       icon: "🛒",
       allocatedAmount: 0,
+    })
+  }
+
+  const resetExpenseForm = () =>{
+    resetExpense({
+      description: "",
+      amount: 0,
+      category: null,
+      date: moment().format('YYYY-MM-DD'),
     })
   }
 
@@ -49,7 +74,7 @@ const useBudgetItem = (
       )()
     }
   },[budget_item_id])
-  
+
 
 
   useEffect(() => {
@@ -62,7 +87,7 @@ const useBudgetItem = (
     }
   }, [selectedBudgetItem, modalType]);
 
-  return {setValue, handleSubmit, watch, errors, resetForm}
+  return {setValue, handleSubmit, watch, errors, resetForm, setExpenseValue, handleSubmitExpense, watchExpense, errorsExpense, resetExpenseForm}
 }
 
 export default useBudgetItem;

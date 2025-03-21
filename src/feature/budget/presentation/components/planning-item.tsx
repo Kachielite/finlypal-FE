@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { Budget, BudgetStatus } from '@/src/feature/budget/domain/entity/budget';
 import { router } from 'expo-router';
+import barColor from '@/src/core/utils/barColor';
 
 const PlanningItem = ({budget}:{budget: Budget}) => {
 
@@ -25,7 +26,7 @@ const PlanningItem = ({budget}:{budget: Budget}) => {
           <Text className="text-white font-urbanist-normal text-[10px]">{BudgetStatus[budget.status as unknown as keyof typeof BudgetStatus]}</Text>
         </View>
         <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
-          <View style={{width: `${percentage}%`}} className="rounded-2xl h-full bg-[#17CE92]"/>
+          <View style={{width: `${percentage <= 100 ? percentage : 100}%`, backgroundColor: barColor(percentage)}} className="rounded-2xl h-full"/>
         </View>
       </View>
     </TouchableOpacity>

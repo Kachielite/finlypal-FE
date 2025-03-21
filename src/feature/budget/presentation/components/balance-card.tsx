@@ -25,7 +25,7 @@ const BalanceCard = ({selectedBudget}: {selectedBudget: Budget}) => {
             </Text>
           </View>
           <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
-            <View style={{width: `${percentage}%`, backgroundColor: barColor(percentage)}} className="rounded-2xl h-full"/>
+            <View style={{width: `${percentage <= 100 ? percentage : 100}%`, backgroundColor: barColor(percentage)}} className="rounded-2xl h-full"/>
           </View>
           <View className="flex flex-row justify-between items-center w-full">
             <View className="flex flex-row justify-start items-center gap-x-[5px]">

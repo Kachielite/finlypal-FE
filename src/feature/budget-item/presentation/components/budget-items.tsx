@@ -8,7 +8,7 @@ const BudgetItemsList = ({budgetItems}:{budgetItems: BudgetItem[]}) => {
   return (
     <View className="flex flex-col justify-start items-start w-full gap-y-[18px]">
       <View className="flex flex-row justify-between items-center w-full">
-        <Text className="text-white font-urbanist-bold text-[20px]">Budget items</Text>
+        <Text className="text-white font-urbanist-bold text-[20px]">Budget Category</Text>
       </View>
       <View className="rounded-xl p-[12px] max-h-[50vh] w-full bg-alternative shadow-md">
         <FlatList
@@ -21,7 +21,7 @@ const BudgetItemsList = ({budgetItems}:{budgetItems: BudgetItem[]}) => {
           contentContainerStyle={{
             paddingTop: 10,
             paddingHorizontal: 10,
-            paddingBottom: 40,
+            paddingBottom: budgetItems?.length >= 5 ? 90 : 0,
             gap: 20,
           }}
           renderItem={({ item }) => (

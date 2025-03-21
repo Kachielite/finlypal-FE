@@ -1,4 +1,6 @@
 import { BudgetItem, BudgetItemStatus } from '@/src/feature/budget-item/domain/entity/budget-item';
+import { Expense } from '@/src/feature/expenses/domain/entity/expense';
+import { ExpenseModel } from '@/src/feature/expenses/data/model/expense-model';
 
 export class BudgetItemModel extends BudgetItem{
   constructor(
@@ -7,7 +9,7 @@ export class BudgetItemModel extends BudgetItem{
     public icon: string,
     public status: BudgetItemStatus,
     public statusTooltip: string,
-    public expenses: [],
+    public expenses: Expense[],
     public allocatedAmount: number,
     public actualSpend: number,
     public budgetId: number,
@@ -23,7 +25,7 @@ export class BudgetItemModel extends BudgetItem{
       json.icon,
       json.status,
       json.status_tooltip,
-      json.expenses,
+      ExpenseModel.fromJsonList(json.expenses),
       json.allocated_amount,
       json.actual_spend,
       json.budget_id,

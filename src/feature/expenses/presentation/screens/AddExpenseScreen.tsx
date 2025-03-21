@@ -26,7 +26,7 @@ import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetSt
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
 
 const AddExpenseScreen = () => {
-  const {setValueExpense: setValue, watchExpense: watch, handleSubmitExpense: handleSubmit, errorsExpense: errors, resetExpenseForm, setErrorExpense} = useExpense();
+  const {setValueExpense: setValue, watchExpense: watch, handleSubmitExpense: handleSubmit, errorsExpense: errors, resetExpenseForm} = useExpense();
   const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
   const modalType = useExpenseState((state) => state.modalType);
   const categoryList = useExpenseState((state) => state.categoryList);

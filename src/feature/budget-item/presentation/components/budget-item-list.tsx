@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
 import { router } from 'expo-router';
+import barColor from '@/src/core/utils/barColor';
 
 const BudgetListItem = ({budgetItem}:{budgetItem: BudgetItem}) => {
 
@@ -22,7 +23,7 @@ const BudgetListItem = ({budgetItem}:{budgetItem: BudgetItem}) => {
           <Text className="text-white font-urbanist-normal text-[12px]">${actualSpend} of ${totalBudget}</Text>
         </View>
         <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
-          <View style={{width: `${percentage}%`}} className="rounded-2xl h-full bg-[#17CE92]"/>
+          <View style={{width: `${percentage <= 100 ? percentage : 100}%`, backgroundColor: barColor(percentage)}} className="rounded-2xl h-full"/>
         </View>
       </View>
     </TouchableOpacity>

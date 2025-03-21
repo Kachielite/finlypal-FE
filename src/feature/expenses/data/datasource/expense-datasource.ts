@@ -4,8 +4,8 @@ import { ExpensesService } from '@/src/core/service/expenses';
 import { Exception } from '@/src/core/error/exception';
 
 export interface ExpenseDatasource {
-  createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<ExpenseModel>;
-  updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<ExpenseModel>;
+  createExpense(amount: number, date: string, description: string, type: string, categoryId: number, budgetItemId?: number, savingsID?: number): Promise<ExpenseModel>;
+  updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number, budgetItemId?: number, savingsID?: number): Promise<ExpenseModel>;
   getAllExpense(startDate: string, endDate: string, categoryId?: number, type?: string, page?: number, pageSize?: number): Promise<ExpenseModel[]>;
   getExpenseById(id: number): Promise<ExpenseModel>;
   deleteExpense(id: number): Promise<GeneralResponse>
@@ -15,9 +15,9 @@ export class ExpenseDatasourceImpl implements ExpenseDatasource{
   constructor(private expensesService: ExpensesService) {
   }
 
-  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number): Promise<ExpenseModel> {
+  async createExpense(amount: number, date: string, description: string, type: string, categoryId: number, budgetItemId?: number, savingsID?: number): Promise<ExpenseModel> {
     try{
-      const response = await this.expensesService.createExpense(amount, date, description, type, categoryId);
+      const response = await this.expensesService.createExpense(amount, date, description, type, categoryId, budgetItemId, savingsID);
       return ExpenseModel.fromJson(response)
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
@@ -67,9 +67,9 @@ export class ExpenseDatasourceImpl implements ExpenseDatasource{
     }
   }
 
-  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number): Promise<ExpenseModel> {
+  async updateExpense(id: number, amount?: number, date?: string, description?: string, type?: string, categoryId?: number, budgetItemId?: number, savingsID?: number): Promise<ExpenseModel> {
     try{
-      const response = await this.expensesService.updateExpense(id, amount, date, description, type, categoryId);
+      const response = await this.expensesService.updateExpense(id, amount, date, description, type, categoryId, budgetItemId, savingsID);
       return ExpenseModel.fromJson(response)
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {

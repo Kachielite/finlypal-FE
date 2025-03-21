@@ -22,7 +22,7 @@ const BudgetDetailsOption = ({modalizeRef,openCreateModal, openDeleteModal, open
       <View className="flex flex-col justify-between items-center w-full px-[24px] py-[32px]  gap-y-[32px]">
         <TouchableOpacity onPress={openAddBudgetItemModal} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-[#007BFF] rounded-[12px]">
           <CirclePlus size={24} color="white" />
-          <Text className="text-white font-urbanist-bold text-[20px]">Add Budget Item</Text>
+          <Text className="text-white font-urbanist-bold text-[20px]">Add Budget Category</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={openCreateModal} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-secondary rounded-[12px]">
           <EditIcon size={24} color="white" />

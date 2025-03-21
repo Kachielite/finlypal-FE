@@ -10,7 +10,9 @@ export class CreateExpenseUseCaseParams {
     public date: string,
     public description: string,
     public type: string,
-    public categoryId: number
+    public categoryId: number,
+    public budgetItemId?: number,
+    public savingsID?: number
   ) {
   }
 }
@@ -20,7 +22,7 @@ export class CreateExpenseUseCase extends UseCase<Expense, CreateExpenseUseCaseP
     super();
   }
   async execute(params: CreateExpenseUseCaseParams): Promise<Either<Failure, Expense>> {
-    return await this.expenseRepository.createExpense(params.amount, params.date, params.description, params.type, params.categoryId);
+    return await this.expenseRepository.createExpense(params.amount, params.date, params.description, params.type, params.categoryId, params.budgetItemId, params.savingsID);
   }
 
 }
