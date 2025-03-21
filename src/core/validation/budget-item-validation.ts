@@ -13,6 +13,6 @@ export const budgetItemExpenseSchema = z.object({
     id: z.number(),
     label: z.string(),
     value: z.string()
-  }).refine(data => data.id !== undefined, { message: "Category is required" }).nullable(),
+  }).refine(data => data.id !== undefined, { message: "Category is required" }),
   date: z.string().min(1, { message: 'Date is required' }),
 });

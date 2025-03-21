@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { budgetItemExpenseSchema, budgetItemSchema } from '@/src/core/validation/budget-item-validation';
 import moment from 'moment';
+import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 
 export interface UseBudgetItemReturnValues {
   setValue: any;
@@ -25,7 +26,9 @@ const useBudgetItem = (
 ): UseBudgetItemReturnValues => {
 
   const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
+  const selectedExpense = useExpenseState((state) => state.selectedExpense);
   const modalType = useBudgetItemState((state) => state.modalType);
+  const expenseModalType = useExpenseState((state) => state.modalType);
 
   const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
     resolver: zodResolver(budgetItemSchema),
@@ -84,8 +87,32 @@ const useBudgetItem = (
         icon: selectedBudgetItem.icon,
         allocatedAmount: selectedBudgetItem.allocatedAmount
       })
+    } else {
+      reset({
+        name: "",
+        icon: "🛒",
+        allocatedAmount: 0,
+      })
     }
   }, [selectedBudgetItem, modalType]);
+
+  useEffect(() => {
+    if (expenseModalType === "edit" && selectedExpense) {
+      resetExpense({
+        description: selectedExpense.description,
+        amount: selectedExpense.amount,
+        category: {id: selectedExpense.categoryId, label: selectedExpense.categoryName, value: selectedExpense.categoryName},
+        date: selectedExpense.date,
+      })
+    } else {
+      resetExpense({
+        description: "",
+        amount: 0,
+        category: null,
+        date: moment().format('YYYY-MM-DD'),
+      })
+    }
+  }, [selectedExpense, expenseModalType]);
 
   return {setValue, handleSubmit, watch, errors, resetForm, setExpenseValue, handleSubmitExpense, watchExpense, errorsExpense, resetExpenseForm}
 }

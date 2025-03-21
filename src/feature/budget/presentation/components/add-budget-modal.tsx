@@ -27,6 +27,7 @@ const AddBudgetModal = ({ modalizeRef, includeTabPadding}: AddBudgetModalProps) 
     await handleSubmit(async (data) => {
       try {
         await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.CREATE_BUDGET, data);
+        await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {});
         resetAddBudgetForm()
         modalizeRef.current?.close();
       } catch (e) {
@@ -42,6 +43,7 @@ const AddBudgetModal = ({ modalizeRef, includeTabPadding}: AddBudgetModalProps) 
         await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.UPDATE_BUDGET, { budgetId: selectedBudget?.id, ...data });
         resetAddBudgetForm()
         await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGET_BY_ID, { budgetId: selectedBudget?.id });
+        await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {});
         modalizeRef.current?.close();
       } catch (e) {
         console.log("Error updating budget: ", e)

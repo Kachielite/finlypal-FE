@@ -14,7 +14,9 @@ import useBudgetItem from '@/src/feature/budget-item/presentation/state/useBudge
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
 import { budgetItemBloc } from '@/src/feature/budget-item/presentation/state/budgetItemBloc';
 import { BUDGET_ITEM_EVENTS } from '@/src/feature/budget-item/presentation/state/budgetItemEvent';
-
+import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
+import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
+import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
 
 type AddExpenseToBudgetItemModalProps = {
   modalizeRef: any,
@@ -23,9 +25,11 @@ type AddExpenseToBudgetItemModalProps = {
 const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModalProps) => {
   const {setExpenseValue, handleSubmitExpense, watchExpense, errorsExpense, resetExpenseForm} = useBudgetItem({});
   const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
-  const modalType = useBudgetItemState((state) => state.modalType);
+  const expenseModalType = useExpenseState((state) => state.modalType);
   const categoryList = useExpenseState((state) => state.categoryList);
   const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
+  const selectedExpense = useExpenseState((state) => state.selectedExpense);
+  const selectedBudget = useBudgetState((state) => state.selectedBudget);
   const formattedCategories = categoryList.map((item) => ({ id: item.id, label: item.displayName, value: item.displayName }));
 
 
@@ -46,6 +50,10 @@ const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModal
         BUDGET_ITEM_EVENTS.GET_BUDGET_ITEM_BY_ID, {budgetItemId: selectedBudgetItem?.id}
       );
 
+      await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGET_BY_ID, {budgetId: selectedBudget?.id});
+
+      await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {});
+
       resetExpenseForm();
       modalizeRef?.current?.close();
 
@@ -56,7 +64,7 @@ const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModal
 
   const editExpenseHandler = async () => {
     const data = {
-      id: selectedBudgetItem?.id,
+      id: selectedExpense?.id,
       description: watchExpense("description"),
       amount: watchExpense("amount"),
       date: watchExpense("date"),
@@ -65,6 +73,14 @@ const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModal
     }
     try {
       await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.UPDATE_EXPENSE, data);
+      await budgetItemBloc.handleBudgetItemEvent(
+        BUDGET_ITEM_EVENTS.GET_BUDGET_ITEM_BY_ID, {budgetItemId: selectedBudgetItem?.id}
+      );
+
+      await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGET_BY_ID, {budgetId: selectedBudget?.id});
+
+      await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {});
+      
       resetExpenseForm();
       modalizeRef?.current?.close();
     } catch (error) {
@@ -74,8 +90,6 @@ const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModal
 
   return (
     <Modalize
-      onClosed={resetExpenseForm}
-      onClose={resetExpenseForm}
       ref={modalizeRef}
       adjustToContentHeight
       keyboardAvoidingBehavior="height"
@@ -83,7 +97,7 @@ const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModal
     >
       <View className="flex flex-col justify-between items-center w-full px-[24px] pt-[24px] pb-10 h-full gap-y-[18px]">
         <Text className="text-white font-urbanist-bold text-center text-[24px] pb-[24px] border-b-[1px] border-b-[#35383F] w-full">
-          {modalType === 'edit' ? 'Edit Expense' : 'Add Expense'}
+          {expenseModalType === 'edit' ? 'Edit Expense' : 'Add Expense'}
         </Text>
         <FieldInput
           label="Description"
@@ -124,7 +138,7 @@ const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModal
             <Button type="secondary" onPress={() => modalizeRef?.current?.close()} label="Cancel" />
           </View>
           <View className="w-[55vw]">
-            <Button onPress={modalType === 'edit' ? handleSubmitExpense(editExpenseHandler) : handleSubmitExpense(createExpenseHandler)} label={modalType === 'edit' ? 'Update' : 'Add'} isLoading={isModifyingExpense} />
+            <Button onPress={expenseModalType === 'edit' ? handleSubmitExpense(editExpenseHandler) : handleSubmitExpense(createExpenseHandler)} label={expenseModalType === 'edit' ? 'Update' : 'Add'} isLoading={isModifyingExpense} />
           </View>
         </View>
       </View>
