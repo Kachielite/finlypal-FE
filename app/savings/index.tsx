@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native';
+import SavingsScreen from '@/src/feature/savings/presentation/screens/SavingsScreen';
 
 const Index = () => {
-  return <Text>Savings screen</Text>
+  return <SavingsScreen/>
 };
 export default Index;

@@ -12,6 +12,7 @@ export default function SavingsLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
+      <Stack.Screen name="[savings_id]" />
     </Stack>
   );
 }
