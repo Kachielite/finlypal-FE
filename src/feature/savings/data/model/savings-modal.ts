@@ -17,7 +17,7 @@ export class SavingsModal extends Savings {
     super(id, icon, status, statusTooltip, expenses, goalName, targetAmount, savedAmount, startDate, endDate, createdAt);
   }
 
-  static fromListJson(jsonList: any[]): SavingsModal[] {
+  static fromJsonList(jsonList: any[]): SavingsModal[] {
     return jsonList?.map(SavingsModal.fromJson);
   }
 
