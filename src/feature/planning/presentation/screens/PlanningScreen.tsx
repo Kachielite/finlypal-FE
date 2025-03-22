@@ -10,12 +10,13 @@ import { Modalize } from 'react-native-modalize';
 import AddBudgetModal from '@/src/feature/budget/presentation/components/add-budget-modal';
 import SavingsList from '@/src/feature/savings/presentation/components/savings-list';
 import useSavings from '@/src/feature/savings/presentation/state/useSavings';
+import AddSavingsModal from '@/src/feature/savings/presentation/components/add-savings-modal';
 
 const PlanningScreen = () => {
   const modalizeRef = useRef<Modalize>(null);
 
   const {resetAddBudgetForm} = useBudget({});
-  const {savingsList} = useSavings({});
+  const {savingsList, openSavingsModal, savingsModal} = useSavings({});
   const budgetList = useBudgetState((state) => state.budgetList);
   const isLoadingBudgets = useBudgetState((state) => state.isLoadingBudgets);
   const {setModalType, setSelectedBudget} = useBudgetState((state) => state);
@@ -32,21 +33,41 @@ const PlanningScreen = () => {
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
         { isLoadingBudgets ?
-          <View className="flex flex-col justify-center items-center h-full w-full">
+          <View
+            className="flex flex-col justify-center items-center h-full w-full"
+          >
             <Loader />
           </View> :
           <View
-            className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]">
-            {/* Header Section */}
+            className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]"
+          >
             <View className="flex flex-row justify-center items-center w-full">
               <Text className="text-white font-urbanist-bold text-[24px]">Planning</Text>
             </View>
-            <EasyAccess addBudget={onOpen} />
-            <BudgetList type="Budget" onPressSeeAll={() => router.push('/budget')} ListItems={budgetList.slice(0, 3)} />
-            <SavingsList type="Savings" onPressSeeAll={() => router.push('/savings')} ListItems={savingsList.slice(0, 3)} />
+            <EasyAccess
+              addBudgetModal={onOpen}
+              openSavingsModal={openSavingsModal}
+            />
+            <BudgetList
+              type="Budget"
+              onPressSeeAll={() => router.push('/budget')}
+              ListItems={budgetList.slice(0, 3)}
+            />
+            <SavingsList
+              type="Savings"
+              onPressSeeAll={() => router.push('/savings')}
+              ListItems={savingsList.slice(0, 3)}
+            />
           </View>}
       </SafeAreaView>
-      <AddBudgetModal modalizeRef={modalizeRef} includeTabPadding />
+      <AddBudgetModal
+        modalizeRef={modalizeRef}
+        includeTabPadding
+      />
+      <AddSavingsModal
+        includeTabPadding
+        savingsModal={savingsModal}
+      />
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { savingsBloc } from '@/src/feature/savings/presentation/state/savingsBloc';
 import { SAVINGS_EVENTS } from '@/src/feature/savings/presentation/state/savingsEvents';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SavingsSchema } from '@/src/core/validation/savings-validation';
 import moment from 'moment';
@@ -10,7 +10,7 @@ import { Modalize } from 'react-native-modalize';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import { showToast } from '@/src/shared/presentation/components/toastProvider';
 
-const useSavings = ({savingsId}: {savingsId?: number}) => {
+const useSavings = ({savingsId, inChild}: {savingsId?: number, inChild?: boolean}) => {
   // Savings screen modals
   const savingsModal = useRef<Modalize>(null);
   const deleteSavingsModal = useRef<Modalize>(null);
@@ -21,6 +21,7 @@ const useSavings = ({savingsId}: {savingsId?: number}) => {
   const modalType = useSavingState((state) => state.modalType);
   const selectedSaving = useSavingState((state) => state.selectedSaving);
   const savingsList = useSavingState((state) => state.savingList);
+  const isModifyingSaving = useSavingState((state) => state.isModifyingSaving);
 
   // Savings screen form
   const {setValue, handleSubmit, watch, formState: { errors, defaultValues }, reset} = useForm({
@@ -45,7 +46,7 @@ const useSavings = ({savingsId}: {savingsId?: number}) => {
   }
 
   // Savings screen functions
-  const createSavings = async (data: typeof SavingsSchema ) => {
+  const createSavings = async (data: FieldValues) => {
     useSavingState.getState().setModalType('add');
     try {
       await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.CREATE_SAVINGS, data);
@@ -58,7 +59,7 @@ const useSavings = ({savingsId}: {savingsId?: number}) => {
     }
   }
 
-  const updateSavings = async (data: typeof SavingsSchema) => {
+  const updateSavings = async (data: FieldValues) => {
     useSavingState.getState().setModalType('edit');
     try {
       await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.UPDATE_SAVINGS, {data, savingsId: selectedSaving?.id});
@@ -101,16 +102,23 @@ const useSavings = ({savingsId}: {savingsId?: number}) => {
     deleteExpenseModal.current?.open();
   }
 
+  const closeSavingsModal = () => {
+    resetSavingsForm();
+    savingsModal.current?.close();
+  }
+
 
   // Effects
   // Fetch all savings
   useEffect(() => {
     (
       async () => {
-        try {
-          await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_ALL_SAVINGS, {});
-        } catch (error) {
-          console.error("useSavings error in savings bloc =>", error)
+        if(!inChild){
+          try {
+            await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_ALL_SAVINGS, {});
+          } catch (error) {
+            console.error("useSavings error in savings bloc =>", error)
+          }
         }
       }
     )()
@@ -154,6 +162,9 @@ const useSavings = ({savingsId}: {savingsId?: number}) => {
     errors,
     defaultValues,
     savingsList,
+    modalType,
+    isModifyingSaving,
+    savingsModal,
     resetSavingsForm,
     createSavings,
     updateSavings,
@@ -161,7 +172,8 @@ const useSavings = ({savingsId}: {savingsId?: number}) => {
     openSavingsModal,
     openDeleteSavingsModal,
     openExpenseModal,
-    openDeleteExpenseModal
+    openDeleteExpenseModal,
+    closeSavingsModal
   }
 
 }

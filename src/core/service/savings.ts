@@ -5,7 +5,7 @@ import { SavingsSchema } from '@/src/core/validation/savings-validation';
 
 export class SavingsService {
   private BASE_URL = SECRET.BASE_URL;
-  private SAVINGS_PATH = '/savings';
+  private SAVINGS_PATH = '/savings/';
 
   constructor() {
   }
@@ -13,7 +13,7 @@ export class SavingsService {
   async getSavings(page: number, pageSize: number): Promise<any> {
     try {
       const response = await customAxios.get(`${this.BASE_URL}${this.SAVINGS_PATH}?page=${page || 0}&pageSize=${pageSize || 40}`);
-      return response.data;
+      return response.data.content;
     } catch (error: unknown) {
       console.error("Get savings error in savings service => ", error);
       if (axios.isAxiosError(error) && error.response) {

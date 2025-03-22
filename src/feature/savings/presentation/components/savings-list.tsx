@@ -10,7 +10,7 @@ const SavingsList = ({type, onPressSeeAll, ListItems}:{type: string, onPressSeeA
     <View className="flex flex-col justify-start items-start w-full gap-y-[18px]">
       <View className="flex flex-row justify-between items-center w-full">
         <Text className="text-white font-urbanist-bold text-[20px]">{type}</Text>
-        {ListItems.length > 0 && <TouchableOpacity onPress={onPressSeeAll}>
+        {ListItems.length > 3 && <TouchableOpacity onPress={onPressSeeAll}>
           <Text className="text-white text-[14px]">See All</Text>
         </TouchableOpacity>}
       </View>
