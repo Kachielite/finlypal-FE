@@ -1,5 +1,5 @@
 import { FlatList, ImageBackground, StatusBar, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useMemo, useRef } from 'react';
 import images from '@/src/core/constants/images';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, EllipsisVertical, Info } from 'lucide-react-native';
@@ -12,21 +12,29 @@ import ExpensesList from '@/src/feature/expenses/presentation/components/expense
 import SavingsOptionModal from '@/src/feature/savings/presentation/components/savings-option';
 import AddSavingsModal from '@/src/feature/savings/presentation/components/add-savings-modal';
 import AppModal from '@/src/shared/presentation/components/app-modal';
+import { Modalize } from 'react-native-modalize';
+import AddExpenseToSavingsModal from '@/src/feature/savings/presentation/components/add-expense-to-savings-modal';
+import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
 
 const SavingScreen = () => {
+  // Savings screen modals
+  const savingsModal = useRef<Modalize>(null);
+  const deleteSavingsModal = useRef<Modalize>(null);
+  const expenseModal = useRef<Modalize>(null);
+  const deleteExpenseModal = useRef<Modalize>(null);
+  const savingsOptionModal = useRef<Modalize>(null);
 
   const { savings_id } = useLocalSearchParams<{ savings_id: string }>();
   const {
     isLoadingSaving,
     selectedSaving,
-    expenseModal,
-    deleteExpenseModal,
-    savingsOptionModal,
-    savingsModal,
-    deleteSavingsModal,
     isModifyingSaving,
-    deleteSavings
-  } = useSavings({savingsId: Number(savings_id)});
+    expenseForm,
+    deleteSavings,
+    createExpenseHandler,
+    editExpenseHandler
+  } = useSavings({savingsId: Number(savings_id), deleteSavingsModal});
+  const groupedExpenses = useMemo(() => groupExpenseByDate(selectedSaving?.expenses || []), [selectedSaving?.expenses]);
 
   return (
    <>
@@ -66,7 +74,7 @@ const SavingScreen = () => {
              </View>
                {/* Expenses List with FlatList */}
                <FlatList
-                 data={selectedSaving?.expenses?.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())}
+                 data={groupedExpenses}
                  keyExtractor={(item) => item.date} // Ensure unique keys
                  renderItem={({ item }) =>
                    <ExpensesList
@@ -98,6 +106,13 @@ const SavingScreen = () => {
      />
      <AddSavingsModal
        savingsModal={savingsModal}
+     />
+     <AddExpenseToSavingsModal
+       expenseModal={expenseModal}
+       createExpenseHandler={createExpenseHandler}
+       editExpenseHandler={editExpenseHandler}
+       isModifyingExpense={isModifyingSaving}
+       expenseForm={expenseForm}
      />
      <AppModal
        modalizeRef={deleteSavingsModal}

@@ -19,3 +19,14 @@ export const SavingsSchema = z.object({
       path: ['endDate'], // Attach error to endDate
     }
   );
+
+export const SavingsExpenseSchema = z.object({
+  description: z.string().min(1, { message: 'Description is required' }),
+  amount: z.number().min(1, { message: 'Amount is required' }),
+  category: z.object({
+    id: z.number(),
+    label: z.string(),
+    value: z.string()
+  }).refine(data => data.id !== undefined, { message: "Category is required" }),
+  date: z.string().min(1, { message: 'Date is required' }),
+});

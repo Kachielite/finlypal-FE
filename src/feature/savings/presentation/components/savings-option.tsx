@@ -3,6 +3,7 @@ import React from 'react';
 import { Modalize } from 'react-native-modalize';
 import { CirclePlus, EditIcon, TrashIcon } from 'lucide-react-native';
 import { useSavingState } from '@/src/feature/savings/presentation/state/savingsState';
+import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 
 type SavingsOptionModalProps = {
   savingsOptionModal: React.RefObject<Modalize>;
@@ -11,8 +12,11 @@ type SavingsOptionModalProps = {
   expenseModal: React.RefObject<Modalize>;
 };
 
-const SavingsOptionModal = ({savingsOptionModal, savingsModal, deleteSavingsModal, expenseModal }: SavingsOptionModalProps) => {
+const SavingsOptionModal = (
+  {savingsOptionModal, savingsModal, deleteSavingsModal, expenseModal }: SavingsOptionModalProps
+) => {
   const setModalType = useSavingState((state) => state.setModalType);
+  const setExpenseModalType = useExpenseState((state) => state.setModalType);
 
   const openSaveModal = () => {
     setModalType('edit');
@@ -23,6 +27,12 @@ const SavingsOptionModal = ({savingsOptionModal, savingsModal, deleteSavingsModa
   const openDeleteModal = () => {
     deleteSavingsModal.current?.open();
     savingsOptionModal.current?.close();
+  };
+
+  const openExpenseModal = () => {
+    setExpenseModalType('add');
+    savingsOptionModal.current?.close();
+    expenseModal.current?.open();
   };
 
   return (
@@ -36,7 +46,7 @@ const SavingsOptionModal = ({savingsOptionModal, savingsModal, deleteSavingsModa
       <View
         className="flex flex-col justify-between items-center w-full px-[24px] py-[32px]  gap-y-[32px]"
       >
-        <TouchableOpacity onPress={() => expenseModal.current?.open()} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-[#007BFF] rounded-[12px]">
+        <TouchableOpacity onPress={openExpenseModal} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-[#007BFF] rounded-[12px]">
           <CirclePlus size={24} color="white" />
           <Text className="text-white font-urbanist-bold text-[20px]">Add Expense</Text>
         </TouchableOpacity>

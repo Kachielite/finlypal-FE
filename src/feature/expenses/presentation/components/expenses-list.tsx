@@ -16,7 +16,7 @@ const ExpensesList = React.memo(
         </Text>
       </View>
       <View className="w-full">
-        {data.expenses.map((item) => (
+        {data?.expenses?.map((item) => (
           <ExpenseCard
             key={item.id}
             expense={item}

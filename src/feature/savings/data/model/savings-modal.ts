@@ -1,5 +1,7 @@
 import { Savings, SavingsStatus } from '@/src/feature/savings/domain/entity/savings';
 import { SavingsSchema } from '@/src/core/validation/savings-validation';
+import { Expense } from '@/src/feature/expenses/domain/entity/expense';
+import { ExpenseModel } from '@/src/feature/expenses/data/model/expense-model';
 
 export class SavingsModal extends Savings {
   constructor(
@@ -7,7 +9,7 @@ export class SavingsModal extends Savings {
     public icon: string,
     public status: SavingsStatus,
     public statusTooltip: string,
-    public expenses: any[],
+    public expenses: Expense[],
     public goalName: string,
     public targetAmount: number,
     public savedAmount: number,
@@ -28,7 +30,7 @@ export class SavingsModal extends Savings {
       json.icon,
       json.status,
       json.status_tooltip,
-      json.expenses,
+      ExpenseModel.fromJsonList(json.expenses),
       json.goal_name,
       json.target_amount,
       json.saved_amount,

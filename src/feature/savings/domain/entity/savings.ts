@@ -1,3 +1,5 @@
+import { Expense } from '@/src/feature/expenses/domain/entity/expense';
+
 export enum SavingsStatus {
   ON_TRACK = 'On track',
   ACHIEVED = 'Achieved',
@@ -11,7 +13,7 @@ export class Savings {
     public icon: string,
     public status: SavingsStatus,
     public statusTooltip: string,
-    public expenses: any[],
+    public expenses: Expense[],
     public goalName: string,
     public targetAmount: number,
     public savedAmount: number,
