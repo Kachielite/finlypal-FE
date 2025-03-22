@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import React, { useRef } from 'react';
 import EasyAccess from '@/src/feature/budget/presentation/components/easy-access';
 import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
@@ -48,16 +48,18 @@ const PlanningScreen = () => {
               addBudgetModal={onOpen}
               openSavingsModal={openSavingsModal}
             />
-            <BudgetList
-              type="Budget"
-              onPressSeeAll={() => router.push('/budget')}
-              ListItems={budgetList.slice(0, 3)}
-            />
-            <SavingsList
-              type="Savings"
-              onPressSeeAll={() => router.push('/savings')}
-              ListItems={savingsList.slice(0, 3)}
-            />
+            <ScrollView contentContainerClassName="pb-[100px] gap-y-[42px]">
+              <BudgetList
+                type="Budget"
+                onPressSeeAll={() => router.push('/budget')}
+                ListItems={budgetList.slice(0, 3)}
+              />
+              <SavingsList
+                type="Savings"
+                onPressSeeAll={() => router.push('/savings')}
+                ListItems={savingsList.slice(0, 3)}
+              />
+            </ScrollView>
           </View>}
       </SafeAreaView>
       <AddBudgetModal
