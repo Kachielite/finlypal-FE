@@ -28,6 +28,7 @@ const useSavings = (
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
   const expenseList = useExpenseState((state) => state.expenseList);
   const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
+  const expenseModalType = useExpenseState((state) => state.modalType);
 
   // Savings screen form
   const {setValue, handleSubmit, watch, formState: { errors, defaultValues }, reset} = useForm({
@@ -216,6 +217,24 @@ const useSavings = (
       }
     )()
   }, [savingsId, modalType])
+
+  useEffect(() => {
+    if (expenseModalType === "edit" && selectedExpense) {
+      expenseForm.reset({
+        description: selectedExpense.description,
+        amount: selectedExpense.amount,
+        category: {id: selectedExpense.categoryId, label: selectedExpense.categoryName, value: selectedExpense.categoryName},
+        date: selectedExpense.date,
+      })
+    } else {
+      expenseForm.reset({
+        description: "",
+        amount: 0,
+        category: {id: 0, label: "", value: ""},
+        date: moment().format('YYYY-MM-DD'),
+      })
+    }
+  }, [selectedExpense, expenseModalType]);
 
 
   // console.log("selectedSaving", selectedSaving)
