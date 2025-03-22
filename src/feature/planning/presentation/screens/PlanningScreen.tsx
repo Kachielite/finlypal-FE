@@ -48,14 +48,17 @@ const PlanningScreen = () => {
               addBudgetModal={onOpen}
               openSavingsModal={openSavingsModal}
             />
-            <ScrollView contentContainerClassName="pb-[100px] gap-y-[42px]">
+            <ScrollView
+              contentContainerClassName="pb-[100px] gap-y-[42px]"
+              showsVerticalScrollIndicator={false}
+            >
               <BudgetList
-                type="Budget"
+                type="Budget Plans"
                 onPressSeeAll={() => router.push('/budget')}
                 ListItems={budgetList.slice(0, 3)}
               />
               <SavingsList
-                type="Savings"
+                type="Saving Goals"
                 onPressSeeAll={() => router.push('/savings')}
                 ListItems={savingsList.slice(0, 3)}
               />

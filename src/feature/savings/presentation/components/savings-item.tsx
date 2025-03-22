@@ -12,7 +12,7 @@ const SavingsItem = ({savings}:{savings: Savings}) => {
 
   const handlePress = () => {
     router.push({
-      pathname: "/savings/[savings_id]" as const,
+      pathname: `/savings/[savings_id]` as const,
       params: { savings_id: savings.id }
     });
   };

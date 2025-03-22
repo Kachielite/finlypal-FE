@@ -16,12 +16,14 @@ const useSavings = ({savingsId, inChild}: {savingsId?: number, inChild?: boolean
   const deleteSavingsModal = useRef<Modalize>(null);
   const expenseModal = useRef<Modalize>(null);
   const deleteExpenseModal = useRef<Modalize>(null);
+  const savingsOptionModal = useRef<Modalize>(null);
 
   // Savings screen state
   const modalType = useSavingState((state) => state.modalType);
   const selectedSaving = useSavingState((state) => state.selectedSaving);
   const savingsList = useSavingState((state) => state.savingList);
   const isModifyingSaving = useSavingState((state) => state.isModifyingSaving);
+  const isLoadingSaving = useSavingState((state) => state.isLoadingSaving);
 
   // Savings screen form
   const {setValue, handleSubmit, watch, formState: { errors, defaultValues }, reset} = useForm({
@@ -168,6 +170,12 @@ const useSavings = ({savingsId, inChild}: {savingsId?: number, inChild?: boolean
     modalType,
     isModifyingSaving,
     savingsModal,
+    isLoadingSaving,
+    selectedSaving,
+    expenseModal,
+    deleteExpenseModal,
+    deleteSavingsModal,
+    savingsOptionModal,
     resetSavingsForm,
     createSavings,
     updateSavings,

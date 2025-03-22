@@ -41,7 +41,7 @@ export class SavingsService {
 
   async getSavingsById(savingsId: number): Promise<any> {
     try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.SAVINGS_PATH}/${savingsId}`);
+      const response = await customAxios.get(`${this.BASE_URL}${this.SAVINGS_PATH}${savingsId}`);
       return response.data;
     } catch (error: unknown) {
       console.error("Get savings by id error in savings service => ", error);
