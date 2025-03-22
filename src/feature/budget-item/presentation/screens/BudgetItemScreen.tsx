@@ -22,15 +22,16 @@ import { EXPENSE_EVENTS } from '@/src/feature/expenses/presentation/state/expens
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
 import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
+import ExpenseOptionModal from '@/src/feature/expenses/presentation/components/expense-option-modal';
 
 
 const BudgetItemScreen = () => {
   const modalizeRef = useRef<Modalize>(null);
   const createModalRef = useRef<Modalize>(null);
   const deleteModalRef = useRef<Modalize>(null);
-  const optionModalRef = useRef<Modalize>(null);
   const expenseModalRef = useRef<Modalize>(null);
   const deleteExpenseModalRef = useRef<Modalize>(null);
+  const expenseOptionModalRef = useRef<Modalize>(null);
 
   const {budget_item_id} = useLocalSearchParams<{ budget_item_id: string}>()
   const {} = useBudgetItem({budget_item_id});
@@ -119,7 +120,7 @@ const BudgetItemScreen = () => {
                     data={item}
                     createModalRef={expenseModalRef}
                     deleteModalRef={deleteExpenseModalRef}
-                    optionModalRef={optionModalRef}
+                    optionModalRef={expenseOptionModalRef}
                   />
                 }
                 showsVerticalScrollIndicator={false}
@@ -152,6 +153,11 @@ const BudgetItemScreen = () => {
           proceedAction={deleteExpenseHandler}
           proceedButtonLabel="Delete"
           isLoading={isModifyingExpense}
+        />
+        <ExpenseOptionModal
+          modalizeRef={expenseOptionModalRef}
+          createModalRef={expenseModalRef}
+          deleteModalRef={deleteExpenseModalRef}
         />
       </>
   );

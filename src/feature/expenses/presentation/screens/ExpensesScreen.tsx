@@ -126,6 +126,7 @@ const ExpensesScreen = () => {
         modalizeRef={optionModalRef}
         createModalRef={createModalRef}
         deleteModalRef={deleteModalRef}
+        includeTabPadding
       />
     </>
   );

@@ -15,6 +15,7 @@ import AppModal from '@/src/shared/presentation/components/app-modal';
 import { Modalize } from 'react-native-modalize';
 import AddExpenseToSavingsModal from '@/src/feature/savings/presentation/components/add-expense-to-savings-modal';
 import { groupExpenseByDate } from '@/src/core/utils/groupExpenseByDate';
+import ExpenseOptionModal from '@/src/feature/expenses/presentation/components/expense-option-modal';
 
 const SavingScreen = () => {
   // Savings screen modals
@@ -23,6 +24,7 @@ const SavingScreen = () => {
   const expenseModal = useRef<Modalize>(null);
   const deleteExpenseModal = useRef<Modalize>(null);
   const savingsOptionModal = useRef<Modalize>(null);
+  const expenseOptionModal = useRef<Modalize>(null);
 
   const { savings_id } = useLocalSearchParams<{ savings_id: string }>();
   const {
@@ -83,7 +85,7 @@ const SavingScreen = () => {
                      data={item}
                      createModalRef={expenseModal}
                      deleteModalRef={deleteExpenseModal}
-                     optionModalRef={savingsOptionModal}
+                     optionModalRef={expenseOptionModal}
                    />
                  }
                  showsVerticalScrollIndicator={false}
@@ -131,6 +133,11 @@ const SavingScreen = () => {
        proceedAction={deleteExpenseHandler}
        proceedButtonLabel="Delete"
        isLoading={isModifyingExpense}
+     />
+     <ExpenseOptionModal
+       modalizeRef={expenseOptionModal}
+       createModalRef={expenseModal}
+       deleteModalRef={deleteExpenseModal}
      />
    </>
   );

@@ -8,10 +8,11 @@ type ExpenseOptionModal = {
   modalizeRef: any,
   createModalRef: any
   deleteModalRef: any
+  includeTabPadding?: boolean
 }
 
 const ExpenseOptionModal = (
-  { modalizeRef, createModalRef, deleteModalRef}: ExpenseOptionModal
+  { modalizeRef, createModalRef, deleteModalRef, includeTabPadding}: ExpenseOptionModal
 ) => {
   const setModalType = useExpenseState((state) => state.setModalType);
 
@@ -34,7 +35,7 @@ const ExpenseOptionModal = (
       onOverlayPress={() => modalizeRef.current?.close()}
       modalStyle={{ backgroundColor: '#102632', borderTopRightRadius: 32, borderTopLeftRadius: 32, borderWidth: 1, borderColor: '#35383F' }}
     >
-      <View className="flex flex-col justify-between items-center w-full px-[24px] pt-[32px] pb-[100px] h-full gap-y-[32px]">
+      <View className={`flex flex-col justify-between items-center w-full px-[24px] ${includeTabPadding ? 'pt-[24px] pb-[90px]' : 'py-[24px]'} h-full gap-y-[32px]`}>
         <TouchableOpacity onPress={openCreateModal} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-secondary rounded-[12px]">
           <EditIcon size={24} color="white" />
           <Text className="text-white font-urbanist-bold text-[20px]">Edit Expense</Text>
