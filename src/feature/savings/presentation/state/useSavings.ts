@@ -13,8 +13,10 @@ import { expenseBloc } from '@/src/feature/expenses/presentation/state/expenseBl
 import { EXPENSE_EVENTS } from '@/src/feature/expenses/presentation/state/expenseEvent';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 
+
 const useSavings = (
-  {savingsId, inChild, deleteSavingsModal}: {savingsId?: number, inChild?: boolean, deleteSavingsModal?: React.RefObject<Modalize>}
+  {savingsId, inChild, deleteSavingsModal, deleteExpenseModal}:
+    {savingsId?: number, inChild?: boolean, deleteSavingsModal?: React.RefObject<Modalize>, deleteExpenseModal?: React.RefObject<Modalize>}
 ) => {
 
   // Savings screen state
@@ -24,6 +26,8 @@ const useSavings = (
   const isModifyingSaving = useSavingState((state) => state.isModifyingSaving);
   const isLoadingSaving = useSavingState((state) => state.isLoadingSaving);
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
+  const expenseList = useExpenseState((state) => state.expenseList);
+  const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
 
   // Savings screen form
   const {setValue, handleSubmit, watch, formState: { errors, defaultValues }, reset} = useForm({
@@ -160,6 +164,17 @@ const useSavings = (
     })()
   }
 
+  const deleteExpenseHandler = async () => {
+
+    await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.DELETE_EXPENSE, {id: selectedExpense?.id});
+    useExpenseState.getState().setExpenseList([...expenseList.filter((item) => item.id !== selectedExpense?.id)])
+
+    await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_SAVINGS_BY_ID, {savingsId: selectedSaving?.id});
+    await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_ALL_SAVINGS, {});
+
+    deleteExpenseModal && deleteExpenseModal.current?.close();
+  }
+
 
 
   // Effects
@@ -220,13 +235,15 @@ const useSavings = (
     isLoadingSaving,
     selectedSaving,
     expenseForm,
+    isModifyingExpense,
     resetSavingsForm,
     createSavings,
     updateSavings,
     deleteSavings,
     resetExpenseForm,
     createExpenseHandler,
-    editExpenseHandler
+    editExpenseHandler,
+    deleteExpenseHandler,
   }
 
 }

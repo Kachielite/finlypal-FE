@@ -26,7 +26,7 @@ const SavingsItem = ({savings}:{savings: Savings}) => {
           <Text className="text-white font-urbanist-normal text-[10px]">{SavingsStatus[savings.status as unknown as keyof typeof SavingsStatus]}</Text>
         </View>
         <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
-          <View style={{width: `${percentage <= 100 ? percentage : 100}%`, backgroundColor: barColor(percentage)}} className="rounded-2xl h-full"/>
+          <View style={{width: `${percentage <= 100 ? percentage : 100}%`, backgroundColor: barColor(percentage, 'savings')}} className="rounded-2xl h-full"/>
         </View>
       </View>
     </TouchableOpacity>

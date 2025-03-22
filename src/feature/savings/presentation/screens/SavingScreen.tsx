@@ -30,10 +30,12 @@ const SavingScreen = () => {
     selectedSaving,
     isModifyingSaving,
     expenseForm,
+    isModifyingExpense,
     deleteSavings,
     createExpenseHandler,
-    editExpenseHandler
-  } = useSavings({savingsId: Number(savings_id), deleteSavingsModal});
+    editExpenseHandler,
+    deleteExpenseHandler
+  } = useSavings({savingsId: Number(savings_id), deleteSavingsModal, deleteExpenseModal});
   const groupedExpenses = useMemo(() => groupExpenseByDate(selectedSaving?.expenses || []), [selectedSaving?.expenses]);
 
   return (
@@ -121,6 +123,14 @@ const SavingScreen = () => {
        proceedAction={deleteSavings}
        proceedButtonLabel="Delete"
        isLoading={isModifyingSaving}
+     />
+     <AppModal
+       modalizeRef={deleteExpenseModal}
+       title="Delete Expense"
+       description="Are you sure you want to delete this expense?"
+       proceedAction={deleteExpenseHandler}
+       proceedButtonLabel="Delete"
+       isLoading={isModifyingExpense}
      />
    </>
   );
