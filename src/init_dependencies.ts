@@ -43,6 +43,13 @@ import { GetBudgetItemByIdUseCase } from '@/src/feature/budget-item/domain/use-c
 import { CreateBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-create-budget-item';
 import { UpdateBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-update-budget-item';
 import { DeleteBudgetItemUseCase } from '@/src/feature/budget-item/domain/use-case/use-delete-budget-item';
+import { SavingsService } from '@/src/core/service/savings';
+import { SavingsDatasourceImpl } from '@/src/feature/savings/data/datasource/savings-datasource';
+import { SavingsRepositoryImpl } from '@/src/feature/savings/data/repository-impl/savings-repositoryImpl';
+import { CreateSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-create-savings';
+import { GetSavingsByIdUseCase } from '@/src/feature/savings/domain/use-case/use-get-savings-by-id';
+import { GetAllSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-get-all-savings';
+import { UpdateSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-update-savings';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -103,3 +110,12 @@ export const getBudgetItemByIdUseCase = new GetBudgetItemByIdUseCase(budgetItemR
 export const createBudgetItemUseCase = new CreateBudgetItemUseCase(budgetItemRepository);
 export const updateBudgetItemUseCase = new UpdateBudgetItemUseCase(budgetItemRepository);
 export const deleteBudgetItemUseCase = new DeleteBudgetItemUseCase(budgetItemRepository);
+
+// Savings Dependencies
+const savingsService = new SavingsService();
+const savingsDatasource = new SavingsDatasourceImpl(savingsService);
+const savingsRepository = new SavingsRepositoryImpl(savingsDatasource);
+export const createSavingsUseCase = new CreateSavingsUseCase(savingsRepository);
+export const getSavingsByIdUseCase = new GetSavingsByIdUseCase(savingsRepository);
+export const getAllSavingsUseCase = new GetAllSavingsUseCase(savingsRepository);
+export const updateSavingsUseCase = new UpdateSavingsUseCase(savingsRepository);
