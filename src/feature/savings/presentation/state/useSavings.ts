@@ -92,6 +92,8 @@ const useSavings = (
     await handleSubmit(async (data) => {
       try {
         await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.UPDATE_SAVINGS, {data, savingsId: selectedSaving?.id});
+        await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_SAVINGS_BY_ID, {savingsId: selectedSaving?.id});
+        await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_ALL_SAVINGS, {});
         resetSavingsForm();
         showToast('success', 'Success', 'Your savings goal has been updated successfully');
         savingsModal.current?.close();
@@ -201,22 +203,27 @@ const useSavings = (
         if(savingsId){
           try {
             await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_SAVINGS_BY_ID, {savingsId});
-            if(modalType === 'edit'){
-              reset({
-                icon: selectedSaving?.icon,
-                goalName: selectedSaving?.goalName,
-                targetAmount: selectedSaving?.targetAmount,
-                startDate: moment(selectedSaving?.startDate).format('YYYY-MM-DD'),
-                endDate: moment(selectedSaving?.endDate).format('YYYY-MM-DD'),
-              });
-            }
           } catch (error) {
             console.error("useSavings error in savings bloc =>", error)
           }
         }
       }
     )()
-  }, [savingsId, modalType])
+  }, [savingsId])
+
+  useEffect(() => {
+    if(modalType === 'edit' && selectedSaving){
+      reset({
+        icon: selectedSaving?.icon,
+        goalName: selectedSaving?.goalName,
+        targetAmount: selectedSaving?.targetAmount,
+        startDate: moment(selectedSaving?.startDate).format('YYYY-MM-DD'),
+        endDate: moment(selectedSaving?.endDate).format('YYYY-MM-DD'),
+      });
+    } else {
+      resetSavingsForm();
+    }
+  }, [modalType, selectedSaving]);
 
   useEffect(() => {
     if (expenseModalType === "edit" && selectedExpense) {

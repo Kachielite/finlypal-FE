@@ -11,12 +11,14 @@ import AddBudgetModal from '@/src/feature/budget/presentation/components/add-bud
 import SavingsList from '@/src/feature/savings/presentation/components/savings-list';
 import useSavings from '@/src/feature/savings/presentation/state/useSavings';
 import AddSavingsModal from '@/src/feature/savings/presentation/components/add-savings-modal';
+import { useSavingState } from '@/src/feature/savings/presentation/state/savingsState';
 
 const PlanningScreen = () => {
   const modalizeRef = useRef<Modalize>(null);
+  const savingsModal = useRef<Modalize>(null);
 
   const {resetAddBudgetForm} = useBudget({});
-  const {savingsList, openSavingsModal, savingsModal} = useSavings({});
+  const {savingsList} = useSavings({});
   const budgetList = useBudgetState((state) => state.budgetList);
   const isLoadingBudgets = useBudgetState((state) => state.isLoadingBudgets);
   const {setModalType, setSelectedBudget} = useBudgetState((state) => state);
@@ -27,6 +29,11 @@ const PlanningScreen = () => {
     setSelectedBudget(null)
     resetAddBudgetForm()
     modalizeRef.current?.open();
+  };
+
+  const openSavingsModal = () => {
+    useSavingState.getState().setModalType('add');
+    savingsModal.current?.open();
   };
 
   return (

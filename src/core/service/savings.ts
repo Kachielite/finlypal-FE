@@ -66,7 +66,7 @@ export class SavingsService {
 
   async updateSavings(data: typeof SavingsSchema._type, savingsId: number ): Promise<any> {
     try {
-      const response = await customAxios.put(`${this.BASE_URL}${this.SAVINGS_PATH}/${savingsId}`, data);
+      const response = await customAxios.put(`${this.BASE_URL}${this.SAVINGS_PATH}${savingsId}`, data);
       return response.data;
     } catch (error: unknown) {
       console.error("Update savings error in savings service => ", error);
