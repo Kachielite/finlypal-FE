@@ -9,6 +9,7 @@ import { useSavingState } from '@/src/feature/savings/presentation/state/savings
 import { Modalize } from 'react-native-modalize';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import { showToast } from '@/src/shared/presentation/components/toastProvider';
+import { router } from 'expo-router';
 
 const useSavings = ({savingsId, inChild}: {savingsId?: number, inChild?: boolean}) => {
   // Savings screen modals
@@ -79,8 +80,10 @@ const useSavings = ({savingsId, inChild}: {savingsId?: number, inChild?: boolean
   const deleteSavings = async () => {
     try {
       await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.DELETE_SAVINGS, {savingsId: selectedSaving?.id});
+      await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_ALL_SAVINGS, {});
       showToast('success', 'Success', 'Your savings goal has been deleted successfully');
       deleteSavingsModal.current?.close();
+      router.back();
     } catch (error) {
       console.error("error deleting savings, useSavings =>", error);
       showToast('error', 'Error', 'An error occurred while deleting your savings goal. Please try again later.');
@@ -133,30 +136,29 @@ const useSavings = ({savingsId, inChild}: {savingsId?: number, inChild?: boolean
     (
       async () => {
         if(savingsId){
+          console.log("I got called")
           try {
             await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_SAVINGS_BY_ID, {savingsId});
+            if(modalType === 'edit'){
+              reset({
+                icon: selectedSaving?.icon,
+                goalName: selectedSaving?.goalName,
+                targetAmount: selectedSaving?.targetAmount,
+                startDate: moment(selectedSaving?.startDate).format('YYYY-MM-DD'),
+                endDate: moment(selectedSaving?.endDate).format('YYYY-MM-DD'),
+              });
+            }
           } catch (error) {
             console.error("useSavings error in savings bloc =>", error)
           }
         }
       }
     )()
-  }, [savingsId])
+  }, [savingsId, modalType])
 
-  // Reset savings form
-  useEffect(() => {
-    if(modalType === 'edit' && savingsId){
-      reset({
-        icon: selectedSaving?.icon,
-        goalName: selectedSaving?.goalName,
-        targetAmount: selectedSaving?.targetAmount,
-        startDate: moment(selectedSaving?.startDate).format('YYYY-MM-DD'),
-        endDate: moment(selectedSaving?.endDate).format('YYYY-MM-DD'),
-      });
-    } else {
-      resetSavingsForm();
-    }
-  }, [modalType, savingsId])
+
+  console.log("selectedSaving", selectedSaving)
+  console.log("modalType", modalType)
 
 
 

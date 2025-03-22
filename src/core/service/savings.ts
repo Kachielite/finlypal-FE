@@ -10,17 +10,6 @@ export class SavingsService {
   constructor() {
   }
 
-  static fromJson(data: any): any {
-    return {
-      id: data.id,
-      name: data.name,
-      amount: data.amount,
-      description: data.description,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
-    };
-  }
-
   async getSavings(page: number, pageSize: number): Promise<any> {
     try {
       const response = await customAxios.get(`${this.BASE_URL}${this.SAVINGS_PATH}?page=${page || 0}&pageSize=${pageSize || 40}`);
@@ -95,7 +84,7 @@ export class SavingsService {
 
   async deleteSavings(savingsId: number): Promise<any> {
     try {
-      const response = await customAxios.delete(`${this.BASE_URL}${this.SAVINGS_PATH}/${savingsId}`);
+      const response = await customAxios.delete(`${this.BASE_URL}${this.SAVINGS_PATH}${savingsId}`);
       return response.data;
     } catch (error: unknown) {
       console.error("Delete savings error in savings service => ", error);

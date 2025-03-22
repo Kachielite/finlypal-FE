@@ -9,11 +9,24 @@ import { Savings } from '@/src/feature/savings/domain/entity/savings';
 import BalanceCard from '@/src/feature/savings/presentation/components/balance-card';
 import EmptyTransactionList from '@/src/feature/home/presentation/components/empty-transaction-list';
 import ExpensesList from '@/src/feature/expenses/presentation/components/expenses-list';
+import SavingsOptionModal from '@/src/feature/savings/presentation/components/savings-option';
+import AddSavingsModal from '@/src/feature/savings/presentation/components/add-savings-modal';
+import AppModal from '@/src/shared/presentation/components/app-modal';
 
 const SavingScreen = () => {
 
   const { savings_id } = useLocalSearchParams<{ savings_id: string }>();
-  const {isLoadingSaving, selectedSaving, expenseModal, deleteExpenseModal, savingsOptionModal} = useSavings({savingsId: Number(savings_id)});
+  const {
+    isLoadingSaving,
+    selectedSaving,
+    expenseModal,
+    deleteExpenseModal,
+    savingsOptionModal,
+    savingsModal,
+    deleteSavingsModal,
+    isModifyingSaving,
+    deleteSavings
+  } = useSavings({savingsId: Number(savings_id)});
 
   return (
    <>
@@ -32,7 +45,7 @@ const SavingScreen = () => {
              <Text style={{textShadowColor: 'rgba(0,0,0,0.2)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}} className="text-white font-urbanist-bold text-2xl">
                Savings Goal Details
              </Text>
-             <TouchableOpacity onPress={() => console.log('settings')}>
+             <TouchableOpacity onPress={() => savingsOptionModal?.current?.open()}>
                <EllipsisVertical color="white" size={28} />
              </TouchableOpacity>
            </View>
@@ -77,6 +90,23 @@ const SavingScreen = () => {
          </>
        )}
      </View>
+     <SavingsOptionModal
+        savingsOptionModal={savingsOptionModal}
+        savingsModal={savingsModal}
+        deleteSavingsModal={deleteSavingsModal}
+        expenseModal={expenseModal}
+     />
+     <AddSavingsModal
+       savingsModal={savingsModal}
+     />
+     <AppModal
+       modalizeRef={deleteSavingsModal}
+       title="Delete Savings Goal"
+       description="Are you certain you want to delete this savings goal? This action will permanently remove all associated expenses."
+       proceedAction={deleteSavings}
+       proceedButtonLabel="Delete"
+       isLoading={isModifyingSaving}
+     />
    </>
   );
 };

@@ -22,7 +22,7 @@ const SavingsScreen = () => {
         </View>
         {savingsList.length === 0 &&
           <View className="flex flex-col justify-center items-center  px-[15px] w-full h-[90%] bg-alternative gap-y-[24px] rounded-[12px]">
-            <EmptyState title="No Budget Found" />
+            <EmptyState title="No Savings Goals Found" />
           </View>
         }
         {savingsList.map((item) => <SavingsItem key={item.id} savings={item}/>)}
