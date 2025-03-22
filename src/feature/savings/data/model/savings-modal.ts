@@ -1,4 +1,5 @@
 import { Savings, SavingsStatus } from '@/src/feature/savings/domain/entity/savings';
+import { SavingsSchema } from '@/src/core/validation/savings-validation';
 
 export class SavingsModal extends Savings {
   constructor(
@@ -35,5 +36,15 @@ export class SavingsModal extends Savings {
       json.end_date,
       json.created_at
     );
+  }
+
+  static toJson(savings: typeof SavingsSchema._type): any {
+    return {
+      icon: savings.icon,
+      goal_name: savings.goalName,
+      target_amount: savings.targetAmount,
+      start_date: savings.startDate,
+      end_date: savings.endDate,
+    }
   }
 }

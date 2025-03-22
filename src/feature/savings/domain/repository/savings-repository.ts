@@ -7,7 +7,7 @@ import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 export interface SavingsRepository {
   getSavings(page: number, pageSize: number): Promise<Either<Failure, Savings[]>>;
   getSavingsById(savingsId: number): Promise<Either<Failure, Savings>>;
-  createSavings(data: typeof SavingsSchema): Promise<Either<Failure, Savings>>;
-  updateSavings(data: typeof SavingsSchema, savingsId: number): Promise<Either<Failure, Savings>>;
+  createSavings(data: typeof SavingsSchema._type): Promise<Either<Failure, Savings>>;
+  updateSavings(data: typeof SavingsSchema._type, savingsId: number): Promise<Either<Failure, Savings>>;
   deleteSavings(savingsId: number): Promise<Either<Failure, GeneralResponse>>;
 }

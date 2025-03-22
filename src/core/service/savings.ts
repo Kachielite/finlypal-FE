@@ -10,6 +10,17 @@ export class SavingsService {
   constructor() {
   }
 
+  static fromJson(data: any): any {
+    return {
+      id: data.id,
+      name: data.name,
+      amount: data.amount,
+      description: data.description,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    };
+  }
+
   async getSavings(page: number, pageSize: number): Promise<any> {
     try {
       const response = await customAxios.get(`${this.BASE_URL}${this.SAVINGS_PATH}?page=${page || 0}&pageSize=${pageSize || 40}`);
@@ -46,7 +57,7 @@ export class SavingsService {
     }
   }
 
-  async createSavings(data: typeof SavingsSchema ): Promise<any> {
+  async createSavings(data: typeof SavingsSchema._type ): Promise<any> {
     try {
       const response = await customAxios.post(`${this.BASE_URL}${this.SAVINGS_PATH}`, data);
       return response.data;
@@ -64,7 +75,7 @@ export class SavingsService {
     }
   }
 
-  async updateSavings(data: typeof SavingsSchema, savingsId: number ): Promise<any> {
+  async updateSavings(data: typeof SavingsSchema._type, savingsId: number ): Promise<any> {
     try {
       const response = await customAxios.put(`${this.BASE_URL}${this.SAVINGS_PATH}/${savingsId}`, data);
       return response.data;

@@ -8,7 +8,7 @@ import { Failure } from '@/src/core/error/failure';
 export class UpdateSavingsUseCaseParams {
   constructor(
     public savingsId: number,
-    public data: typeof SavingsSchema
+    public data: typeof SavingsSchema._type
   ) {}
 }
 

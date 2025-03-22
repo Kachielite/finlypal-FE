@@ -11,7 +11,7 @@ export class SavingsRepositoryImpl implements SavingsRepository {
   constructor(private datasource: SavingsDatasource) {
   }
 
-  async createSavings(data: typeof SavingsSchema): Promise<Either<Failure, Savings>> {
+  async createSavings(data: typeof SavingsSchema._type): Promise<Either<Failure, Savings>> {
     try {
       const response = await this.datasource.createSavings(data);
       return right(response);
@@ -55,7 +55,7 @@ export class SavingsRepositoryImpl implements SavingsRepository {
     }
   }
 
-  async updateSavings(data: typeof SavingsSchema, savingsId: number): Promise<Either<Failure, Savings>> {
+  async updateSavings(data: typeof SavingsSchema._type, savingsId: number): Promise<Either<Failure, Savings>> {
     try {
       const response = await this.datasource.updateSavings(data, savingsId);
       return right(response);

@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { savingsBloc } from '@/src/feature/savings/presentation/state/savingsBloc';
 import { SAVINGS_EVENTS } from '@/src/feature/savings/presentation/state/savingsEvents';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SavingsSchema } from '@/src/core/validation/savings-validation';
 import moment from 'moment';
@@ -46,30 +46,32 @@ const useSavings = ({savingsId, inChild}: {savingsId?: number, inChild?: boolean
   }
 
   // Savings screen functions
-  const createSavings = async (data: FieldValues) => {
-    useSavingState.getState().setModalType('add');
-    try {
-      await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.CREATE_SAVINGS, data);
-      resetSavingsForm();
-      showToast('success', 'Success', 'Your savings goal has been created successfully');
-      savingsModal.current?.close();
-    } catch (error) {
-      console.error("error creating savings, useSavings =>", error);
-      showToast('error', 'Error', 'An error occurred while creating your savings goal. Please try again later.');
-    }
+  const createSavings =  async (savingsModal: React.RefObject<Modalize>) => {
+    await handleSubmit(async (data) => {
+      try {
+        await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.CREATE_SAVINGS, data);
+        resetSavingsForm();
+        showToast('success', 'Success', 'Your savings goal has been created successfully');
+        savingsModal.current?.close();
+      } catch (error) {
+        console.error('error creating savings, useSavings =>', error);
+        showToast('error', 'Error', 'An error occurred while creating your savings goal. Please try again later.');
+      }
+    })();
   }
 
-  const updateSavings = async (data: FieldValues) => {
-    useSavingState.getState().setModalType('edit');
-    try {
-      await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.UPDATE_SAVINGS, {data, savingsId: selectedSaving?.id});
-      resetSavingsForm();
-      showToast('success', 'Success', 'Your savings goal has been updated successfully');
-      savingsModal.current?.close();
-    } catch (error) {
-      console.error("error updating savings, useSavings =>", error);
-      showToast('error', 'Error', 'An error occurred while updating your savings goal. Please try again later.');
-    }
+  const updateSavings = async (savingsModal: React.RefObject<Modalize>) => {
+    await handleSubmit(async (data) => {
+      try {
+        await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.UPDATE_SAVINGS, {data, savingsId: selectedSaving?.id});
+        resetSavingsForm();
+        showToast('success', 'Success', 'Your savings goal has been updated successfully');
+        savingsModal.current?.close();
+      } catch (error) {
+        console.error("error updating savings, useSavings =>", error);
+        showToast('error', 'Error', 'An error occurred while updating your savings goal. Please try again later.');
+      }
+    })();
   }
 
   const deleteSavings = async () => {
@@ -153,6 +155,7 @@ const useSavings = ({savingsId, inChild}: {savingsId?: number, inChild?: boolean
       resetSavingsForm();
     }
   }, [modalType, savingsId])
+
 
 
   return {

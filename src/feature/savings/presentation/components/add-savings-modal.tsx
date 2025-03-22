@@ -19,13 +19,13 @@ const AddSavingsModal = ({includeTabPadding, savingsModal}: AddSavingsModalProps
   const {
     setValue,
     watch,
-    handleSubmit,
     errors,
     modalType,
     isModifyingSaving,
     createSavings,
     updateSavings
   } = useSavings({inChild: true});
+
 
   return (
     <Modalize
@@ -50,8 +50,8 @@ const AddSavingsModal = ({includeTabPadding, savingsModal}: AddSavingsModalProps
           error={errors?.icon?.message}
         />
         <FieldInput
-          label="Budget name"
-          placeholder="Enter buget name"
+          label="Goal name"
+          placeholder="Enter goal name"
           value={watch("goalName") || ""}
           onChangeText={(value) => setValue("goalName", value, { shouldValidate: true })}
           error={errors?.goalName?.message}
@@ -91,7 +91,7 @@ const AddSavingsModal = ({includeTabPadding, savingsModal}: AddSavingsModalProps
           </View>
           <View className="w-[55vw]">
             <Button
-              onPress={() => modalType === 'edit' ? handleSubmit(updateSavings) : handleSubmit(createSavings)}
+              onPress={() => modalType === 'edit' ? updateSavings(savingsModal) : createSavings(savingsModal)}
               label={modalType === 'edit' ? 'Update' : 'Add'}
               isLoading={isModifyingSaving}/>
           </View>

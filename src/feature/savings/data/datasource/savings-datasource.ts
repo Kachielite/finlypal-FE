@@ -7,8 +7,8 @@ import { SavingsSchema } from '@/src/core/validation/savings-validation';
 export interface SavingsDatasource {
   getSavings(page: number, pageSize: number): Promise<SavingsModal[]>
   getSavingsById(savingsId: number): Promise<SavingsModal>
-  createSavings(data: typeof SavingsSchema): Promise<SavingsModal>
-  updateSavings(data: typeof SavingsSchema, savingsId: number): Promise<SavingsModal>
+  createSavings(data: typeof SavingsSchema._type): Promise<SavingsModal>
+  updateSavings(data: typeof SavingsSchema._type, savingsId: number): Promise<SavingsModal>
   deleteSavings(savingsId: number): Promise<GeneralResponseModel>
 }
 
@@ -16,9 +16,9 @@ export class SavingsDatasourceImpl implements SavingsDatasource {
   constructor(private savingsService: SavingsService) {
   }
 
-  async createSavings(data: typeof SavingsSchema): Promise<SavingsModal> {
+  async createSavings(data: typeof SavingsSchema._type): Promise<SavingsModal> {
     try {
-      const response = await this.savingsService.createSavings(data);
+      const response = await this.savingsService.createSavings(SavingsModal.toJson(data));
       return SavingsModal.fromJson(response);
     } catch (error: unknown) {
       console.error("failed to create savings in savings datasource =>", error);
@@ -72,9 +72,9 @@ export class SavingsDatasourceImpl implements SavingsDatasource {
     }
   }
 
-  async updateSavings(data: any, savingsId: number): Promise<SavingsModal> {
+  async updateSavings(data: typeof SavingsSchema._type, savingsId: number): Promise<SavingsModal> {
     try {
-      const response = await this.savingsService.updateSavings(data, savingsId);
+      const response = await this.savingsService.updateSavings(SavingsModal.toJson(data), savingsId);
       return SavingsModal.fromJson(response);
     } catch (error: unknown) {
       console.error("failed to update savings in savings datasource =>", error);

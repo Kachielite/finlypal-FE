@@ -15,6 +15,7 @@ import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { DeleteSavingsUseCaseParams } from '@/src/feature/savings/domain/use-case/use-delete-savings';
 import { GetAllSavingsUseCaseParams } from '@/src/feature/savings/domain/use-case/use-get-all-savings';
 import { GetSavingsByIdUseCaseParams } from '@/src/feature/savings/domain/use-case/use-get-savings-by-id';
+import { SavingsSchema } from '@/src/core/validation/savings-validation';
 
 export const savingsBloc = {
   handleSavingsEvents: async (event: any, payload: any) => {
@@ -41,11 +42,11 @@ export const savingsBloc = {
 }
 
 export const createSavingsHandler = async (
-  payload: CreateSavingsUseCaseParams, getState: typeof useSavingState.getState
+  payload: typeof SavingsSchema._type, getState: typeof useSavingState.getState
 ) => {
   const {setSavingList, setIsModifyingSaving, savingList} = getState();
 
-  const response = await createSavingsUseCase.execute(payload);
+  const response = await createSavingsUseCase.execute(new CreateSavingsUseCaseParams(payload));
 
   setIsModifyingSaving(true);
   fold<Failure, Savings, void>(
@@ -61,11 +62,11 @@ export const createSavingsHandler = async (
 }
 
 export const updateSavingsHandler = async (
-  payload: UpdateSavingsUseCaseParams, getState: typeof useSavingState.getState
+  payload: {data: typeof SavingsSchema._type, savingsId: number }, getState: typeof useSavingState.getState
 ) => {
   const {setSavingList, setIsModifyingSaving, savingList} = getState();
 
-  const response = await updateSavingsUseCase.execute(payload);
+  const response = await updateSavingsUseCase.execute(new UpdateSavingsUseCaseParams(payload.savingsId, payload.data));
 
   setIsModifyingSaving(true);
   fold<Failure, Savings, void>(
