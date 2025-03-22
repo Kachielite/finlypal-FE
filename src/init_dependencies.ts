@@ -50,6 +50,7 @@ import { CreateSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-
 import { GetSavingsByIdUseCase } from '@/src/feature/savings/domain/use-case/use-get-savings-by-id';
 import { GetAllSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-get-all-savings';
 import { UpdateSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-update-savings';
+import { DeleteSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-delete-savings';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -119,3 +120,4 @@ export const createSavingsUseCase = new CreateSavingsUseCase(savingsRepository);
 export const getSavingsByIdUseCase = new GetSavingsByIdUseCase(savingsRepository);
 export const getAllSavingsUseCase = new GetAllSavingsUseCase(savingsRepository);
 export const updateSavingsUseCase = new UpdateSavingsUseCase(savingsRepository);
+export const deleteSavingsUseCase = new DeleteSavingsUseCase(savingsRepository);
