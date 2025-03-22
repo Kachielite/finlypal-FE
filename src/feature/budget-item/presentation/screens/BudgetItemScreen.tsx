@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Platform, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import React, { useMemo, useRef } from 'react';
 import Loader from '@/src/shared/presentation/components/loader';
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
@@ -95,7 +95,7 @@ const BudgetItemScreen = () => {
               <Loader />
             </View>
           ) : (
-            <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]">
+            <View className={`w-full flex flex-col justify-start items-start h-full px-[24px] ${Platform.OS === 'ios' ? 'pt-[16px]': 'pt-[50px]'} pb-[40px] gap-y-[42px]`}>
               {/* Header Section */}
               <View className="flex flex-row justify-between items-center w-full">
                 <TouchableOpacity onPress={() => router.back()}>
