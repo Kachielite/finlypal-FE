@@ -120,7 +120,7 @@ const AddExpenseToBudgetItemModal = ({ modalizeRef}: AddExpenseToBudgetItemModal
         />
         <SelectInput
           data={formattedCategories}
-          label="Category"
+          label="Subcategory"
           placeholder="Select category"
           value={ watchExpense('category') || null}
           onChangeText={(value) => setExpenseValue("category", value, { shouldValidate: true })}

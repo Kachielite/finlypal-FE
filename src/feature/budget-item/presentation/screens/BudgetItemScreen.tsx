@@ -111,6 +111,9 @@ const BudgetItemScreen = () => {
                 openDeleteBudgetItemModal={openDeleteBudgetItemModal}
                 openExpenseModal={openExpenseModal}
               />
+              <View className="flex flex-row justify-start items-center gap-x-[5px] w-[88w]">
+                <Text className="text-white font-urbanist-normal text-[14px]">{selectedBudgetItem?.statusTooltip}</Text>
+              </View>
               {/* Expenses List with FlatList */}
               <FlatList
                 data={groupedExpenses}
