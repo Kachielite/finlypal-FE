@@ -9,10 +9,12 @@ import { useAuthState } from '@/src/feature/authentication/presentation/state/au
 import { Modalize } from 'react-native-modalize';
 import AddSavingsModal from '@/src/feature/savings/presentation/components/add-savings-modal';
 import AddBudgetModal from '@/src/feature/budget/presentation/components/add-budget-modal';
+import useExpense from '@/src/feature/expenses/presentation/state/useExpense';
 
 const HomeScreen = () => {
   const { user} = useAuthState.getState();
   const { totalIncome, totalExpense} = useHomeHooks();
+  const {} = useExpense()
 
   const savingsModal = useRef<Modalize>(null);
   const budgetModal = useRef<Modalize>(null);

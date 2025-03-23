@@ -33,10 +33,10 @@ const AddExpenseScreen = () => {
   const modalType = useExpenseState((state) => state.modalType);
   const categoryList = useExpenseState((state) => state.categoryList);
   const formattedCategories = categoryList.map((item) => ({ id: item.id, label: item.displayName, value: item.displayName }));
-  const selectedExpense = useExpenseState((state) => state.selectedExpense);
   const budgetList = useBudgetState((state) => state.budgetList);
   const budgetItemList = useBudgetItemState((state) => state.budgetItemList);
   const savingsList = useSavingState((state) => state.savingList);
+  const selectedExpense = useExpenseState((state) => state.selectedExpense);
 
   const formattedBudgets = budgetList.map((item) => ({ id: item.id, label: item.name, value: item.name }));
   const formattedBudgetItems = budgetItemList.map((item) => ({ id: item.id, label: item.name, value: item.name }));
@@ -66,21 +66,25 @@ const AddExpenseScreen = () => {
   }
 
   const editExpenseHandler = async () => {
-    const data = {
-      id: selectedExpense?.id,
-      amount: watch("amount"),
-      date: watch("date"),
-      description: watch("description"),
-      type: watch("type")?.value,
-      categoryId: watch("category")?.id
-    }
-    try {
-      await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.UPDATE_EXPENSE, data);
-      resetExpenseForm();
-      router.back();
-    } catch (error) {
-      console.log("Error updating expense: ", error);
-    }
+    await handleSubmit(async (data) => {
+      try {
+        await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.UPDATE_EXPENSE, {
+          id: selectedExpense?.id,
+          description: data.description,
+          amount: data.amount,
+          date: data.date,
+          categoryId: data.category?.id,
+          type: data.type?.value,
+          budgetItemId: data.budgetItem?.id || null,
+          savingsID: data.savings?.id || null,
+        });
+
+        resetExpenseForm();
+        router.replace("/(tabs)/expense")
+      } catch (error) {
+        console.log("Error updating expense: ", error);
+      }
+    })()
   }
 
 
@@ -203,13 +207,14 @@ const AddExpenseScreen = () => {
                         No savings goal found. Please create a savings goal from the planning screen.
                       </Text>}
                     </View>
-                    }
+                  }
                 </View>
               </View>
               <View className="w-screen p-[24px] border-t-[1px] border-t-quaternary">
-                <Button onPress={modalType === 'edit' ? handleSubmit(editExpenseHandler) : createExpenseHandler} label={modalType === 'edit' ? 'Update' : 'Add'} isLoading={isModifyingExpense} />
+                <Button onPress={modalType === 'edit' ? editExpenseHandler : createExpenseHandler} label={modalType === 'edit' ? 'Update' : 'Add'} isLoading={isModifyingExpense} />
               </View>
             </View>
+
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

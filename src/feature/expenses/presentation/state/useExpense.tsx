@@ -15,6 +15,9 @@ import { budgetItemBloc } from '@/src/feature/budget-item/presentation/state/bud
 import { BUDGET_ITEM_EVENTS } from '@/src/feature/budget-item/presentation/state/budgetItemEvent';
 import { savingsBloc } from '@/src/feature/savings/presentation/state/savingsBloc';
 import { SAVINGS_EVENTS } from '@/src/feature/savings/presentation/state/savingsEvents';
+import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
+import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
+import { useSavingState } from '@/src/feature/savings/presentation/state/savingsState';
 
 export const expenseType = [
   {id: 1, label: "Expense", value: "EXPENSE" },
@@ -47,6 +50,9 @@ const useExpense = (typeOfExpense?: string): ExpenseHookType => {
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
   const setSelectedExpense = useExpenseState((state) => state.setSelectedExpense);
   const modalType = useExpenseState((state) => state.modalType);
+  const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
+  const selectedBudget = useBudgetState((state) => state.selectedBudget);
+  const selectedSaving = useSavingState((state) => state.selectedSaving);
   const defaultCategory = categoryList.length > 0 ? {id: categoryList[0]?.id, label: categoryList[0]?.displayName, value: categoryList[0]?.displayName } : {"id": 251, "label": "Bonuses", "value": "Bonuses"}
 
   const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
@@ -154,22 +160,33 @@ const useExpense = (typeOfExpense?: string): ExpenseHookType => {
   }, []);
 
 
+
+
+
   useEffect(() => {
-    if (modalType === "edit" && selectedExpense) {
-      resetExpense({
-        description: selectedExpense.description || "",
-        amount: selectedExpense.amount || 0,
-        category: selectedExpense
-          ? {
-            id: selectedExpense.categoryId,
-            label: selectedExpense.categoryName,
-            value: selectedExpense.categoryName,
-          }
-          : defaultCategory,
-        type: expenseType.find((e) => e.value === selectedExpense?.type) || expenseType[1],
-        date: selectedExpense?.date || today.format("YYYY-MM-DD"),
-      });
-    }
+    (
+      async () => {
+        if (modalType === "edit" && selectedExpense) {
+          resetExpense({
+            description: selectedExpense.description || "",
+            amount: selectedExpense.amount || 0,
+            category: selectedExpense
+              ? {
+                id: selectedExpense.categoryId,
+                label: selectedExpense.categoryName,
+                value: selectedExpense.categoryName,
+              }
+              : defaultCategory,
+            type: expenseType.find((e) => e.value === selectedExpense?.type) || expenseType[1],
+            date: selectedExpense?.date || today.format("YYYY-MM-DD"),
+            isRelatedToBudgetOrSavings: !!(selectedExpense?.budgetItemId || selectedExpense?.savingsID),
+            budget: selectedBudget ? {id: selectedBudget?.id, label: selectedBudget?.name, value: selectedBudget?.name} : null,
+            budgetItem: selectedBudgetItem ? {id: selectedBudgetItem?.id, label: selectedBudgetItem?.name, value: selectedBudgetItem?.name} : null,
+            savings: selectedSaving ? {id: selectedSaving?.id, label: selectedSaving?.goalName, value: selectedSaving?.goalName} : null
+          });
+        }
+      }
+    )()
   }, [selectedExpense, modalType, resetExpense, expenseType]);
 
 
