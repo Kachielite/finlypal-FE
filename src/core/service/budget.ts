@@ -106,7 +106,7 @@ export class BudgetService {
 
   async markBudgetAsCompleted(budgetId: number): Promise<any> {
     try{
-      const response = await customAxios.put(`${this.BASE_URL}${this.BUDGET_PATH}completed/${budgetId}`);
+      const response = await customAxios.post(`${this.BASE_URL}${this.BUDGET_PATH}complete/${budgetId}`);
       return response.data
     } catch (error: unknown) {
       console.error("Error marking budget as completed => budget service", error);
