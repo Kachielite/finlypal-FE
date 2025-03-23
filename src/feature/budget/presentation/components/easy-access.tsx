@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { ClipboardList, PiggyBank } from 'lucide-react-native';
+import { ChartPieIcon, PiggyBank } from 'lucide-react-native';
 
 const EasyAccess = ({addBudgetModal, openSavingsModal}: {addBudgetModal: () => void, openSavingsModal: (modalType: 'add' | 'edit') => void}) => {
   return (
@@ -15,7 +15,7 @@ const EasyAccess = ({addBudgetModal, openSavingsModal}: {addBudgetModal: () => v
 
         {/* Add Budget Button */}
         <TouchableOpacity onPress={addBudgetModal} className="flex-1 flex-row items-center justify-center bg-[#007BFF]  rounded-lg py-4 ml-2 ">
-          <ClipboardList size={24} color="white" />
+          <ChartPieIcon size={24} color="white" />
           <Text className="text-white font-bold text-lg ml-2">Add Budget</Text>
         </TouchableOpacity>
       </View>

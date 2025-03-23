@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { ArrowDown, ArrowUp } from 'lucide-react-native';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import useExpense, { expenseType } from '@/src/feature/expenses/presentation/state/useExpense';
+import { ArrowDown, ArrowUp, ChartPieIcon, PiggyBankIcon } from 'lucide-react-native';
 
 
 const QuickActions = ({createModalRef}: {createModalRef: any}) => {
@@ -19,17 +19,38 @@ const QuickActions = ({createModalRef}: {createModalRef: any}) => {
   return (
     <View className="flex flex-col justify-start items-start w-full gap-y-[18px]">
       <Text className="text-white font-urbanist-bold text-[20px]">Quick Actions</Text>
-      <View className="flex-row justify-between mt-2 w-full gap-x-[12px]">
-        {/* Add Income Button */}
-        <TouchableOpacity onPress={() => openCreateModal('income')} className="flex-1 flex-row items-center justify-center bg-green-500 rounded-lg py-4 mr-2">
-          <ArrowUp size={20} strokeWidth={4} color="white" />
-          <Text className="text-white font-bold text-lg ml-2">Add Income</Text>
+      <View className="flex flex-row justify-between w-full">
+        <TouchableOpacity onPress={() => openCreateModal('income')} className="flex items-center gap-y-2.5">
+          <View className="p-5 bg-green-500 rounded-lg size-[60px] flex justify-center items-center">
+            <ArrowUp size={34} strokeWidth={3} color="white" />
+          </View>
+          <View className="flex flex-col justify-center items-center">
+            <Text className="text-white text-sm font-urbanist-bold">Income</Text>
+          </View>
         </TouchableOpacity>
-
-        {/* Add Expense Button */}
-        <TouchableOpacity onPress={() => openCreateModal('expense')} className="flex-1 flex-row items-center justify-center bg-red-500  rounded-lg py-4 ml-2 ">
-          <ArrowDown size={20} strokeWidth={4} color="white" />
-          <Text className="text-white font-bold text-lg ml-2">Add Expense</Text>
+        <TouchableOpacity onPress={() => openCreateModal('income')} className="flex items-center gap-y-2.5">
+          <View className="p-5 bg-red-500 rounded-lg size-[60px] flex justify-center items-center">
+            <ArrowDown size={34} strokeWidth={3} color="white" />
+          </View>
+          <View className="flex flex-col justify-center items-center">
+            <Text className="text-white text-sm font-urbanist-bold">Expense</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => openCreateModal('income')} className="flex items-center gap-y-2.5">
+          <View className="p-5 bg-[#0D9488] rounded-lg size-[60px] flex justify-center items-center">
+            <PiggyBankIcon size={34} strokeWidth={2} color="white" />
+          </View>
+          <View className="flex flex-col justify-center items-center">
+            <Text className="text-white text-sm font-urbanist-bold">Savings</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => openCreateModal('income')} className="flex items-center  gap-y-2.5">
+          <View className="p-5 bg-[#007BFF] rounded-lg size-[60px] flex justify-center items-center">
+            <ChartPieIcon size={34} strokeWidth={2} color="white" />
+          </View>
+          <View className="flex flex-col justify-center items-center">
+            <Text className="text-white text-sm font-urbanist-bold">Budget</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </View>
