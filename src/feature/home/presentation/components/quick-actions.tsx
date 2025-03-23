@@ -2,9 +2,15 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { ArrowDown, ArrowUp, ChartPieIcon, PiggyBankIcon } from 'lucide-react-native';
 import { router } from 'expo-router';
+import { Modalize } from 'react-native-modalize';
+import { useSavingState } from '@/src/feature/savings/presentation/state/savingsState';
 
 
-const QuickActions = () => {
+const QuickActions = ({savingsModal}: {savingsModal: React.RefObject<Modalize>}) => {
+  const openSavingsModal = () => {
+    useSavingState.getState().setModalType('add');
+    savingsModal.current?.open();
+  }
 
   return (
     <View className="flex flex-col justify-start items-start w-full gap-y-[18px]">
@@ -26,7 +32,7 @@ const QuickActions = () => {
             <Text className="text-white text-sm font-urbanist-bold">Expense</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('income')} className="flex items-center gap-y-2.5">
+        <TouchableOpacity onPress={openSavingsModal} className="flex items-center gap-y-2.5">
           <View className="p-5 bg-[#0D9488] rounded-lg size-[60px] flex justify-center items-center">
             <PiggyBankIcon size={34} strokeWidth={2} color="white" />
           </View>

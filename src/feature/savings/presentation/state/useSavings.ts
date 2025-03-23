@@ -15,8 +15,8 @@ import { useExpenseState } from '@/src/feature/expenses/presentation/state/expen
 
 
 const useSavings = (
-  {savingsId, inChild, deleteSavingsModal, deleteExpenseModal}:
-    {savingsId?: number, inChild?: boolean, deleteSavingsModal?: React.RefObject<Modalize>, deleteExpenseModal?: React.RefObject<Modalize>}
+  {savingsId, inChild, deleteSavingsModal, deleteExpenseModal, calledInHomeScreen}:
+    {savingsId?: number, inChild?: boolean, deleteSavingsModal?: React.RefObject<Modalize>, deleteExpenseModal?: React.RefObject<Modalize>, calledInHomeScreen?: boolean}
 ) => {
 
   // Savings screen state
@@ -83,6 +83,7 @@ const useSavings = (
         resetSavingsForm();
         showToast('success', 'Success', 'Your savings goal has been created successfully');
         savingsModal.current?.close();
+        calledInHomeScreen && router.replace("/(tabs)/planning");
       } catch (error) {
         console.error('error creating savings, useSavings =>', error);
         showToast('error', 'Error', 'An error occurred while creating your savings goal. Please try again later.');

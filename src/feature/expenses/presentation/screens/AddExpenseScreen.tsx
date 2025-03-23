@@ -55,7 +55,7 @@ const AddExpenseScreen = () => {
       });
 
       resetExpenseForm();
-      router.back();
+      router.replace("/(tabs)/expense")
     } catch (error) {
       console.log("Error creating expense: ", error);
     }
