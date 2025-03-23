@@ -13,6 +13,11 @@ import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
 import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
 import { budgetItemBloc } from '@/src/feature/budget-item/presentation/state/budgetItemBloc';
 import { BUDGET_ITEM_EVENTS } from '@/src/feature/budget-item/presentation/state/budgetItemEvent';
+import { savingsBloc } from '@/src/feature/savings/presentation/state/savingsBloc';
+import { SAVINGS_EVENTS } from '@/src/feature/savings/presentation/state/savingsEvents';
+import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
+import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
+import { useSavingState } from '@/src/feature/savings/presentation/state/savingsState';
 
 export const expenseType = [
   {id: 1, label: "Expense", value: "EXPENSE" },
@@ -36,7 +41,7 @@ export type ExpenseHookType = {
   setErrorExpense: any
 }
 
-const useExpense = (): ExpenseHookType => {
+const useExpense = (typeOfExpense?: string): ExpenseHookType => {
   const today = moment();
   const expenseList = useExpenseState((state) => state.expenseList);
   const categoryList = useExpenseState((state) => state.categoryList);
@@ -45,6 +50,9 @@ const useExpense = (): ExpenseHookType => {
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
   const setSelectedExpense = useExpenseState((state) => state.setSelectedExpense);
   const modalType = useExpenseState((state) => state.modalType);
+  const selectedBudgetItem = useBudgetItemState((state) => state.selectedBudgetItem);
+  const selectedBudget = useBudgetState((state) => state.selectedBudget);
+  const selectedSaving = useSavingState((state) => state.selectedSaving);
   const defaultCategory = categoryList.length > 0 ? {id: categoryList[0]?.id, label: categoryList[0]?.displayName, value: categoryList[0]?.displayName } : {"id": 251, "label": "Bonuses", "value": "Bonuses"}
 
   const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
@@ -63,11 +71,12 @@ const useExpense = (): ExpenseHookType => {
       description: "",
       amount: 0,
       category: defaultCategory,
-      type: expenseType[1],
+      type: typeOfExpense === 'expense' ?  expenseType[0] : expenseType[1],
       date: moment().startOf("day").format("YYYY-MM-DD"),
       isRelatedToBudgetOrSavings: false,
       budget: null,
-      budgetItem: null
+      budgetItem: null,
+      savings: null
     }
   })
 
@@ -118,6 +127,10 @@ const useExpense = (): ExpenseHookType => {
       category: defaultCategory,
       type: expenseType[1],
       date: today.format('YYYY-MM-DD'),
+      isRelatedToBudgetOrSavings: false,
+      budget: null,
+      budgetItem: null,
+      savings: null
     });
   }
 
@@ -147,37 +160,53 @@ const useExpense = (): ExpenseHookType => {
   }, []);
 
 
+
+
+
   useEffect(() => {
-    if (modalType === "edit" && selectedExpense) {
-      resetExpense({
-        description: selectedExpense.description || "",
-        amount: selectedExpense.amount || 0,
-        category: selectedExpense
-          ? {
-            id: selectedExpense.categoryId,
-            label: selectedExpense.categoryName,
-            value: selectedExpense.categoryName,
-          }
-          : defaultCategory,
-        type: expenseType.find((e) => e.value === selectedExpense?.type) || expenseType[1],
-        date: selectedExpense?.date || today.format("YYYY-MM-DD"),
-      });
-    }
+    (
+      async () => {
+        if (modalType === "edit" && selectedExpense) {
+          resetExpense({
+            description: selectedExpense.description || "",
+            amount: selectedExpense.amount || 0,
+            category: selectedExpense
+              ? {
+                id: selectedExpense.categoryId,
+                label: selectedExpense.categoryName,
+                value: selectedExpense.categoryName,
+              }
+              : defaultCategory,
+            type: expenseType.find((e) => e.value === selectedExpense?.type) || expenseType[1],
+            date: selectedExpense?.date || today.format("YYYY-MM-DD"),
+            isRelatedToBudgetOrSavings: !!(selectedExpense?.budgetItemId || selectedExpense?.savingsID),
+            budget: selectedBudget ? {id: selectedBudget?.id, label: selectedBudget?.name, value: selectedBudget?.name} : null,
+            budgetItem: selectedBudgetItem ? {id: selectedBudgetItem?.id, label: selectedBudgetItem?.name, value: selectedBudgetItem?.name} : null,
+            savings: selectedSaving ? {id: selectedSaving?.id, label: selectedSaving?.goalName, value: selectedSaving?.goalName} : null
+          });
+        }
+      }
+    )()
   }, [selectedExpense, modalType, resetExpense, expenseType]);
 
 
   // Fetch Budgets or Savings if expense is related to budget or savings
   const fetchBudget = async () => budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {page: 0, pageSize: 50});
-
+  const fetchSavings = async () => savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_ALL_SAVINGS, {page: 0, pageSize: 50});
   useEffect(() => {
     (
       async () => {
         if(watchExpense('isRelatedToBudgetOrSavings') === true && watch('type')?.value === 'EXPENSE'){
           await fetchBudget();
         }
+
+        if(watchExpense('isRelatedToBudgetOrSavings') === true && watch('type')?.value === 'INCOME'){
+          await fetchSavings();
+        }
       }
     )()
   }, [watchExpense('isRelatedToBudgetOrSavings'), watch('type')]);
+
 
   // Fetch budget items for selected budget
   const fetchBudgetItems = async (budgetId: number) => await budgetItemBloc.handleBudgetItemEvent(BUDGET_ITEM_EVENTS.GET_ALL_BUDGET_ITEMS, {page: 0, pageSize: 50, budgetId: budgetId});

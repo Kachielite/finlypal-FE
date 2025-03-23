@@ -5,6 +5,7 @@ import formatNumber from '@/src/core/utils/formatCurrency';
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import { Swipeable } from 'react-native-gesture-handler';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
+import { router } from 'expo-router';
 
 
 const DeleteExpenseButton = ({handleSwipe}:{handleSwipe: (direction: 'left' | 'right') => void}) => {
@@ -35,8 +36,12 @@ const ExpenseCard = (
     setSelectedExpense(expense);
     if (direction === 'right') {
       setModalType('edit');
-      createModalRef.current?.open();
-      swipeRef.current?.close();
+      if(expense.savingsID || expense.budgetItemId){
+        router.push({pathname: '/expense/add-expense', params: {typeOfExpense: 'expense'}})
+      } else {
+        createModalRef.current?.open();
+        swipeRef.current?.close();
+      }
     } else if (direction === 'left') {
       deleteModalRef.current?.open();
       swipeRef.current?.close();

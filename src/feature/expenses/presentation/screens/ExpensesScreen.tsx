@@ -13,6 +13,7 @@ import AppModal from '@/src/shared/presentation/components/app-modal';
 import ExpenseOptionModal from '@/src/feature/expenses/presentation/components/expense-option-modal';
 import { expenseBloc } from '@/src/feature/expenses/presentation/state/expenseBloc';
 import { EXPENSE_EVENTS } from '@/src/feature/expenses/presentation/state/expenseEvent';
+import { router } from 'expo-router';
 
 
 const ExpensesScreen = () => {
@@ -29,7 +30,7 @@ const ExpensesScreen = () => {
     resetExpenseForm
   } = useExpense();
 
-  const groupedExpenses = useMemo(() => groupExpenseByDate(expenseList), [expenseList]);
+  const groupedExpenses = useMemo(() => groupExpenseByDate(expenseList.filter((e => e.savingsID === undefined && e.budgetItemId === undefined))), [expenseList]);
   const isLoading = useExpenseState((state) => state.isLoading);
   const isLoadingMore = useExpenseState((state) => state.isLoadingMore);
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
@@ -45,12 +46,17 @@ const ExpensesScreen = () => {
     modalizeRef.current?.open();
   };
 
-  const openCreateModal = () => {
+  const createExpenses = () => {
     setModalType('add')
     setSelectedExpense(null)
     resetExpenseForm();
-    createModalRef.current?.open();
+    router.push({pathname: '/expense/add-expense', params: {typeOfExpense: 'expense'}})
   };
+
+  const editExpense = () => {
+    setModalType('edit')
+    router.push({pathname: '/expense/add-expense', params: {typeOfExpense: 'expense'}})
+  }
 
   const deleteExpense = async () => {
     try {
@@ -77,7 +83,7 @@ const ExpensesScreen = () => {
           <View className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[42px]">
             {/* Header Section */}
             <View className="flex flex-row justify-between items-center w-full">
-              <TouchableOpacity onPress={openCreateModal}>
+              <TouchableOpacity onPress={createExpenses}>
                 <CirclePlus color="white" size={30} />
               </TouchableOpacity>
               <Text className="text-white font-urbanist-bold text-[24px]">Expenses</Text>

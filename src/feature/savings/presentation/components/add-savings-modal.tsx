@@ -11,10 +11,11 @@ import useSavings from '@/src/feature/savings/presentation/state/useSavings';
 
 type AddSavingsModalProps = {
   savingsModal: React.RefObject<Modalize>
-  includeTabPadding?: boolean
+  includeTabPadding?: boolean,
+  calledInHomeScreen?: boolean
 }
 
-const AddSavingsModal = ({includeTabPadding, savingsModal}: AddSavingsModalProps) => {
+const AddSavingsModal = ({includeTabPadding, savingsModal, calledInHomeScreen}: AddSavingsModalProps) => {
 
   const {
     setValue,
@@ -24,7 +25,7 @@ const AddSavingsModal = ({includeTabPadding, savingsModal}: AddSavingsModalProps
     isModifyingSaving,
     createSavings,
     updateSavings
-  } = useSavings({inChild: true});
+  } = useSavings({inChild: true, calledInHomeScreen});
 
 
   return (
