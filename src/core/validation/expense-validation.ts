@@ -50,22 +50,24 @@ export const CreateExpenseSchema = z
       label: z.string(),
       value: z.string()
     }).optional().nullable(),
+    savings: z.object({
+      id: z.number(),
+      label: z.string(),
+      value: z.string()
+    }).optional().nullable()
   })
   .superRefine((data, ctx) => {
     if (data.isRelatedToBudgetOrSavings) {
-      if (!data.budget) {
-        ctx.addIssue({
-          path: ["budgetId"],
-          message: "Budget ID is required when related to a budget or savings goal",
-          code: z.ZodIssueCode.custom
-        });
+      if (data.budget && data.budgetItem) {
+        return;
       }
-      if (!data.budgetItem) {
-        ctx.addIssue({
-          path: ["budgetItemId"],
-          message: "Budget Item ID is required when related to a budget or savings goal",
-          code: z.ZodIssueCode.custom
-        });
+      if (data.savings) {
+        return;
       }
+      ctx.addIssue({
+        path: ["budgetOrSavings"],
+        message: "Either budget and budget item or savings must be provided when related to a budget or savings goal",
+        code: z.ZodIssueCode.custom
+      });
     }
   });

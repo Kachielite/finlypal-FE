@@ -15,7 +15,7 @@ import useExpense, { expenseType } from '@/src/feature/expenses/presentation/sta
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import { expenseBloc } from '@/src/feature/expenses/presentation/state/expenseBloc';
 import { EXPENSE_EVENTS } from '@/src/feature/expenses/presentation/state/expenseEvent';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { ArrowDownUp, ArrowLeft, ChartColumnStacked } from 'lucide-react-native';
 import FieldInput from '@/src/shared/presentation/components/form/field-input';
 import SelectInput from '@/src/shared/presentation/components/form/select-input';
@@ -24,9 +24,11 @@ import moment from 'moment/moment';
 import CheckBox from '@/src/shared/presentation/components/form/checkbox';
 import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
+import { useSavingState } from '@/src/feature/savings/presentation/state/savingsState';
 
 const AddExpenseScreen = () => {
-  const {setValueExpense: setValue, watchExpense: watch, handleSubmitExpense: handleSubmit, errorsExpense: errors, resetExpenseForm} = useExpense();
+  const { typeOfExpense } = useLocalSearchParams<{ typeOfExpense: string }>();
+  const {setValueExpense: setValue, watchExpense: watch, handleSubmitExpense: handleSubmit, errorsExpense: errors, resetExpenseForm} = useExpense(typeOfExpense);
   const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
   const modalType = useExpenseState((state) => state.modalType);
   const categoryList = useExpenseState((state) => state.categoryList);
@@ -34,11 +36,11 @@ const AddExpenseScreen = () => {
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
   const budgetList = useBudgetState((state) => state.budgetList);
   const budgetItemList = useBudgetItemState((state) => state.budgetItemList);
+  const savingsList = useSavingState((state) => state.savingList);
 
   const formattedBudgets = budgetList.map((item) => ({ id: item.id, label: item.name, value: item.name }));
   const formattedBudgetItems = budgetItemList.map((item) => ({ id: item.id, label: item.name, value: item.name }));
-
-
+  const formattedSavings = savingsList.map((item) => ({ id: item.id, label: item.goalName, value: item.goalName }));
 
 
 
@@ -96,7 +98,7 @@ const AddExpenseScreen = () => {
                     <ArrowLeft color="white" size={30} />
                   </TouchableOpacity>
                   <Text className="text-white font-urbanist-bold text-[24px]">
-                    {modalType === 'edit' ? 'Edit Expense' : 'Add Expense'}
+                    { modalType === 'edit'  ? 'Edit Expense' : typeOfExpense === 'expense' ? 'Add Expense' : 'Add Income' }
                   </Text>
                   <View/>
                 </View>
@@ -164,6 +166,9 @@ const AddExpenseScreen = () => {
                         icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
                         error={errors?.budget?.message}
                       />
+                      {formattedBudgets.length === 0 && watch("type")?.value === "EXPENSE" && <Text className="font-urbanist-regular text-sm text-red-500">
+                        No budget found. Please create a budget from the planning screen.
+                      </Text>}
                       {formattedBudgetItems.length === 0 && watch("budget") && <Text className="font-urbanist-regular text-sm text-red-500">
                         No budget items found for the selected budget. Please create a budget item for this budget from the planning screen.
                       </Text>}
@@ -171,14 +176,30 @@ const AddExpenseScreen = () => {
                     {formattedBudgetItems.length > 0 && <SelectInput
                       data={formattedBudgetItems}
                       enabled={formattedBudgetItems.length > 0}
-                      label="Select expense's budget item"
-                      placeholder="Select budget"
+                      label="Select expense's budget category"
+                      placeholder="Select budget category"
                       value={ watch('budgetItem') || null}
                       onChangeText={(value) => setValue("budgetItem", value, { shouldValidate: true })}
                       icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
                       error={errors?.budgetItem?.message}
                     />}
                   </>}
+                  {watch("isRelatedToBudgetOrSavings") && watch("type")?.value === "INCOME" &&
+                    <View className="flex flex-col justify-start items-start w-full gap-y-[7px]">
+                      <SelectInput
+                        data={formattedSavings}
+                        label="Select expense's savings goal"
+                        placeholder="Select savings goal"
+                        value={ watch('savings') || null}
+                        onChangeText={(value) => setValue("savings", value, { shouldValidate: true })}
+                        icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
+                        error={errors?.budget?.message}
+                      />
+                      {formattedSavings.length === 0 && watch("type")?.value === "INCOME" && <Text className="font-urbanist-regular text-sm text-red-500">
+                        No savings goal found. Please create a savings goal from the planning screen.
+                      </Text>}
+                    </View>
+                    }
                 </View>
               </View>
               <View className="w-screen p-[24px] border-t-[1px] border-t-quaternary">

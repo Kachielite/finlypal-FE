@@ -13,6 +13,8 @@ import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
 import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
 import { budgetItemBloc } from '@/src/feature/budget-item/presentation/state/budgetItemBloc';
 import { BUDGET_ITEM_EVENTS } from '@/src/feature/budget-item/presentation/state/budgetItemEvent';
+import { savingsBloc } from '@/src/feature/savings/presentation/state/savingsBloc';
+import { SAVINGS_EVENTS } from '@/src/feature/savings/presentation/state/savingsEvents';
 
 export const expenseType = [
   {id: 1, label: "Expense", value: "EXPENSE" },
@@ -36,7 +38,7 @@ export type ExpenseHookType = {
   setErrorExpense: any
 }
 
-const useExpense = (): ExpenseHookType => {
+const useExpense = (typeOfExpense?: string): ExpenseHookType => {
   const today = moment();
   const expenseList = useExpenseState((state) => state.expenseList);
   const categoryList = useExpenseState((state) => state.categoryList);
@@ -63,7 +65,7 @@ const useExpense = (): ExpenseHookType => {
       description: "",
       amount: 0,
       category: defaultCategory,
-      type: expenseType[1],
+      type: typeOfExpense === 'expense' ?  expenseType[0] : expenseType[1],
       date: moment().startOf("day").format("YYYY-MM-DD"),
       isRelatedToBudgetOrSavings: false,
       budget: null,
@@ -168,16 +170,21 @@ const useExpense = (): ExpenseHookType => {
 
   // Fetch Budgets or Savings if expense is related to budget or savings
   const fetchBudget = async () => budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {page: 0, pageSize: 50});
-
+  const fetchSavings = async () => savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_ALL_SAVINGS, {page: 0, pageSize: 50});
   useEffect(() => {
     (
       async () => {
         if(watchExpense('isRelatedToBudgetOrSavings') === true && watch('type')?.value === 'EXPENSE'){
           await fetchBudget();
         }
+
+        if(watchExpense('isRelatedToBudgetOrSavings') === true && watch('type')?.value === 'INCOME'){
+          await fetchSavings();
+        }
       }
     )()
   }, [watchExpense('isRelatedToBudgetOrSavings'), watch('type')]);
+
 
   // Fetch budget items for selected budget
   const fetchBudgetItems = async (budgetId: number) => await budgetItemBloc.handleBudgetItemEvent(BUDGET_ITEM_EVENTS.GET_ALL_BUDGET_ITEMS, {page: 0, pageSize: 50, budgetId: budgetId});

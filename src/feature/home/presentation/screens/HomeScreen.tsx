@@ -25,7 +25,7 @@ const HomeScreen = () => {
           </View>
           <BalanceCard balance={(totalIncome - totalExpense)}/>
           <ExpenseSummary income={totalIncome} expense={totalExpense}/>
-          <QuickActions createModalRef={createModalRef}/>
+          <QuickActions/>
           <RecentTransactions />
         </View>
       </SafeAreaView>
