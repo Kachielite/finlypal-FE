@@ -10,14 +10,16 @@ import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetSt
 import EmojiPickerInput from '@/src/shared/presentation/components/form/emoji-picker';
 import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEvents';
 import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
+import { router } from 'expo-router';
 
 
 type AddBudgetModalProps = {
   modalizeRef: any,
   includeTabPadding?: boolean
+  calledInHomeScreen?: boolean
 }
 
-const AddBudgetModal = ({ modalizeRef, includeTabPadding}: AddBudgetModalProps) => {
+const AddBudgetModal = ({ modalizeRef, includeTabPadding, calledInHomeScreen}: AddBudgetModalProps) => {
   const { setValue, watch, handleSubmit, errors, resetAddBudgetForm} = useBudget({});
   const modalType = useBudgetState((state) => state.modalType);
   const isModifyingBudget = useBudgetState((state) => state.isModifyingBudget);
@@ -30,6 +32,7 @@ const AddBudgetModal = ({ modalizeRef, includeTabPadding}: AddBudgetModalProps) 
         await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {});
         resetAddBudgetForm()
         modalizeRef.current?.close();
+        calledInHomeScreen && router.replace("/(tabs)/planning");
       } catch (e) {
         console.log("Error creating budget: ", e)
       }

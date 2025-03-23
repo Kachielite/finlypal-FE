@@ -8,12 +8,14 @@ import useHomeHooks from '@/src/feature/home/presentation/state/useHomeHooks';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 import { Modalize } from 'react-native-modalize';
 import AddSavingsModal from '@/src/feature/savings/presentation/components/add-savings-modal';
+import AddBudgetModal from '@/src/feature/budget/presentation/components/add-budget-modal';
 
 const HomeScreen = () => {
   const { user} = useAuthState.getState();
   const { totalIncome, totalExpense} = useHomeHooks();
 
   const savingsModal = useRef<Modalize>(null);
+  const budgetModal = useRef<Modalize>(null);
   return (
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#102632' }}>
@@ -24,12 +26,17 @@ const HomeScreen = () => {
           </View>
           <BalanceCard balance={(totalIncome - totalExpense)}/>
           <ExpenseSummary income={totalIncome} expense={totalExpense}/>
-          <QuickActions savingsModal={savingsModal}/>
+          <QuickActions savingsModal={savingsModal} budgetModal={budgetModal}/>
           <RecentTransactions />
         </View>
       </SafeAreaView>
       <AddSavingsModal
         savingsModal={savingsModal}
+        includeTabPadding
+        calledInHomeScreen
+      />
+      <AddBudgetModal
+        modalizeRef={budgetModal}
         includeTabPadding
         calledInHomeScreen
       />

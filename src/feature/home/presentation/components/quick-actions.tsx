@@ -4,12 +4,18 @@ import { ArrowDown, ArrowUp, ChartPieIcon, PiggyBankIcon } from 'lucide-react-na
 import { router } from 'expo-router';
 import { Modalize } from 'react-native-modalize';
 import { useSavingState } from '@/src/feature/savings/presentation/state/savingsState';
+import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
 
 
-const QuickActions = ({savingsModal}: {savingsModal: React.RefObject<Modalize>}) => {
+const QuickActions = ({savingsModal, budgetModal}: {savingsModal: React.RefObject<Modalize>, budgetModal: React.RefObject<Modalize>}) => {
   const openSavingsModal = () => {
     useSavingState.getState().setModalType('add');
     savingsModal.current?.open();
+  }
+
+  const openBudgetModal = () => {
+    useBudgetState.getState().setModalType('add');
+    budgetModal.current?.open();
   }
 
   return (
@@ -40,7 +46,7 @@ const QuickActions = ({savingsModal}: {savingsModal: React.RefObject<Modalize>})
             <Text className="text-white text-sm font-urbanist-bold">Savings</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('income')} className="flex items-center  gap-y-2.5">
+        <TouchableOpacity onPress={openBudgetModal} className="flex items-center  gap-y-2.5">
           <View className="p-5 bg-[#007BFF] rounded-lg size-[60px] flex justify-center items-center">
             <ChartPieIcon size={34} strokeWidth={2} color="white" />
           </View>
