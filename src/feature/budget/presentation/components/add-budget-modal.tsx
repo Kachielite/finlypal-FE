@@ -41,7 +41,6 @@ const AddBudgetModal = ({ modalizeRef, includeTabPadding}: AddBudgetModalProps) 
     await handleSubmit(async (data) => {
       try{
         await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.UPDATE_BUDGET, { budgetId: selectedBudget?.id, ...data });
-        resetAddBudgetForm()
         await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGET_BY_ID, { budgetId: selectedBudget?.id });
         await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {});
         modalizeRef.current?.close();

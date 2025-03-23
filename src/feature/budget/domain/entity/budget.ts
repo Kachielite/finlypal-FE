@@ -1,11 +1,13 @@
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
 
 export enum BudgetStatus {
-  PLANNED = 'Planned',
-  IN_PROGRESS = 'In progress',
-  COMPLETED = 'Completed',
-  EXCEEDED = 'Exceeded',
-  EXPIRED = 'Expired'
+  PLANNED = '📅 Planned',
+  IN_PROGRESS = '⏳ In progress',
+  COMPLETED = '🎉 Completed',
+  EXCEEDED = '🚨 Exceeded',
+  EXPIRED = '✅ Expired',
+  AT_RISK = '⚠️ At risk',
+  UNDERUTILIZED = '📉 Underutilized',
 }
 
 export class Budget {

@@ -1,7 +1,7 @@
 import { ImageBackground, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import React, { useRef } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ArrowLeft, EllipsisVertical, Info } from 'lucide-react-native';
+import { ArrowLeft, EllipsisVertical } from 'lucide-react-native';
 import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
 import Loader from '@/src/shared/presentation/components/loader';
 import useBudget from '@/src/feature/budget/presentation/state/useBudget';
@@ -100,7 +100,6 @@ const BudgetScreen = () => {
             <View
               className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[25px] absolute top-[27rem]">
               <View className="flex flex-row justify-start items-center gap-x-[5px] w-[88w]">
-                <Info color="white" size={18} strokeWidth={3}/>
                 <Text className="text-white font-urbanist-normal text-[14px]">{selectedBudget?.statusTooltip}</Text>
               </View>
               <BudgetItemsList budgetItems={(selectedBudget?.budgetItems) as BudgetItem[]}/>
