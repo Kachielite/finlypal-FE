@@ -1,9 +1,11 @@
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 
 export enum SavingsStatus {
+  NOT_STARTED = 'Not started',
   ON_TRACK = 'On track',
+  AT_RISK = 'At risk',
   ACHIEVED = 'Achieved',
-  FAILED = 'Failed'
+  FAILED = 'Failed',
 }
 
 

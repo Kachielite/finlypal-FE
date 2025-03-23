@@ -29,6 +29,8 @@ const useSavings = (
   const expenseList = useExpenseState((state) => state.expenseList);
   const isModifyingExpense = useExpenseState((state) => state.isModifyingExpense);
   const expenseModalType = useExpenseState((state) => state.modalType);
+  const categoryList = useExpenseState((state) => state.categoryList);
+  const defaultCategory = categoryList.length > 0 ? {id: categoryList[0]?.id, label: categoryList[0]?.displayName, value: categoryList[0]?.displayName } : {"id": 251, "label": "Bonuses", "value": "Bonuses"}
 
   // Savings screen form
   const {setValue, handleSubmit, watch, formState: { errors, defaultValues }, reset} = useForm({
@@ -58,7 +60,7 @@ const useSavings = (
     defaultValues: {
       description: "",
       amount: 0,
-      category: {id: 0, label: "", value: ""},
+      category: defaultCategory,
       date: moment().format('YYYY-MM-DD'),
     }
   })
@@ -68,7 +70,7 @@ const useSavings = (
     expenseForm.reset({
       description: "",
       amount: 0,
-      category: {id: 0, label: "", value: ""},
+      category: defaultCategory,
       date: moment().format('YYYY-MM-DD'),
     })
   }
@@ -94,7 +96,6 @@ const useSavings = (
         await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.UPDATE_SAVINGS, {data, savingsId: selectedSaving?.id});
         await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_SAVINGS_BY_ID, {savingsId: selectedSaving?.id});
         await savingsBloc.handleSavingsEvents(SAVINGS_EVENTS.GET_ALL_SAVINGS, {});
-        resetSavingsForm();
         showToast('success', 'Success', 'Your savings goal has been updated successfully');
         savingsModal.current?.close();
       } catch (error) {
@@ -234,12 +235,7 @@ const useSavings = (
         date: selectedExpense.date,
       })
     } else {
-      expenseForm.reset({
-        description: "",
-        amount: 0,
-        category: {id: 0, label: "", value: ""},
-        date: moment().format('YYYY-MM-DD'),
-      })
+      resetExpenseForm()
     }
   }, [selectedExpense, expenseModalType]);
 

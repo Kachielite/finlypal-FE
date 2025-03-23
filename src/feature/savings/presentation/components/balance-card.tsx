@@ -13,7 +13,7 @@ const BalanceCard = ({selectedSaving}: {selectedSaving: Savings}) => {
     <View className="relative flex-1 w-full flex-col justify-start items-center px-6 pt-4 pb-10 gap-y-10 shadow-xl">
       <View className="absolute -top-[90px] w-[90vw] h-[180px] bg-alternative rounded-[12px] flex flex-col justify-between items-start z-20 px-6 py-4">
         <Text className="text-white font-urbanist-bold text-3xl">
-          {selectedSaving?.goalName}
+          {selectedSaving?.goalName}{" "}{selectedSaving?.icon}
         </Text>
         <View className="flex flex-col justify-start items-start gap-y-[10px] w-full">
           <View className="flex flex-row justify-between items-center w-full">

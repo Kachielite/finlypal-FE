@@ -2,7 +2,7 @@ import React from 'react';
 import { Modalize } from 'react-native-modalize';
 import { Platform, Text, View } from 'react-native';
 import Button from '@/src/shared/presentation/components/form/button';
-import SelectInput, { SelectInputData } from '@/src/shared/presentation/components/form/select-input';
+import SelectInput from '@/src/shared/presentation/components/form/select-input';
 import { ChartColumnStacked } from 'lucide-react-native';
 import DatePicker from '@/src/shared/presentation/components/form/date-picker';
 import moment from 'moment';
@@ -62,8 +62,8 @@ const AddExpenseToSavingsModal = (
           data={formattedCategories}
           label="Category"
           placeholder="Select category"
-          value={ expenseForm.watch('category') || null}
-          onChangeText={(value) => expenseForm.setValue("category", value as SelectInputData, { shouldValidate: true })}
+          value={ expenseForm.watch('category')}
+          onChangeText={(value) => expenseForm.setValue("category", value, { shouldValidate: true })}
           icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
           error={expenseForm.formState.errors?.category?.message}
         />
