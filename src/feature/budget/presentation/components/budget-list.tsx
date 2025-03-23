@@ -16,7 +16,7 @@ const BudgetList = ({type, onPressSeeAll, ListItems}:{type: string, onPressSeeAl
       </View>
       {ListItems.length === 0 &&
         <View className="flex flex-col justify-center items-center py-[20px] px-[15px] w-[88vw] bg-alternative gap-y-[24px] rounded-[12px]">
-          <EmptyState title="No Budget Found" />
+          <EmptyState title="No Budget Found" description="Create a new budget to get started" />
         </View>
       }
       {ListItems.map((item) => <PlanningItem key={item.id} budget={item}/>)}

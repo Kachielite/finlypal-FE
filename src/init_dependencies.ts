@@ -51,6 +51,7 @@ import { GetSavingsByIdUseCase } from '@/src/feature/savings/domain/use-case/use
 import { GetAllSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-get-all-savings';
 import { UpdateSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-update-savings';
 import { DeleteSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-delete-savings';
+import { MarkBudgetAsCompletedUseCase } from '@/src/feature/budget/domain/use-case/use-mark-budget-as-completed';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -121,3 +122,4 @@ export const getSavingsByIdUseCase = new GetSavingsByIdUseCase(savingsRepository
 export const getAllSavingsUseCase = new GetAllSavingsUseCase(savingsRepository);
 export const updateSavingsUseCase = new UpdateSavingsUseCase(savingsRepository);
 export const deleteSavingsUseCase = new DeleteSavingsUseCase(savingsRepository);
+export const markBudgetAsCompletedUseCase = new MarkBudgetAsCompletedUseCase(budgetRepository);

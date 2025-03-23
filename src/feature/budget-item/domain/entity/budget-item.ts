@@ -1,9 +1,10 @@
 import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 
 export enum BudgetItemStatus {
-  ON_TRACK = 'On track',
-  OVERSPENT = 'Overspent',
-  UNDERSPENT = 'Underspent'
+  ON_TRACK = '✅ On track',
+  OVERSPENT = '🚨 Overspent',
+  UNDERSPENT = '📉 Underspent',
+  AT_RISK = '⚠️ At risk',
 }
 
 export class BudgetItem {

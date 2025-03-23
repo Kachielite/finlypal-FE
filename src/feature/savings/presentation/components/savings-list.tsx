@@ -16,7 +16,7 @@ const SavingsList = ({type, onPressSeeAll, ListItems}:{type: string, onPressSeeA
       </View>
       {ListItems.length === 0 &&
         <View className="flex flex-col justify-center items-center py-[20px] px-[15px] w-[88vw] bg-alternative gap-y-[24px] rounded-[12px]">
-          <EmptyState title="No Budget Found" />
+          <EmptyState title="No Savings Found" description="Create a new savings goal to get started" />
         </View>
       }
       {ListItems.map((item) => <SavingsItem key={item.id} savings={item}/>)}

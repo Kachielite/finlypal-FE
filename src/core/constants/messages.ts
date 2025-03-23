@@ -15,6 +15,8 @@ const UPDATE_BUDGET_SUCCESS = "Planning updated successfully";
 const UPDATE_BUDGET_FAILED = "Planning update failed";
 const DELETE_BUDGET_SUCCESS = "Planning deleted successfully";
 const DELETE_BUDGET_FAILED = "Planning deletion failed";
+const MARK_BUDGET_AS_COMPLETED_SUCCESS = "Budget marked as completed successfully";
+const MARK_BUDGET_AS_COMPLETED_FAILED = "Budget marked as completed failed";
 // Budget Items
 const CREATE_BUDGET_ITEMS_SUCCESS = "Budget Items created successfully";
 const CREATE_BUDGET_ITEMS_FAILED = "Budget Items creation failed";
@@ -53,5 +55,7 @@ export default {
     GET_BUDGET_ITEMS_SUCCESS,
     GET_BUDGET_ITEMS_FAILED,
     GET_BUDGET_ITEM_BY_ID_SUCCESS,
-    GET_BUDGET_ITEM_BY_ID_FAILED
+    GET_BUDGET_ITEM_BY_ID_FAILED,
+    MARK_BUDGET_AS_COMPLETED_SUCCESS,
+    MARK_BUDGET_AS_COMPLETED_FAILED
 }

@@ -8,6 +8,7 @@ export interface BudgetDatasource {
   getAllBudgets(page?: number, pageSize?: number): Promise<BudgetModel[]>;
   createBudget({budgetName, icon, startDate, endDate, totalBudget}: {budgetName: string, icon: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel>;
   updateBudget({budgetId, budgetName, icon, startDate, endDate, totalBudget}: {budgetId: number,  budgetName: string, icon: string, startDate: string, endDate: string, totalBudget: number}): Promise<BudgetModel>;
+  markBudgetAsCompleted(budgetId: number): Promise<GeneralResponseModel>;
   deleteBudget(budgetId: number): Promise<GeneralResponseModel>;
 }
 
@@ -72,6 +73,19 @@ export class BudgetDatasourceImpl implements BudgetDatasource {
       return GeneralResponseModel.fromJson(response);
     } catch (error: unknown) {
       console.error("Could not delete budget => budget datasource", error)
+      if (error && typeof error === "object" && "code" in error && "message" in error) {
+        throw new Exception(error.message as string);
+      } else {
+        throw new Exception("An unknown error occurred");
+      }
+    }
+  }
+
+  markBudgetAsCompleted(budgetId: number): Promise<GeneralResponseModel> {
+    try {
+      return this.budgetService.markBudgetAsCompleted(budgetId);
+    } catch (error: unknown) {
+      console.error("Could not mark budget as deleted => budget datasource", error)
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {

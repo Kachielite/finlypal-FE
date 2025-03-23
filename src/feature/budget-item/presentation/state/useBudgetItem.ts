@@ -29,6 +29,9 @@ const useBudgetItem = (
   const selectedExpense = useExpenseState((state) => state.selectedExpense);
   const modalType = useBudgetItemState((state) => state.modalType);
   const expenseModalType = useExpenseState((state) => state.modalType);
+  const categoryList = useExpenseState((state) => state.categoryList);
+  const defaultCategory = categoryList.length > 0 ? {id: categoryList[0]?.id, label: categoryList[0]?.displayName, value: categoryList[0]?.displayName } : {"id": 251, "label": "Bonuses", "value": "Bonuses"}
+
 
   const {setValue, handleSubmit, watch, formState: { errors }, reset} = useForm({
     resolver: zodResolver(budgetItemSchema),
@@ -44,7 +47,7 @@ const useBudgetItem = (
     defaultValues: {
       description: "",
       amount: 0,
-      category: {id: 0, label: "", value: ""},
+      category: defaultCategory,
       date: moment().format('YYYY-MM-DD'),
     },
   })
@@ -61,7 +64,7 @@ const useBudgetItem = (
     resetExpense({
       description: "",
       amount: 0,
-      category: {id: 0, label: "", value: ""},
+      category: defaultCategory,
       date: moment().format('YYYY-MM-DD'),
     })
   }
@@ -108,7 +111,7 @@ const useBudgetItem = (
       resetExpense({
         description: "",
         amount: 0,
-        category: {id: 0, label: "", value: ""},
+        category: defaultCategory,
         date: moment().format('YYYY-MM-DD'),
       })
     }

@@ -56,7 +56,7 @@ const PlanningScreen = () => {
               openSavingsModal={openSavingsModal}
             />
             <ScrollView
-              contentContainerClassName="pb-[100px] gap-y-[42px]"
+              contentContainerClassName={`flex pb-[100px] gap-y-[42px] ${budgetList.length === 0 ? 'flex-col-reverse':'flex-col'}`}
               showsVerticalScrollIndicator={false}
             >
               <BudgetList

@@ -71,4 +71,14 @@ export class BudgetRepositoryImpl implements BudgetRepository {
       return left(new Failure(errorMessage));
     }
   }
+
+  async markBudgetAsCompleted(budgetId: number): Promise<Either<Failure, GeneralResponse>> {
+    try {
+      const response = await this.budgetDatasource.markBudgetAsCompleted(budgetId);
+      return right(response);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred marking budget as completed";
+      return left(new Failure(errorMessage));
+    }
+  }
 }

@@ -6,6 +6,7 @@ import {
   deleteBudgetUseCase,
   getAllBudgetsUseCase,
   getBudgetByIdUseCase,
+  markBudgetAsCompletedUseCase,
   updateBudgetUseCase,
 } from '@/src/init_dependencies';
 import { fold } from 'fp-ts/Either';
@@ -18,6 +19,7 @@ import { UpdateBudgetUseCaseParams } from '@/src/feature/budget/domain/use-case/
 import { DeleteBudgetUseCaseParams } from '@/src/feature/budget/domain/use-case/use-delete-budget';
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { GetBudgetByIdBudgetUseCaseParams } from '@/src/feature/budget/domain/use-case/use-get-budget-by-id';
+import { MarkBudgetAsCompletedUseCaseParams } from '@/src/feature/budget/domain/use-case/use-mark-budget-as-completed';
 
 
 export const budgetBloc = {
@@ -38,6 +40,8 @@ export const budgetBloc = {
       case BUDGET_EVENTS.DELETE_BUDGET:
         await deleteBudgetHandler(payload, useBudgetState.getState);
         break;
+        case BUDGET_EVENTS.MARK_BUDGET_AS_COMPLETED:
+        await markBudgetAsCompletedHandler(payload, useBudgetState.getState);
       default:
         break
     }
@@ -143,6 +147,24 @@ async function deleteBudgetHandler(payload: DeleteBudgetUseCaseParams, getState:
       setBudgetList(updatedBudgetList);
       setIsModifyingBudget(false);
       showToast('success', 'Success!', messages.DELETE_BUDGET_SUCCESS)
+    }
+  )(response)
+}
+
+async function markBudgetAsCompletedHandler(payload: MarkBudgetAsCompletedUseCaseParams, getState: typeof useBudgetState.getState) {
+  const {setIsModifyingBudget} = getState();
+
+  setIsModifyingBudget(true);
+  const response = await markBudgetAsCompletedUseCase.execute(payload);
+
+  fold<Failure, GeneralResponse, void>(
+    (failure) => {
+      setIsModifyingBudget(false);
+      showToast('error', 'Error!', failure.message || messages.MARK_BUDGET_AS_COMPLETED_FAILED)
+    },
+    () => {
+      setIsModifyingBudget(false);
+      showToast('success', 'Success!', messages.MARK_BUDGET_AS_COMPLETED_SUCCESS)
     }
   )(response)
 }

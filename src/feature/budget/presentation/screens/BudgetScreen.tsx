@@ -1,7 +1,7 @@
 import { ImageBackground, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import React, { useRef } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ArrowLeft, EllipsisVertical, Info } from 'lucide-react-native';
+import { ArrowLeft, EllipsisVertical } from 'lucide-react-native';
 import { useBudgetState } from '@/src/feature/budget/presentation/state/budgetState';
 import Loader from '@/src/shared/presentation/components/loader';
 import useBudget from '@/src/feature/budget/presentation/state/useBudget';
@@ -20,11 +20,11 @@ import AddBudgetItemModal from '@/src/feature/budget-item/presentation/component
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
 
 const BudgetScreen = () => {
-  const modalizeRef = useRef<Modalize>(null);
   const createModalRef = useRef<Modalize>(null);
   const deleteModalRef = useRef<Modalize>(null);
   const optionModalRef = useRef<Modalize>(null);
   const addBudgetItemModalRef = useRef<Modalize>(null);
+  const markAsCompletedModalRef = useRef<Modalize>(null);
 
   const { budget_id } = useLocalSearchParams<{ budget_id: string }>();
   const {} = useBudget({budgetId: Number(budget_id)});
@@ -54,6 +54,11 @@ const BudgetScreen = () => {
     optionModalRef.current?.close();
   };
 
+  const openMarkAsCompletedModal = () => {
+    markAsCompletedModalRef.current?.open();
+    optionModalRef.current?.close();
+  };
+
   const deleteBudgetHandler = async() => {
     try {
       await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.DELETE_BUDGET, {
@@ -63,6 +68,21 @@ const BudgetScreen = () => {
       router.back();
     } catch (e) {
       console.log("Error deleting budget: ", e)
+    }
+  }
+
+  const markBudgetAsCompletedHandler = async() => {
+    try {
+      await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.MARK_BUDGET_AS_COMPLETED, {
+        budgetId: selectedBudget?.id
+      });
+      await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGET_BY_ID, {
+        budgetId: selectedBudget?.id
+      });
+      await budgetBloc.handleBudgetEvent(BUDGET_EVENTS.GET_BUDGETS, {});
+      markAsCompletedModalRef.current?.close();
+    } catch (e) {
+      console.log("Error marking budget as completed: ", e)
     }
   }
 
@@ -100,7 +120,6 @@ const BudgetScreen = () => {
             <View
               className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[25px] absolute top-[27rem]">
               <View className="flex flex-row justify-start items-center gap-x-[5px] w-[88w]">
-                <Info color="white" size={18} strokeWidth={3}/>
                 <Text className="text-white font-urbanist-normal text-[14px]">{selectedBudget?.statusTooltip}</Text>
               </View>
               <BudgetItemsList budgetItems={(selectedBudget?.budgetItems) as BudgetItem[]}/>
@@ -109,14 +128,17 @@ const BudgetScreen = () => {
         )}
       </View>
       <BudgetDetailsOption
+        budgetStatus={selectedBudget?.status}
         modalizeRef={optionModalRef}
         openCreateModal={openCreateModal}
         openDeleteModal={openDeleteModal}
         openAddBudgetItemModal={openAddBudgetItemModal}
+        openMarkAsCompletedModal={openMarkAsCompletedModal}
       />
       <AddBudgetModal
         modalizeRef={createModalRef}
       />
+      <AddBudgetItemModal modalizeRef={addBudgetItemModalRef}/>
       <AppModal
         modalizeRef={deleteModalRef}
         title="Delete Budget"
@@ -125,7 +147,14 @@ const BudgetScreen = () => {
         proceedButtonLabel="Delete"
         isLoading={isModifyingBudget}
       />
-      <AddBudgetItemModal modalizeRef={addBudgetItemModalRef}/>
+      <AppModal
+        modalizeRef={markAsCompletedModalRef}
+        title="Mark Budget as Completed"
+        description="Are you certain you want to mark this budget as completed? This action will prevent any further modification to this budget."
+        proceedAction={markBudgetAsCompletedHandler}
+        proceedButtonLabel="Proceed"
+        isLoading={isModifyingBudget}
+      />
     </>
   );
 };
