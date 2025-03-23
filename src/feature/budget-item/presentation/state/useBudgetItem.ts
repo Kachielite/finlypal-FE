@@ -44,7 +44,7 @@ const useBudgetItem = (
     defaultValues: {
       description: "",
       amount: 0,
-      category: null,
+      category: {id: 0, label: "", value: ""},
       date: moment().format('YYYY-MM-DD'),
     },
   })
@@ -61,7 +61,7 @@ const useBudgetItem = (
     resetExpense({
       description: "",
       amount: 0,
-      category: null,
+      category: {id: 0, label: "", value: ""},
       date: moment().format('YYYY-MM-DD'),
     })
   }
@@ -108,7 +108,7 @@ const useBudgetItem = (
       resetExpense({
         description: "",
         amount: 0,
-        category: null,
+        category: {id: 0, label: "", value: ""},
         date: moment().format('YYYY-MM-DD'),
       })
     }

@@ -1,11 +1,11 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { Budget } from '@/src/feature/budget/domain/entity/budget';
-import PlanningItem from '@/src/feature/budget/presentation/components/planning-item';
 import EmptyState from '@/src/shared/presentation/components/empty-state';
+import { Savings } from '@/src/feature/savings/domain/entity/savings';
+import SavingsItem from '@/src/feature/savings/presentation/components/savings-item';
 
 
-const BudgetList = ({type, onPressSeeAll, ListItems}:{type: string, onPressSeeAll: () => void; ListItems: Budget[]}) => {
+const SavingsList = ({type, onPressSeeAll, ListItems}:{type: string, onPressSeeAll: () => void; ListItems: Savings[]}) => {
   return (
     <View className="flex flex-col justify-start items-start w-full gap-y-[18px]">
       <View className="flex flex-row justify-between items-center w-full">
@@ -19,8 +19,8 @@ const BudgetList = ({type, onPressSeeAll, ListItems}:{type: string, onPressSeeAl
           <EmptyState title="No Budget Found" />
         </View>
       }
-      {ListItems.map((item) => <PlanningItem key={item.id} budget={item}/>)}
+      {ListItems.map((item) => <SavingsItem key={item.id} savings={item}/>)}
     </View>
   );
 };
-export default BudgetList;
+export default SavingsList;
