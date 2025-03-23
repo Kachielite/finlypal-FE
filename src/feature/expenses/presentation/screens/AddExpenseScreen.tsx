@@ -45,20 +45,24 @@ const AddExpenseScreen = () => {
 
 
   const createExpenseHandler = async () => {
-    try {
-      await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.CREATE_EXPENSE, {
-        description: watch("description"),
-        amount: watch("amount"),
-        date: watch("date"),
-        categoryId: watch("category")?.id,
-        type: watch("type")?.value
-      });
+    await handleSubmit(async (data) => {
+      try {
+        await expenseBloc.handleExpenseEvent(EXPENSE_EVENTS.CREATE_EXPENSE, {
+          description: data.description,
+          amount: data.amount,
+          date: data.date,
+          categoryId: data.category?.id,
+          type: data.type?.value,
+          budgetItemId: data.budgetItem?.id || null,
+          savingsID: data.savings?.id || null,
+        });
 
-      resetExpenseForm();
-      router.replace("/(tabs)/expense")
-    } catch (error) {
-      console.log("Error creating expense: ", error);
-    }
+        resetExpenseForm();
+        router.replace("/(tabs)/expense")
+      } catch (error) {
+        console.log("Error creating expense: ", error);
+      }
+    })()
   }
 
   const editExpenseHandler = async () => {
@@ -152,7 +156,7 @@ const AddExpenseScreen = () => {
                       isChecked={watch("isRelatedToBudgetOrSavings")}
                     />
                     <View className="flex flex-row justify-start items-center">
-                      <Text className="text-white font-urbanist-regular text-[16px]">Is this expense related to a specific budget or savings goal?</Text>
+                      <Text className="text-white font-urbanist-regular text-[16px]">{typeOfExpense === 'expense' ? 'Is this expense related to budget plan?' : 'Is this income related to a savings goal?'}</Text>
                     </View>
                   </View>
                   {watch("isRelatedToBudgetOrSavings") && watch("type")?.value === "EXPENSE" && <>
@@ -188,12 +192,12 @@ const AddExpenseScreen = () => {
                     <View className="flex flex-col justify-start items-start w-full gap-y-[7px]">
                       <SelectInput
                         data={formattedSavings}
-                        label="Select expense's savings goal"
+                        label="Savings goal"
                         placeholder="Select savings goal"
                         value={ watch('savings') || null}
                         onChangeText={(value) => setValue("savings", value, { shouldValidate: true })}
                         icon={<ChartColumnStacked color="#9E9E9E" size={24}/>}
-                        error={errors?.budget?.message}
+                        error={errors?.savings?.message}
                       />
                       {formattedSavings.length === 0 && watch("type")?.value === "INCOME" && <Text className="font-urbanist-regular text-sm text-red-500">
                         No savings goal found. Please create a savings goal from the planning screen.
@@ -203,7 +207,7 @@ const AddExpenseScreen = () => {
                 </View>
               </View>
               <View className="w-screen p-[24px] border-t-[1px] border-t-quaternary">
-                <Button onPress={modalType === 'edit' ? handleSubmit(editExpenseHandler) : handleSubmit(createExpenseHandler)} label={modalType === 'edit' ? 'Update' : 'Add'} isLoading={isModifyingExpense} />
+                <Button onPress={modalType === 'edit' ? handleSubmit(editExpenseHandler) : createExpenseHandler} label={modalType === 'edit' ? 'Update' : 'Add'} isLoading={isModifyingExpense} />
               </View>
             </View>
           </ScrollView>

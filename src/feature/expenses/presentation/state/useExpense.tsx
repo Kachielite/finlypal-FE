@@ -69,7 +69,8 @@ const useExpense = (typeOfExpense?: string): ExpenseHookType => {
       date: moment().startOf("day").format("YYYY-MM-DD"),
       isRelatedToBudgetOrSavings: false,
       budget: null,
-      budgetItem: null
+      budgetItem: null,
+      savings: null
     }
   })
 
@@ -120,6 +121,10 @@ const useExpense = (typeOfExpense?: string): ExpenseHookType => {
       category: defaultCategory,
       type: expenseType[1],
       date: today.format('YYYY-MM-DD'),
+      isRelatedToBudgetOrSavings: false,
+      budget: null,
+      budgetItem: null,
+      savings: null
     });
   }
 

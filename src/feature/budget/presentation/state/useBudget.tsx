@@ -24,7 +24,7 @@ const useBudget = ({budgetId} : {budgetId?: number}): UseBudgetProps => {
     resolver: zodResolver(budgetSchema),
     defaultValues: {
       budgetName: '',
-      icon: '🚧',
+      icon: '💳',
       startDate: moment().startOf('month').format('YYYY-MM-DD'),
       endDate: moment().endOf('month').format('YYYY-MM-DD'),
       totalBudget: 0
@@ -34,7 +34,7 @@ const useBudget = ({budgetId} : {budgetId?: number}): UseBudgetProps => {
   const resetAddBudgetForm = () => {
     reset({
       budgetName: '',
-      icon: '🚧',
+      icon: '💳',
       startDate: moment().startOf('month').format('YYYY-MM-DD'),
       endDate: moment().endOf('month').format('YYYY-MM-DD'),
       totalBudget: 0

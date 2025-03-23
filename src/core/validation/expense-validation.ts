@@ -26,48 +26,79 @@ export const GetExpenseSchema = z
 
 export const CreateExpenseSchema = z
   .object({
-    description: z.string().min(1, { message: 'Description is required' }),
-    amount: z.number().min(1, { message: 'Amount is required' }),
-    category: z.object({
-      id: z.number(),
-      label: z.string(),
-      value: z.string()
-    }).refine(data => data.id !== undefined, { message: "Category is required" }),
-    date: z.string().min(1, { message: 'Date is required' }),
-    type: z.object({
-      id: z.number(),
-      label: z.string(),
-      value: z.string()
-    }).refine(data => data.id !== undefined, { message: "Type is required" }),
+    description: z.string().min(1, { message: "Description is required" }),
+    amount: z.number().min(1, { message: "Amount is required" }),
+    category: z
+      .object({
+        id: z.number(),
+        label: z.string(),
+        value: z.string(),
+      })
+      .refine((data) => data.id !== undefined, { message: "Category is required" }),
+    date: z.string().min(1, { message: "Date is required" }),
+    type: z
+      .object({
+        id: z.number(),
+        label: z.string(),
+        value: z.string(),
+      })
+      .refine((data) => data.id !== undefined, { message: "Type is required" }),
     isRelatedToBudgetOrSavings: z.boolean().optional(),
-    budget: z.object({
-      id: z.number(),
-      label: z.string(),
-      value: z.string()
-    }).optional().nullable(),
-    budgetItem: z.object({
-      id: z.number(),
-      label: z.string(),
-      value: z.string()
-    }).optional().nullable(),
-    savings: z.object({
-      id: z.number(),
-      label: z.string(),
-      value: z.string()
-    }).optional().nullable()
+    budget: z
+      .object({
+        id: z.number(),
+        label: z.string(),
+        value: z.string(),
+      })
+      .optional()
+      .nullable(),
+    budgetItem: z
+      .object({
+        id: z.number(),
+        label: z.string(),
+        value: z.string(),
+      })
+      .optional()
+      .nullable(),
+    savings: z
+      .object({
+        id: z.number(),
+        label: z.string(),
+        value: z.string(),
+      })
+      .optional()
+      .nullable(),
   })
   .superRefine((data, ctx) => {
     if (data.isRelatedToBudgetOrSavings) {
-      if (data.budget && data.budgetItem) {
-        return;
+      const isIncome = data.type.value === "INCOME";
+      const isExpense = data.type.value === "EXPENSE";
+
+      // If type is INCOME, savings is required
+      if (isIncome && !data.savings) {
+        ctx.addIssue({
+          path: ["savings"],
+          message: "Savings is required when type is INCOME and related to a savings goal",
+          code: z.ZodIssueCode.custom,
+        });
       }
-      if (data.savings) {
-        return;
+
+      // If type is EXPENSE, budget is required
+      if (isExpense && !data.budget) {
+        ctx.addIssue({
+          path: ["budget"],
+          message: "Budget is required when type is EXPENSE and related to a budget",
+          code: z.ZodIssueCode.custom,
+        });
       }
-      ctx.addIssue({
-        path: ["budgetOrSavings"],
-        message: "Either budget and budget item or savings must be provided when related to a budget or savings goal",
-        code: z.ZodIssueCode.custom
-      });
+
+      // If budget is provided, budgetItem must also be provided
+      if (data.budget && !data.budgetItem) {
+        ctx.addIssue({
+          path: ["budgetItem"],
+          message: "Budget item is required when a budget is selected",
+          code: z.ZodIssueCode.custom,
+        });
+      }
     }
   });
