@@ -20,7 +20,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("login error", error);
+      console.error("login error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -43,7 +43,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("Registration error", error);
+      console.error("Registration error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -63,7 +63,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("Request Password Reset error", error);
+      console.error("Request Password Reset error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -85,7 +85,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("Verify OTP error", error);
+      console.error("Verify OTP error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -108,7 +108,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("Reset Password error", error);
+      console.error("Reset Password error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }

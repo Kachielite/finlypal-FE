@@ -14,7 +14,6 @@ export class AccountService {
     try {
       const response = await customAxios.get(`${this.BASE_URL}${this.ACCOUNT_PATH}/user-details`, {
       });
-
       return response.data;
     } catch (error: unknown) {
       console.error("Get current user error", error);
