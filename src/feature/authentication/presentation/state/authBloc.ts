@@ -106,7 +106,7 @@ const requestResetPasswordHandler = async (payload: RequestResetPasswordUseCaseP
     },
     () => {
       setIsLoading(false);
-      router.push({ pathname: "/authentication/otp", params: { email: payload.email } })
+      router.replace({ pathname: "/authentication/otp", params: { email: payload.email } })
       showToast('success', 'Success!', messages.REQUEST_RESET_PASSWORD_SUCCESS)
     }
   )(response)
@@ -127,7 +127,7 @@ const verifyOtpHandler = async (payload: VerifyOtpUseCaseParams, getState: typeo
     },
     () => {
       setIsLoading(false);
-      router.push({ pathname: "/authentication/reset-password", params: { email: payload.email , otp: payload.otp} })
+      router.replace({ pathname: "/authentication/reset-password", params: { email: payload.email , otp: payload.otp} })
       showToast('success', 'Success!', messages.VERIFY_OTP_SUCCESS)
     }
   )(response)
@@ -147,7 +147,7 @@ const resetPasswordHandler = async (payload: ResetPasswordUseCaseParams, getStat
     },
     () => {
       setIsLoading(false);
-      router.push("/authentication/welcome");
+      router.replace("/authentication/welcome");
       showToast('success', 'Success!', messages.RESET_PASSWORD_SUCCESS)
     }
   )(response)
@@ -192,7 +192,7 @@ const getCurrentUserHandler = async (handlerType: 'sign-in' | 'sign-up', getStat
         showToast('success', 'Success!', messages.SIGN_UP_SUCCESS)
       }
 
-      router.push("/(tabs)")
+      router.replace("/(tabs)")
       setUser(user);
       setIsLoading(false);
     }

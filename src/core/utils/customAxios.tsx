@@ -27,7 +27,7 @@ const refreshAccessToken = async () => {
   if (!token?.refresh_token) {
     suppressAllToasts(true); // Prevent any toasts from showing
     logout();
-    router.push("/authentication/welcome");
+    router.replace("/authentication/welcome");
     return null;
   }
 
