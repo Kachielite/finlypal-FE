@@ -1,12 +1,12 @@
-import { UserRepository } from '@/src/feature/account/domain/repository/user-repository';
+import { AccountRepository } from '@/src/feature/account/domain/repository/account-repository';
 import { Either, left, right } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
 import { User } from '@/src/feature/account/domain/entity/user';
-import { userResetPasswordSchema, userSchema } from '@/src/core/validation/user-validation';
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { AccountDatasource } from '@/src/feature/account/data/datasource/account-datasource';
+import { accountResetPasswordSchema, accountSchema } from '@/src/core/validation/account-validation';
 
-export class UserRepositoryImpl implements UserRepository {
+export class AccountRepositoryImpl implements AccountRepository {
   constructor(private accountDatasource: AccountDatasource) {
   }
   async getCurrentUser(): Promise<Either<Failure, User>> {
@@ -19,7 +19,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  async resetPassword(data: typeof userResetPasswordSchema._type): Promise<Either<Failure, GeneralResponse>> {
+  async resetPassword(data: typeof accountResetPasswordSchema._type): Promise<Either<Failure, GeneralResponse>> {
     try {
       const response = await this.accountDatasource.resetPassword(data);
       return right(response);
@@ -29,7 +29,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  async updateUser(user: typeof userSchema._type): Promise<Either<Failure, GeneralResponse>> {
+  async updateUser(user: typeof accountSchema._type): Promise<Either<Failure, GeneralResponse>> {
     try {
       const response = await this.accountDatasource.updateUser(user);
       return right(response);

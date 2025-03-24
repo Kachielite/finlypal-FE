@@ -6,7 +6,7 @@ import { SignUpUseCase } from '@/src/feature/authentication/domain/use-case/use-
 import { ResetPasswordUseCase } from '@/src/feature/authentication/domain/use-case/use-reset-password';
 import { VerifyOtpUseCase } from '@/src/feature/authentication/domain/use-case/use-verify-otp';
 import { RequestResetPasswordUseCase } from '@/src/feature/authentication/domain/use-case/use-request-reset-password';
-import { GetCurrentUserUseCase } from '@/src/feature/authentication/domain/use-case/use-get-current-user';
+import { GetCurrentUserUseCase } from '@/src/feature/account/domain/use-case/use-get-current-user';
 import { InsightsService } from '@/src/core/service/insights';
 import { InsightsDatasourceImpl } from '@/src/feature/insights/data/datasource/insights-datasource';
 import { InsightRepositoryImpl } from '@/src/feature/insights/data/repositoryImpl/insight-repositoryImp';

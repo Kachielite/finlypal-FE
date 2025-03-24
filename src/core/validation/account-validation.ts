@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-export const userSchema = z.object({
+export const accountSchema = z.object({
   name: z.string().min(3, { message: 'Name too short' }).optional(),
   currencyId: z.number().min(1, { message: 'Currency is required' }).optional(),
 });
 
-export const userResetPasswordSchema = z.object({
+export const accountResetPasswordSchema = z.object({
   old_password: z.string().min(6, { message: 'Password too short' }),
   new_password: z.string().min(6, { message: 'Password too short' }),
   confirmPassword: z.string().min(6, { message: 'Password too short' })

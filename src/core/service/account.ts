@@ -1,7 +1,7 @@
 import { SECRET } from '@/src/core/secret/secret';
 import customAxios from '@/src/core/utils/customAxios';
 import axios from 'axios';
-import { userResetPasswordSchema, userSchema } from '@/src/core/validation/user-validation';
+import { accountResetPasswordSchema, accountSchema } from '@/src/core/validation/account-validation';
 
 export class AccountService {
   private BASE_URL  = SECRET.BASE_URL;
@@ -30,7 +30,7 @@ export class AccountService {
     }
   }
 
-  async updateUser(user: typeof userSchema._type): Promise<any> {
+  async updateUser(user: typeof accountSchema._type): Promise<any> {
     try {
       const response = await customAxios.put(`${this.BASE_URL}${this.ACCOUNT_PATH}/update-user`, user);
       return response.data;
@@ -48,7 +48,7 @@ export class AccountService {
     }
   }
 
-  async resetPassword(data: typeof userResetPasswordSchema._type): Promise<any> {
+  async resetPassword(data: typeof accountResetPasswordSchema._type): Promise<any> {
     try {
       const response = await customAxios.put(`${this.BASE_URL}${this.ACCOUNT_PATH}/update-user`, data);
       return response.data;
