@@ -22,7 +22,7 @@ import {
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 import { VerifyOtpUseCaseParams } from '@/src/feature/authentication/domain/use-case/use-verify-otp';
 import { ResetPasswordUseCaseParams } from '@/src/feature/authentication/domain/use-case/use-reset-password';
-import { User } from '@/src/feature/authentication/domain/entity/user';
+import { User } from '@/src/feature/account/domain/entity/user';
 
 export const authBloc = {
   handleAuthEvent: async (event: string, payload?: any) => {

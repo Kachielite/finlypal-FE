@@ -4,7 +4,7 @@ import { Either, left, right } from 'fp-ts/Either';
 import { Failure } from '@/src/core/error/failure';
 import { Auth } from '@/src/feature/authentication/domain/entity/auth';
 import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
-import { User } from '@/src/feature/authentication/domain/entity/user';
+import { User } from '@/src/feature/account/domain/entity/user';
 import Error from 'es-errors';
 
 export class AuthRepositoryImpl implements AuthRepository {

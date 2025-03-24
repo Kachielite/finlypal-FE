@@ -2,7 +2,7 @@ import { AuthModel } from '@/src/feature/authentication/data/model/auth-model';
 import { GeneralResponseModel } from '@/src/shared/data/model/general-response-model';
 import { AuthenticationService } from '@/src/core/service/authentication';
 import { Exception } from '@/src/core/error/exception';
-import { UserModel } from '@/src/feature/authentication/data/model/user-model';
+import { UserModel } from '@/src/feature/account/data/model/user-model';
 
 export interface AuthDatasource {
   signIn(email: string, password: string): Promise<AuthModel>;
