@@ -28,6 +28,11 @@ const GET_BUDGET_ITEMS_SUCCESS = "Budget Items fetched successfully";
 const GET_BUDGET_ITEMS_FAILED = "Budget Items fetch failed";
 const GET_BUDGET_ITEM_BY_ID_SUCCESS = "Budget Item fetched successfully";
 const GET_BUDGET_ITEM_BY_ID_FAILED = "Budget Item fetch failed";
+// Account Items
+const UPDATE_ACCOUNT_SUCCESS = "Account updated successfully";
+const UPDATE_ACCOUNT_FAILED = "Account update failed";
+const RESET_USER_PASSWORD_SUCCESS = "Password reset successful. Now you can sign in with your new password";
+const RESET_USER_PASSWORD_FAILED = "Password reset failed";
 
 export default {
     ERROR,
@@ -57,5 +62,9 @@ export default {
     GET_BUDGET_ITEM_BY_ID_SUCCESS,
     GET_BUDGET_ITEM_BY_ID_FAILED,
     MARK_BUDGET_AS_COMPLETED_SUCCESS,
-    MARK_BUDGET_AS_COMPLETED_FAILED
+    MARK_BUDGET_AS_COMPLETED_FAILED,
+    UPDATE_ACCOUNT_SUCCESS,
+    UPDATE_ACCOUNT_FAILED,
+    RESET_USER_PASSWORD_SUCCESS,
+    RESET_USER_PASSWORD_FAILED
 }
