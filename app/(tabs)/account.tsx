@@ -1,25 +1,15 @@
-import { SafeAreaView, Text } from 'react-native';
 import React from 'react';
-import { router } from 'expo-router';
-import Button from '@/src/shared/presentation/components/form/button';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 import WelcomeScreen from '@/src/feature/authentication/presentation/screens/WelcomeScreen';
+import AccountScreen from '@/src/feature/account/presentation/screens/AccountScreen';
 
 const Account = () => {
-  const {token, isLoading, logout, user} = useAuthState.getState()
+  const {token, user} = useAuthState.getState()
 
   if(!token || !user) {
     return <WelcomeScreen/>
   }
 
-  return (
-    <SafeAreaView>
-      <Text>Welcome to {user.name}</Text>
-      <Button onPress={() => {
-        logout()
-        router.replace("/authentication/welcome")
-      }} label="Log out" type="primary" isLoading={isLoading} />
-    </SafeAreaView>
-  );
+  return <AccountScreen/>
 };
 export default Account;
