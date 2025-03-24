@@ -1,0 +1,3 @@
+const ACCOUNT_EVENTS = {
+  UPDATE_USER: 'UPDATE_USER',
+}
