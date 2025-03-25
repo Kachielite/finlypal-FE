@@ -2,7 +2,11 @@ import { z } from 'zod';
 
 export const accountSchema = z.object({
   name: z.string().min(3, { message: 'Name too short' }).optional(),
-  currencyId: z.number().min(1, { message: 'Currency is required' }).optional(),
+  currency: z.object({
+    id: z.number(),
+    label: z.string(),
+    value: z.string()
+  }).optional(),
 });
 
 export const accountResetPasswordSchema = z.object({

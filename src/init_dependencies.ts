@@ -57,6 +57,7 @@ import { AccountDatasourceImpl } from '@/src/feature/account/data/datasource/acc
 import { AccountRepositoryImpl } from '@/src/feature/account/data/repositoryImpl/account-repositoryImpl';
 import { UpdateUserUseCase } from '@/src/feature/account/domain/use-case/use-update-user';
 import { ResetPasswordUserUseCase } from '@/src/feature/account/domain/use-case/use-reset-user-password';
+import { GetCurrenciesUseCase } from '@/src/feature/account/domain/use-case/use-get-currencies';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -135,3 +136,4 @@ const accountRepository = new AccountRepositoryImpl(accountDatasource);
 export const getCurrentUserUseCase = new GetCurrentUserUseCase(accountRepository);
 export const updateAccountUseCase = new UpdateUserUseCase(accountRepository);
 export const resetPasswordUserUseCase = new ResetPasswordUserUseCase(accountRepository);
+export const getCurrenciesUseCase = new GetCurrenciesUseCase(accountRepository);

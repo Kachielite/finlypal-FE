@@ -6,6 +6,7 @@ import { accountResetPasswordSchema, accountSchema } from '@/src/core/validation
 export class AccountService {
   private BASE_URL  = SECRET.BASE_URL;
   private ACCOUNT_PATH = '/users';
+  private CURRENCY_PATH = '/currencies';
 
   constructor() {
   }
@@ -31,7 +32,7 @@ export class AccountService {
 
   async updateUser(user: typeof accountSchema._type): Promise<any> {
     try {
-      const response = await customAxios.put(`${this.BASE_URL}${this.ACCOUNT_PATH}/update-user`, user);
+      const response = await customAxios.put(`${this.BASE_URL}${this.ACCOUNT_PATH}/update-user`, {...user, currency_id: user?.currency?.id});
       return response.data;
     } catch (error: unknown) {
       console.error("Get current user error", error);
@@ -61,6 +62,24 @@ export class AccountService {
         message: "Unknown error occurred",
         timestamp: new Date().toISOString(),
         path: `${this.ACCOUNT_PATH}/update-user`,
+      });
+    }
+  }
+
+  async getCurrencies(): Promise<any> {
+    try {
+      const response = await customAxios.get(`${this.BASE_URL}${this.CURRENCY_PATH}`);
+      return response.data;
+    } catch (error: unknown) {
+      console.error("Get current user error", error);
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(error.response.data);
+      }
+      return Promise.reject({
+        code: "500",
+        message: "Unknown error occurred",
+        timestamp: new Date().toISOString(),
+        path: `${this.CURRENCY_PATH}`,
       });
     }
   }

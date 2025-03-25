@@ -3,11 +3,13 @@ import { GeneralResponseModel } from '@/src/shared/data/model/general-response-m
 import { AccountService } from '@/src/core/service/account';
 import { Exception } from '@/src/core/error/exception';
 import { accountResetPasswordSchema, accountSchema } from '@/src/core/validation/account-validation';
+import { CurrencyModel } from '@/src/feature/account/data/model/currency-model';
 
 export interface AccountDatasource {
   getCurrentUser(): Promise<UserModel>;
   updateUser(user: typeof accountSchema._type): Promise<GeneralResponseModel>;
   resetPassword(data: typeof accountResetPasswordSchema._type): Promise<GeneralResponseModel>;
+  getCurrencies(): Promise<CurrencyModel[]>;
 }
 
 export class AccountDatasourceImpl implements AccountDatasource {
@@ -41,6 +43,19 @@ export class AccountDatasourceImpl implements AccountDatasource {
     try {
       const response = await this.accountService.resetPassword(data);
       return GeneralResponseModel.fromJson(response);
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "code" in error && "message" in error) {
+        throw new Exception(error.message as string);
+      } else {
+        throw new Exception("An unknown error occurred");
+      }
+    }
+  }
+
+  async getCurrencies(): Promise<CurrencyModel[]> {
+    try {
+      const response = this.accountService.getCurrencies();
+      return CurrencyModel.fromJsonList(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
