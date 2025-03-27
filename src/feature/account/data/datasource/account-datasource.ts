@@ -7,8 +7,8 @@ import { CurrencyModel } from '@/src/feature/account/data/model/currency-model';
 
 export interface AccountDatasource {
   getCurrentUser(): Promise<UserModel>;
-  updateUser(user: typeof accountSchema._type): Promise<GeneralResponseModel>;
-  resetPassword(data: typeof accountResetPasswordSchema._type): Promise<GeneralResponseModel>;
+  updateUser(user: typeof accountSchema._type, userId: number): Promise<UserModel>;
+  resetPassword(data: typeof accountResetPasswordSchema._type, userId: number): Promise<GeneralResponseModel>;
   getCurrencies(): Promise<CurrencyModel[]>;
 }
 
@@ -27,10 +27,10 @@ export class AccountDatasourceImpl implements AccountDatasource {
       }
     }
   }
-  async updateUser(user: typeof accountSchema._type): Promise<GeneralResponseModel> {
+  async updateUser(user: typeof accountSchema._type, userId: number): Promise<UserModel> {
     try {
-      const response = await this.accountService.updateUser(user);
-      return GeneralResponseModel.fromJson(response);
+      const response = await this.accountService.updateUser(user, userId);
+      return UserModel.fromJson(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
@@ -39,9 +39,9 @@ export class AccountDatasourceImpl implements AccountDatasource {
       }
     }
   }
-  async resetPassword(data: typeof accountResetPasswordSchema._type): Promise<GeneralResponseModel> {
+  async resetPassword(data: typeof accountResetPasswordSchema._type, userId: number): Promise<GeneralResponseModel> {
     try {
-      const response = await this.accountService.resetPassword(data);
+      const response = await this.accountService.resetPassword(data, userId);
       return GeneralResponseModel.fromJson(response);
     } catch (error: unknown) {
       if (error && typeof error === "object" && "code" in error && "message" in error) {
@@ -54,9 +54,10 @@ export class AccountDatasourceImpl implements AccountDatasource {
 
   async getCurrencies(): Promise<CurrencyModel[]> {
     try {
-      const response = this.accountService.getCurrencies();
+      const response = await this.accountService.getCurrencies();
       return CurrencyModel.fromJsonList(response);
     } catch (error: unknown) {
+      console.error("Get currencies; account datasource =>", error);
       if (error && typeof error === "object" && "code" in error && "message" in error) {
         throw new Exception(error.message as string);
       } else {

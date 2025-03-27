@@ -21,9 +21,9 @@ export class AccountRepositoryImpl implements AccountRepository {
     }
   }
 
-  async resetPassword(data: typeof accountResetPasswordSchema._type): Promise<Either<Failure, GeneralResponse>> {
+  async resetPassword(data: typeof accountResetPasswordSchema._type, userId: number): Promise<Either<Failure, GeneralResponse>> {
     try {
-      const response = await this.accountDatasource.resetPassword(data);
+      const response = await this.accountDatasource.resetPassword(data, userId);
       return right(response);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
@@ -31,9 +31,9 @@ export class AccountRepositoryImpl implements AccountRepository {
     }
   }
 
-  async updateUser(user: typeof accountSchema._type): Promise<Either<Failure, GeneralResponse>> {
+  async updateUser(user: typeof accountSchema._type, userId: number): Promise<Either<Failure, User>> {
     try {
-      const response = await this.accountDatasource.updateUser(user);
+      const response = await this.accountDatasource.updateUser(user, userId);
       return right(response);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";

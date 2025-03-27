@@ -15,6 +15,6 @@ export class CurrencyModel extends Currency {
   }
 
   static fromJsonList(data: any): CurrencyModel[] {
-    return data.map(CurrencyModel.fromJson);
+    return data?.map(CurrencyModel.fromJson);
   }
 }

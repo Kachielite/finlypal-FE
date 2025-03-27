@@ -6,7 +6,7 @@ export const accountSchema = z.object({
     id: z.number(),
     label: z.string(),
     value: z.string()
-  }).optional(),
+  }).refine(data => data.id !== undefined, { message: "Currency is required" }),
 });
 
 export const accountResetPasswordSchema = z.object({

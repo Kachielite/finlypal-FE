@@ -2,15 +2,17 @@ import { useForm } from 'react-hook-form';
 import { accountResetPasswordSchema, accountSchema } from '@/src/core/validation/account-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { accountBloc } from '@/src/feature/account/presentation/state/accountBloc';
-import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 import { useAccountState } from '@/src/feature/account/presentation/state/accountState';
+import ACCOUNT_EVENTS from '@/src/feature/account/presentation/state/accountEvent';
+import { router } from 'expo-router';
 
 const useAccount = () => {
   const {user} = useAuthState();
   const currencyList = useAccountState((state) => state.currencyList);
-  const formattedCurrencies = currencyList.map((currency) => ({id: currency.id, label: currency.name, value: currency.name}));
+  const formattedCurrencies = currencyList.sort(
+    (a,b) => a.name.localeCompare(b.name)).map((currency) => ({id: currency.id, label: currency.name, value: currency.name}));
 
   // account forms
   const userUpdate = useForm({
@@ -32,34 +34,37 @@ const useAccount = () => {
 
   // account event handlers
   const updateUserHandler = async () => {
-    userUpdate.handleSubmit(async (data) => {
+    await userUpdate.handleSubmit(async (data) => {
       try {
-        await accountBloc.handleAccountEvent(ACCOUNT_EVENTS.UPDATE_USER, data);
-        userUpdate.reset(userUpdate.formState.defaultValues);
-        router.back()
+        await accountBloc.handleAccountEvent(ACCOUNT_EVENTS.UPDATE_USER, {data, userId: user?.id});
+        router.back();
       } catch (e) {
         console.log("Error updating user: ", e)
       }
-    })
+    })()
   }
 
   const updateUserPasswordHandler = async () => {
-    userResetPassword.handleSubmit(async (data) => {
+    await userResetPassword.handleSubmit(async (data) => {
       try {
-        await accountBloc.handleAccountEvent(ACCOUNT_EVENTS.RESET_USER_PASSWORD, data);
+        await accountBloc.handleAccountEvent(ACCOUNT_EVENTS.RESET_USER_PASSWORD, { data, userId: user?.id });
         userResetPassword.reset(userResetPassword.formState.defaultValues);
-        router.back()
+        router.back();
       } catch (e) {
         console.log("Error updating user: ", e)
       }
-    })
+    })()
   }
 
 
   // effects
   useEffect(() => {
     (async () => {
-      await accountBloc.handleAccountEvent(ACCOUNT_EVENTS.FETCH_CURRENCIES, {});
+      try {
+        await accountBloc.handleAccountEvent(ACCOUNT_EVENTS.FETCH_CURRENCIES, {});
+      } catch (e) {
+        console.log("Error fetching currencies: ", e)
+      }
     })()
   }, []);
 

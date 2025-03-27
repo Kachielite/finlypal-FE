@@ -7,7 +7,8 @@ import { GeneralResponse } from '@/src/shared/domain/entity/general-response';
 
 export class ResetPasswordUserUseCaseParams {
   constructor(
-    public data: typeof accountResetPasswordSchema._type
+    public data: typeof accountResetPasswordSchema._type,
+    public userId: number
   ) {
   }
 }
@@ -18,6 +19,6 @@ export class ResetPasswordUserUseCase extends UseCase<GeneralResponse, ResetPass
   }
 
   async execute(params: ResetPasswordUserUseCaseParams): Promise<Either<Failure,GeneralResponse >> {
-    return await this.accountRepository.resetPassword(params.data);
+    return await this.accountRepository.resetPassword(params.data, params.userId);
   }
 }

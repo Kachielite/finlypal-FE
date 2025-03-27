@@ -30,9 +30,9 @@ export class AccountService {
     }
   }
 
-  async updateUser(user: typeof accountSchema._type): Promise<any> {
+  async updateUser(user: typeof accountSchema._type, userId: number): Promise<any> {
     try {
-      const response = await customAxios.put(`${this.BASE_URL}${this.ACCOUNT_PATH}/update-user`, {...user, currency_id: user?.currency?.id});
+      const response = await customAxios.put(`${this.BASE_URL}${this.ACCOUNT_PATH}/${userId}`, {name: user?.name, currency_id: user?.currency?.id});
       return response.data;
     } catch (error: unknown) {
       console.error("Get current user error", error);
@@ -43,14 +43,14 @@ export class AccountService {
         code: "500",
         message: "Unknown error occurred",
         timestamp: new Date().toISOString(),
-        path: `${this.ACCOUNT_PATH}/update-user`,
+        path: `${this.ACCOUNT_PATH}/${userId}`,
       });
     }
   }
 
-  async resetPassword(data: typeof accountResetPasswordSchema._type): Promise<any> {
+  async resetPassword(data: typeof accountResetPasswordSchema._type, userId: number): Promise<any> {
     try {
-      const response = await customAxios.put(`${this.BASE_URL}${this.ACCOUNT_PATH}/update-user`, data);
+      const response = await customAxios.put(`${this.BASE_URL}${this.ACCOUNT_PATH}/${userId}`, data);
       return response.data;
     } catch (error: unknown) {
       console.error("Get current user error", error);
@@ -61,14 +61,14 @@ export class AccountService {
         code: "500",
         message: "Unknown error occurred",
         timestamp: new Date().toISOString(),
-        path: `${this.ACCOUNT_PATH}/update-user`,
+        path: `${this.ACCOUNT_PATH}/${userId}`,
       });
     }
   }
 
   async getCurrencies(): Promise<any> {
     try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.CURRENCY_PATH}`);
+      const response = await axios.get(`${this.BASE_URL}${this.CURRENCY_PATH}`);
       return response.data;
     } catch (error: unknown) {
       console.error("Get current user error", error);
