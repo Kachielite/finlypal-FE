@@ -3,6 +3,7 @@ import React from 'react';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react-native';
 import moment from 'moment';
 import formatNumber from '@/src/core/utils/formatCurrency';
+import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 
 type TransactionCardProps = {
   id: number;
@@ -13,6 +14,7 @@ type TransactionCardProps = {
 };
 
 const TransactionCard = ({amount, date, description, type} : TransactionCardProps) => {
+  const currency = useAuthState((state) => state.user?.currency.symbol);
   return (
     <View className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] pb-4">
       <View className="flex flex-row justify-start items-center gap-x-[12px]">
@@ -25,7 +27,7 @@ const TransactionCard = ({amount, date, description, type} : TransactionCardProp
       </View>
       <Text className={`font-urbanist-semibold text-[16px] ${type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
         {type === 'EXPENSE' ? '-' : '+'}
-        ${formatNumber(amount)}
+        {currency}{formatNumber(amount)}
       </Text>
     </View>
   );
