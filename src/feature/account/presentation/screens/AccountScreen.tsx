@@ -26,7 +26,7 @@ const AccountScreen = () => {
                 </View>
                 <ChevronRight color="white" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => console.log('Profile')} className="flex flex-row justify-between items-center w-full">
+              <TouchableOpacity onPress={() => router.push('/account/security')} className="flex flex-row justify-between items-center w-full">
                 <View className="flex flex-row justify-start items-center gap-x-[8px]">
                   <Shield color="white" />
                   <Text className="text-white font-urbanist-normal text-[16px]">Security</Text>

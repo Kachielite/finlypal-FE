@@ -1,11 +1,7 @@
-import { Text, View } from 'react-native';
 import React from 'react';
+import SecurityScreen from '@/src/feature/account/presentation/screens/SecurityScreen';
 
 const Security = () => {
-  return (
-    <View>
-      <Text>Security</Text>
-    </View>
-  );
+  return <SecurityScreen/>
 };
 export default Security;
