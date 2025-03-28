@@ -9,8 +9,11 @@ import CategoryExpenseChart from '@/src/feature/insights/presentation/components
 import moment from 'moment';
 import TopExpensesIncomesList from '@/src/feature/insights/presentation/components/top-expenses-incomes-list';
 import { useInsightsState } from '@/src/feature/insights/presentation/state/insightsState';
+import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 
 const InsightsScreen = () => {
+
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const modalizeRef = React.useRef<Modalize>(null);
   const startDate = useInsightsState((state) => state.startDate)
   const endDate = useInsightsState((state) => state.endDate)
@@ -44,11 +47,11 @@ const InsightsScreen = () => {
             showsVerticalScrollIndicator={false}
             contentContainerClassName="w-full flex flex-col justify-start items-start gap-y-[24px] pb-20"
           >
-            <InsightsExpenseSummary />
+            <InsightsExpenseSummary currency={currency}/>
             <MonthlySpendChart/>
             <CategoryExpenseChart data={totalIncomeSpendByCategory} type="income"/>
             <CategoryExpenseChart data={totalExpenseSpendByCategory} type="expense"/>
-            <TopExpensesIncomesList/>
+            <TopExpensesIncomesList currency={currency}/>
           </ScrollView>
         </View>
       </SafeAreaView>

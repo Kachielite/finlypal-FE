@@ -18,6 +18,7 @@ import { BUDGET_EVENTS } from '@/src/feature/budget/presentation/state/budgetEve
 import { budgetBloc } from '@/src/feature/budget/presentation/state/budgetBloc';
 import AddBudgetItemModal from '@/src/feature/budget-item/presentation/components/add-budget-item-modal';
 import { useBudgetItemState } from '@/src/feature/budget-item/presentation/state/budgetItemState';
+import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 
 const BudgetScreen = () => {
   const createModalRef = useRef<Modalize>(null);
@@ -26,6 +27,7 @@ const BudgetScreen = () => {
   const addBudgetItemModalRef = useRef<Modalize>(null);
   const markAsCompletedModalRef = useRef<Modalize>(null);
 
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const { budget_id } = useLocalSearchParams<{ budget_id: string }>();
   const {} = useBudget({budgetId: Number(budget_id)});
   const isLoadingSelectedBudget = useBudgetState((state) => state.isLoadingSelectedBudget);
@@ -116,7 +118,7 @@ const BudgetScreen = () => {
           </View>
         ) : (
           <>
-            <BalanceCard selectedBudget={selectedBudget as Budget}/>
+            <BalanceCard selectedBudget={selectedBudget as Budget} currency={currency}/>
             <View
               className="w-full flex flex-col justify-start items-start h-full px-[24px] pt-[16px] pb-[40px] gap-y-[25px] absolute top-[27rem]">
               <View className="flex flex-row justify-start items-center gap-x-[5px] w-[88w]">

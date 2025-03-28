@@ -12,7 +12,8 @@ import AddBudgetModal from '@/src/feature/budget/presentation/components/add-bud
 import useExpense from '@/src/feature/expenses/presentation/state/useExpense';
 
 const HomeScreen = () => {
-  const { user} = useAuthState.getState();
+  const user = useAuthState((state) => state.user);
+  const currency = user?.currency?.symbol;
   const { totalIncome, totalExpense} = useHomeHooks();
   const {} = useExpense()
 
@@ -26,8 +27,8 @@ const HomeScreen = () => {
             <Text className="text-white font-urbanist-bold text-[24px]">{user?.name}</Text>
             <Text className="text-[#E0E0E0] text-[14px]" >Welcome back! 👋</Text>
           </View>
-          <BalanceCard balance={(totalIncome - totalExpense)}/>
-          <ExpenseSummary income={totalIncome} expense={totalExpense}/>
+          <BalanceCard balance={(totalIncome - totalExpense)} currency={currency}/>
+          <ExpenseSummary income={totalIncome} expense={totalExpense} currency={currency}/>
           <QuickActions savingsModal={savingsModal} budgetModal={budgetModal}/>
           <RecentTransactions />
         </View>

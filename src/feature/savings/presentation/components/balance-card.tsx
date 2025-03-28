@@ -3,8 +3,10 @@ import barColor from '@/src/core/utils/barColor';
 import moment from 'moment/moment';
 import React from 'react';
 import { Savings } from '@/src/feature/savings/domain/entity/savings';
+import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 
 const BalanceCard = ({selectedSaving}: {selectedSaving: Savings}) => {
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const targetAmount = selectedSaving?.targetAmount;
   const savedAmount = selectedSaving?.savedAmount as number;
   const percentage = (savedAmount / targetAmount) * 100;
@@ -30,10 +32,10 @@ const BalanceCard = ({selectedSaving}: {selectedSaving: Savings}) => {
           <View className="flex flex-row justify-between items-center w-full">
             <View className="flex flex-row justify-start items-center gap-x-[5px]">
               <Text className="text-white font-urbanist-bold text-[16px]">
-                ${savedAmount}
+                {currency}{savedAmount}
               </Text>
               <Text className="text-white font-urbanist-medium text-[12px]">
-                of ${targetAmount}
+                of {currency}{targetAmount}
               </Text>
             </View>
             <Text className="text-white font-urbanist-medium text-[12px]">

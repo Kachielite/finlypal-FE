@@ -4,6 +4,7 @@ import images from '@/src/core/constants/images';
 import { CirclePlus, EditIcon, TrashIcon } from 'lucide-react-native';
 import { BudgetItem } from '@/src/feature/budget-item/domain/entity/budget-item';
 import barColor from '@/src/core/utils/barColor';
+import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 
 type BudgetItemBalanceCardProps = {
   budgetItem: BudgetItem,
@@ -16,6 +17,7 @@ const BalanceCard = (
   {budgetItem, openEditBudgetItemModal, openDeleteBudgetItemModal, openExpenseModal}:BudgetItemBalanceCardProps
 ) => {
 
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const allocatedAmount = budgetItem?.allocatedAmount;
   const actualSpend = budgetItem?.actualSpend as number;
   const percentage = (actualSpend / allocatedAmount) * 100;
@@ -44,10 +46,10 @@ const BalanceCard = (
             <View className="flex flex-row justify-between items-center w-full">
               <View className="flex flex-row justify-start items-center gap-x-[5px]">
                 <Text className="text-white font-urbanist-bold text-[16px]">
-                  ${actualSpend}
+                  {currency}{actualSpend}
                 </Text>
                 <Text className="text-white font-urbanist-medium text-[12px]">
-                  of ${allocatedAmount}
+                  of {currency}{allocatedAmount}
                 </Text>
               </View>
             </View>

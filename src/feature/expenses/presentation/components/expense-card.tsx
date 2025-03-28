@@ -6,6 +6,7 @@ import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import { Swipeable } from 'react-native-gesture-handler';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import { router } from 'expo-router';
+import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 
 
 const DeleteExpenseButton = ({handleSwipe}:{handleSwipe: (direction: 'left' | 'right') => void}) => {
@@ -29,6 +30,7 @@ const ExpenseCard = (
   {expense, createModalRef, deleteModalRef, optionModalRef} : {expense: Expense, createModalRef: any, deleteModalRef: any, optionModalRef: any}
 ) => {
   const swipeRef = useRef<Swipeable>(null);
+  const user = useAuthState((state) => state.user);
   const setModalType = useExpenseState((state) => state.setModalType);
   const setSelectedExpense = useExpenseState((state) => state.setSelectedExpense);
 
@@ -71,13 +73,13 @@ const ExpenseCard = (
           {expense.type === 'EXPENSE' && <ArrowBigDown color="#CE174B" size={24}/>}
           {expense.type === 'INCOME' && <ArrowBigUp color="#17CE92" size={24}/>}
           <View className="flex flex-col justify-start items-start gap-y-[8px]">
-            <Text className="text-white font-urbanist-bold text-[20px]">{expense?.description?.split(" ").slice(0, 2).join(' ')}</Text>
-            <Text className="text-white font-urbanist-normal text-[14px]">{expense?.categoryName}</Text>
+            <Text className="text-white font-urbanist-bold text-[16px]">{expense?.description?.split(" ").slice(0, 2).join(' ')}</Text>
+            <Text className="text-white font-urbanist-normal text-[12px]">{expense?.categoryName}</Text>
           </View>
         </View>
-        <Text className={`font-urbanist-semibold text-[18px] ${expense.type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
+        <Text className={`font-urbanist-semibold text-[16px] ${expense.type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
           {expense.type === 'EXPENSE' ? '-' : '+'}
-          ${formatNumber(expense.amount)}
+          {user?.currency?.symbol}{formatNumber(expense.amount)}
         </Text>
       </TouchableOpacity>
     </Swipeable>

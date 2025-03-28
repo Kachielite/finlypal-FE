@@ -4,7 +4,7 @@ import { useInsightsState } from '@/src/feature/insights/presentation/state/insi
 import { TrendingDown, TrendingUp } from 'lucide-react-native';
 import formatNumber from '@/src/core/utils/formatCurrency';
 
-const InsightsExpenseSummary = () => {
+const InsightsExpenseSummary = ({currency}: {currency?: string}) => {
 
   const totalExpense = useInsightsState((state) => state.totalExpense);
   const totalIncome = useInsightsState((state) => state.totalIncome);
@@ -19,7 +19,7 @@ const InsightsExpenseSummary = () => {
           </View>
           <View className="gap-y-1.5">
             <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Income</Text>
-            <Text className="font-urbanist-bold text-[18px] text-white">${formatNumber(totalIncome || 0)}</Text>
+            <Text className="font-urbanist-bold text-[16px] text-white">{currency}{formatNumber(totalIncome || 0)}</Text>
           </View>
         </View>
         <View className="flex flex-row justify-start items-start gap-x-[12px]">
@@ -28,7 +28,7 @@ const InsightsExpenseSummary = () => {
           </View>
           <View className="gap-y-1.5">
             <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Expense</Text>
-            <Text className="font-urbanist-bold text-[18px] text-white">${formatNumber(totalExpense || 0)}</Text>
+            <Text className="font-urbanist-bold text-[16px] text-white">{currency}{formatNumber(totalExpense || 0)}</Text>
           </View>
         </View>
       </View>

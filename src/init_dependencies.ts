@@ -6,7 +6,7 @@ import { SignUpUseCase } from '@/src/feature/authentication/domain/use-case/use-
 import { ResetPasswordUseCase } from '@/src/feature/authentication/domain/use-case/use-reset-password';
 import { VerifyOtpUseCase } from '@/src/feature/authentication/domain/use-case/use-verify-otp';
 import { RequestResetPasswordUseCase } from '@/src/feature/authentication/domain/use-case/use-request-reset-password';
-import { GetCurrentUserUseCase } from '@/src/feature/authentication/domain/use-case/use-get-current-user';
+import { GetCurrentUserUseCase } from '@/src/feature/account/domain/use-case/use-get-current-user';
 import { InsightsService } from '@/src/core/service/insights';
 import { InsightsDatasourceImpl } from '@/src/feature/insights/data/datasource/insights-datasource';
 import { InsightRepositoryImpl } from '@/src/feature/insights/data/repositoryImpl/insight-repositoryImp';
@@ -52,6 +52,12 @@ import { GetAllSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-
 import { UpdateSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-update-savings';
 import { DeleteSavingsUseCase } from '@/src/feature/savings/domain/use-case/use-delete-savings';
 import { MarkBudgetAsCompletedUseCase } from '@/src/feature/budget/domain/use-case/use-mark-budget-as-completed';
+import { AccountService } from '@/src/core/service/account';
+import { AccountDatasourceImpl } from '@/src/feature/account/data/datasource/account-datasource';
+import { AccountRepositoryImpl } from '@/src/feature/account/data/repositoryImpl/account-repositoryImpl';
+import { UpdateUserUseCase } from '@/src/feature/account/domain/use-case/use-update-user';
+import { ResetPasswordUserUseCase } from '@/src/feature/account/domain/use-case/use-reset-user-password';
+import { GetCurrenciesUseCase } from '@/src/feature/account/domain/use-case/use-get-currencies';
 
 // Authentication Dependencies
 const authenticationService = new AuthenticationService();
@@ -62,7 +68,6 @@ export const signUpUseCase = new SignUpUseCase(authRepository);
 export const requestResetPasswordUseCase = new RequestResetPasswordUseCase(authRepository);
 export const resetPasswordUseCase = new ResetPasswordUseCase(authRepository);
 export const verifyOtpUseCase = new VerifyOtpUseCase(authRepository);
-export const getCurrentUserUseCase = new GetCurrentUserUseCase(authRepository);
 
 
 // Insights Dependencies
@@ -123,3 +128,12 @@ export const getAllSavingsUseCase = new GetAllSavingsUseCase(savingsRepository);
 export const updateSavingsUseCase = new UpdateSavingsUseCase(savingsRepository);
 export const deleteSavingsUseCase = new DeleteSavingsUseCase(savingsRepository);
 export const markBudgetAsCompletedUseCase = new MarkBudgetAsCompletedUseCase(budgetRepository);
+
+// Account Dependencies
+const accountService = new AccountService();
+const accountDatasource = new AccountDatasourceImpl(accountService);
+const accountRepository = new AccountRepositoryImpl(accountDatasource);
+export const getCurrentUserUseCase = new GetCurrentUserUseCase(accountRepository);
+export const updateAccountUseCase = new UpdateUserUseCase(accountRepository);
+export const resetPasswordUserUseCase = new ResetPasswordUserUseCase(accountRepository);
+export const getCurrenciesUseCase = new GetCurrenciesUseCase(accountRepository);

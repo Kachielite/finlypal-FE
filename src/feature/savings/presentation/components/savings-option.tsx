@@ -48,7 +48,7 @@ const SavingsOptionModal = (
       >
         <TouchableOpacity onPress={openExpenseModal} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-[#007BFF] rounded-[12px]">
           <CirclePlus size={24} color="white" />
-          <Text className="text-white font-urbanist-bold text-[20px]">Add Expense</Text>
+          <Text className="text-white font-urbanist-bold text-[20px]">Add Income</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={openSaveModal} className="flex flex-row justify-center items-center gap-x-[20px] w-full p-[20px] bg-secondary rounded-[12px]">
           <EditIcon size={24} color="white" />

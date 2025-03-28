@@ -5,7 +5,7 @@ import images from '@/src/core/constants/images';
 import formatNumber from '@/src/core/utils/formatCurrency';
 import moment from 'moment';
 
-const BalanceCard = ({balance}:{balance: number}) => {
+const BalanceCard = ({balance, currency}:{balance: number, currency?: string}) => {
   return (
     <View
       style={{backgroundImage: `url(${images.balanceBackground})`}}
@@ -13,8 +13,8 @@ const BalanceCard = ({balance}:{balance: number}) => {
       <Image source={images.balanceBackground} className="w-full h-full object-cover absolute" />
       <View className="flex flex-row justify-between items-center px-[19px] py-[35px] bg-black/[.21] w-full">
         <View>
-          <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}  className="text-white font-urbanist-extrabold text-[40px] ">
-            ${formatNumber(balance)}
+          <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}  className="text-white font-urbanist-extrabold text-[32px] ">
+            {currency}{formatNumber(balance)}
           </Text>
           <Text style={{textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: {width: 0, height: 2}, textShadowRadius: 2}}   className="text-white text-sm text-[16px]">
             {moment().format("MMMM")} Current Balance

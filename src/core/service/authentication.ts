@@ -1,6 +1,5 @@
 import { SECRET } from '@/src/core/secret/secret';
 import axios from 'axios';
-import customAxios from '@/src/core/utils/customAxios';
 
 export class AuthenticationService {
   private BASE_URL = SECRET.BASE_URL;
@@ -9,7 +8,6 @@ export class AuthenticationService {
   private REQUEST_RESET_PASSWORD_PATH = '/auth/reset-password-otp';
   private VERIFY_OTP_PATH = '/auth/verify-otp';
   private RESET_PASSWORD_PATH = '/auth/reset-password';
-  private GET_CURRENT_USER_PATH = '/users/user-details';
 
   constructor() {}
 
@@ -22,7 +20,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("login error", error);
+      console.error("login error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -45,7 +43,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("Registration error", error);
+      console.error("Registration error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -65,7 +63,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("Request Password Reset error", error);
+      console.error("Request Password Reset error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -87,7 +85,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("Verify OTP error", error);
+      console.error("Verify OTP error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -110,7 +108,7 @@ export class AuthenticationService {
 
       return response.data;
     } catch (error: unknown) {
-      console.error("Reset Password error", error);
+      console.error("Reset Password error service", error);
       if (axios.isAxiosError(error) && error.response) {
         return Promise.reject(error.response.data);
       }
@@ -123,25 +121,6 @@ export class AuthenticationService {
     }
   }
 
-  async getCurrentUser(): Promise<any> {
-    try {
-      const response = await customAxios.get(`${this.BASE_URL}${this.GET_CURRENT_USER_PATH}`, {
-      });
-
-      return response.data;
-    } catch (error: unknown) {
-      console.error("Get current user error", error);
-      if (axios.isAxiosError(error) && error.response) {
-        return Promise.reject(error.response.data);
-      }
-      return Promise.reject({
-        code: "500",
-        message: "Unknown error occurred",
-        timestamp: new Date().toISOString(),
-        path: this.GET_CURRENT_USER_PATH,
-      });
-    }
-  }
 
 
 }
