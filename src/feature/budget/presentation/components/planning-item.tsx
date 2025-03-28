@@ -6,6 +6,7 @@ import barColor from '@/src/core/utils/barColor';
 
 const PlanningItem = ({budget}:{budget: Budget}) => {
 
+
   const totalBudget = budget.totalBudget;
   const actualSpend = budget.actualSpend as number;
   const percentage = (actualSpend / totalBudget) * 100;

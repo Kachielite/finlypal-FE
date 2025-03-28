@@ -6,6 +6,7 @@ import { Expense } from '@/src/feature/expenses/domain/entity/expense';
 import { Swipeable } from 'react-native-gesture-handler';
 import { useExpenseState } from '@/src/feature/expenses/presentation/state/expenseState';
 import { router } from 'expo-router';
+import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 
 
 const DeleteExpenseButton = ({handleSwipe}:{handleSwipe: (direction: 'left' | 'right') => void}) => {
@@ -29,6 +30,7 @@ const ExpenseCard = (
   {expense, createModalRef, deleteModalRef, optionModalRef} : {expense: Expense, createModalRef: any, deleteModalRef: any, optionModalRef: any}
 ) => {
   const swipeRef = useRef<Swipeable>(null);
+  const user = useAuthState((state) => state.user);
   const setModalType = useExpenseState((state) => state.setModalType);
   const setSelectedExpense = useExpenseState((state) => state.setSelectedExpense);
 
@@ -77,7 +79,7 @@ const ExpenseCard = (
         </View>
         <Text className={`font-urbanist-semibold text-[18px] ${expense.type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
           {expense.type === 'EXPENSE' ? '-' : '+'}
-          ${formatNumber(expense.amount)}
+          {user?.currency.symbol}{formatNumber(expense.amount)}
         </Text>
       </TouchableOpacity>
     </Swipeable>

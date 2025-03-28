@@ -4,7 +4,7 @@ import { Budget } from '@/src/feature/budget/domain/entity/budget';
 import moment from 'moment';
 import barColor from '@/src/core/utils/barColor';
 
-const BalanceCard = ({selectedBudget}: {selectedBudget: Budget}) => {
+const BalanceCard = ({selectedBudget, currency}: {selectedBudget: Budget, currency?: string}) => {
   const totalBudget = selectedBudget?.totalBudget;
   const actualSpend = selectedBudget?.actualSpend as number;
   const percentage = (actualSpend / totalBudget) * 100;
@@ -30,10 +30,10 @@ const BalanceCard = ({selectedBudget}: {selectedBudget: Budget}) => {
           <View className="flex flex-row justify-between items-center w-full">
             <View className="flex flex-row justify-start items-center gap-x-[5px]">
               <Text className="text-white font-urbanist-bold text-[16px]">
-                ${actualSpend}
+                {currency}{actualSpend}
               </Text>
               <Text className="text-white font-urbanist-medium text-[12px]">
-                of ${totalBudget}
+                of {currency}{totalBudget}
               </Text>
             </View>
             <Text className="text-white font-urbanist-medium text-[12px]">
