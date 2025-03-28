@@ -28,6 +28,9 @@ const SavingsItem = ({savings}:{savings: Savings}) => {
         <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
           <View style={{width: `${percentage <= 100 ? percentage : 100}%`, backgroundColor: barColor(percentage, 'savings')}} className="rounded-2xl h-full"/>
         </View>
+        <View className="w-full flex flex-row justify-end items-center">
+          <Text className="text-white font-urbanist-normal text-[10px]">{percentage}% saved</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
