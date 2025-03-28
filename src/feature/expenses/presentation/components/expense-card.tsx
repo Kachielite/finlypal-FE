@@ -73,11 +73,11 @@ const ExpenseCard = (
           {expense.type === 'EXPENSE' && <ArrowBigDown color="#CE174B" size={24}/>}
           {expense.type === 'INCOME' && <ArrowBigUp color="#17CE92" size={24}/>}
           <View className="flex flex-col justify-start items-start gap-y-[8px]">
-            <Text className="text-white font-urbanist-bold text-[20px]">{expense?.description?.split(" ").slice(0, 2).join(' ')}</Text>
-            <Text className="text-white font-urbanist-normal text-[14px]">{expense?.categoryName}</Text>
+            <Text className="text-white font-urbanist-bold text-[16px]">{expense?.description?.split(" ").slice(0, 2).join(' ')}</Text>
+            <Text className="text-white font-urbanist-normal text-[12px]">{expense?.categoryName}</Text>
           </View>
         </View>
-        <Text className={`font-urbanist-semibold text-[18px] ${expense.type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
+        <Text className={`font-urbanist-semibold text-[16px] ${expense.type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
           {expense.type === 'EXPENSE' ? '-' : '+'}
           {user?.currency.symbol}{formatNumber(expense.amount)}
         </Text>

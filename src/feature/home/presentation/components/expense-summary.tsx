@@ -12,7 +12,7 @@ const ExpenseSummary = ({income, expense, currency}: {income: number, expense: n
         </View>
         <View className="gap-y-1.5">
           <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Income</Text>
-          <Text className="font-urbanist-bold text-[18px] text-white">{currency}{formatNumber(income)}</Text>
+          <Text className="font-urbanist-bold text-[16px] text-white">{currency}{formatNumber(income)}</Text>
         </View>
       </View>
       <View className="flex flex-row justify-start items-start gap-x-[12px]">
@@ -21,7 +21,7 @@ const ExpenseSummary = ({income, expense, currency}: {income: number, expense: n
         </View>
         <View className="gap-y-1.5">
           <Text className="font-urbanist-bold text-[14px] text-[#A0AEC0]">Expense</Text>
-          <Text className="font-urbanist-bold text-[18px] text-white">{currency}{formatNumber(expense)}</Text>
+          <Text className="font-urbanist-bold text-[16px] text-white">{currency}{formatNumber(expense)}</Text>
         </View>
       </View>
     </View>

@@ -21,11 +21,11 @@ const TransactionCard = ({amount, date, description, type} : TransactionCardProp
         {type === 'EXPENSE' && <ArrowBigDown color="#CE174B" size={22}/>}
         {type === 'INCOME' && <ArrowBigUp color="#17CE92" size={22}/>}
         <View className="flex flex-col justify-start items-start gap-y-[4px]">
-          <Text className="text-white font-urbanist-bold text-[18px]">{description.split(" ").slice(0, 2).join(' ')}</Text>
+          <Text className="text-white font-urbanist-bold text-[16px]">{description.split(" ").slice(0, 2).join(' ')}</Text>
           <Text className="text-white text-[12px]">{moment(date).format('DD MMM, YYYY')}</Text>
         </View>
       </View>
-      <Text className={`font-urbanist-semibold text-[16px] ${type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
+      <Text className={`font-urbanist-semibold text-[14px] ${type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
         {type === 'EXPENSE' ? '-' : '+'}
         {currency}{formatNumber(amount)}
       </Text>
