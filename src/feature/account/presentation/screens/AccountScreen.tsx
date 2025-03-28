@@ -1,7 +1,7 @@
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import React, { useRef } from 'react';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
-import { ChevronRight, Handshake, LogOut, MessagesSquare, Shield, Siren, UserRound, Zap } from 'lucide-react-native';
+import { ChevronRight, Handshake, LogOut, MessagesSquare, Shield, Siren, UserRound } from 'lucide-react-native';
 import { router } from 'expo-router';
 import useAccount from '@/src/feature/account/presentation/state/useAccount';
 import AppModal from '@/src/shared/presentation/components/app-modal';
@@ -12,6 +12,8 @@ const AccountScreen = () => {
   const {openEmailApp} = useAccount();
 
   const logOutModal = useRef<Modalize>(null);
+
+  const openWebView = (url: string) => router.push({pathname: '/web-view', params: {url}});
 
   return (
     <>
@@ -53,26 +55,19 @@ const AccountScreen = () => {
                   </View>
                   <ChevronRight color="white" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => console.log('Profile')} className="flex flex-row justify-between items-center w-full">
-                  <View className="flex flex-row justify-start items-center gap-x-[8px]">
-                    <Zap color="white" />
-                    <Text className="text-white font-urbanist-normal text-[16px]">What's new?</Text>
-                  </View>
-                  <ChevronRight color="white" />
-                </TouchableOpacity>
               </View>
             </View>
             <View className="flex flex-col justify-start items-start gap-y-[24px] bg-alternative w-[86vw] rounded-[16px] px-[20px] py-[20px] shadow-sm">
               <Text className="text-white font-urbanist-bold text-[22px]">Miscellaneous</Text>
               <View className="flex flex-col justify-start items-start w-full gap-y-[24px]">
-                <TouchableOpacity onPress={() => console.log('Profile')} className="flex flex-row justify-between items-center w-full">
+                <TouchableOpacity onPress={() => openWebView("https://docs.google.com/document/d/1XmVgprxEJDmW-wQOL3Gl8qlbAOB17K1MlLJX3-rBsLE/view")} className="flex flex-row justify-between items-center w-full">
                   <View className="flex flex-row justify-start items-center gap-x-[8px]">
                     <Handshake color="white" />
                     <Text className="text-white font-urbanist-normal text-[16px]">Terms of use</Text>
                   </View>
                   <ChevronRight color="white" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => console.log('Profile')} className="flex flex-row justify-between items-center w-full">
+                <TouchableOpacity onPress={() => openWebView("https://docs.google.com/document/d/1XmVgprxEJDmW-wQOL3Gl8qlbAOB17K1MlLJX3-rBsLE/view")} className="flex flex-row justify-between items-center w-full">
                   <View className="flex flex-row justify-start items-center gap-x-[8px]">
                     <Siren color="white" />
                     <Text className="text-white font-urbanist-normal text-[16px]">Privacy Policy</Text>
@@ -89,6 +84,7 @@ const AccountScreen = () => {
                 </View>
               </TouchableOpacity>
             </View>
+            <Text className="text-white font-urbanist-normal text-[16px]">v 0.0.1</Text>
           </View>
         </ScrollView>
       </SafeAreaView>

@@ -33,6 +33,7 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="authentication" />
+        <Stack.Screen name="web-view" />
       </Stack>
       <ToastProvider/>
     </>
