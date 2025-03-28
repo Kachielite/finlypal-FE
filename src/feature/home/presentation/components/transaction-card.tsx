@@ -14,7 +14,7 @@ type TransactionCardProps = {
 };
 
 const TransactionCard = ({amount, date, description, type} : TransactionCardProps) => {
-  const currency = useAuthState((state) => state.user?.currency.symbol);
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   return (
     <View className="flex flex-row justify-between items-center w-full border-b-[1px] border-b-[#35383F] pb-4">
       <View className="flex flex-row justify-start items-center gap-x-[12px]">

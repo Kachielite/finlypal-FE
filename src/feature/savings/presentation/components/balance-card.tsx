@@ -6,7 +6,7 @@ import { Savings } from '@/src/feature/savings/domain/entity/savings';
 import { useAuthState } from '@/src/feature/authentication/presentation/state/authState';
 
 const BalanceCard = ({selectedSaving}: {selectedSaving: Savings}) => {
-  const currency = useAuthState((state) => state.user?.currency.symbol);
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const targetAmount = selectedSaving?.targetAmount;
   const savedAmount = selectedSaving?.savedAmount as number;
   const percentage = (savedAmount / targetAmount) * 100;

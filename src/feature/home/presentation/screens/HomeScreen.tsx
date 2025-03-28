@@ -13,7 +13,7 @@ import useExpense from '@/src/feature/expenses/presentation/state/useExpense';
 
 const HomeScreen = () => {
   const user = useAuthState((state) => state.user);
-  const currency = user?.currency.symbol;
+  const currency = user?.currency?.symbol;
   const { totalIncome, totalExpense} = useHomeHooks();
   const {} = useExpense()
 

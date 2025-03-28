@@ -27,7 +27,7 @@ const BudgetScreen = () => {
   const addBudgetItemModalRef = useRef<Modalize>(null);
   const markAsCompletedModalRef = useRef<Modalize>(null);
 
-  const currency = useAuthState((state) => state.user?.currency.symbol);
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const { budget_id } = useLocalSearchParams<{ budget_id: string }>();
   const {} = useBudget({budgetId: Number(budget_id)});
   const isLoadingSelectedBudget = useBudgetState((state) => state.isLoadingSelectedBudget);

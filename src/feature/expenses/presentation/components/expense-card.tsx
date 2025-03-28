@@ -79,7 +79,7 @@ const ExpenseCard = (
         </View>
         <Text className={`font-urbanist-semibold text-[16px] ${expense.type === 'EXPENSE' ? 'text-[#CE174B]' : 'text-[#17CE92]'}`}>
           {expense.type === 'EXPENSE' ? '-' : '+'}
-          {user?.currency.symbol}{formatNumber(expense.amount)}
+          {user?.currency?.symbol}{formatNumber(expense.amount)}
         </Text>
       </TouchableOpacity>
     </Swipeable>

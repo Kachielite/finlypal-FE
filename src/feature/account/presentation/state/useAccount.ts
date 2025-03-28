@@ -7,6 +7,8 @@ import { useAuthState } from '@/src/feature/authentication/presentation/state/au
 import { useAccountState } from '@/src/feature/account/presentation/state/accountState';
 import ACCOUNT_EVENTS from '@/src/feature/account/presentation/state/accountEvent';
 import { router } from 'expo-router';
+import { Linking } from 'react-native';
+
 
 const useAccount = () => {
   const {user} = useAuthState();
@@ -56,6 +58,25 @@ const useAccount = () => {
     })()
   }
 
+  // Support
+  const openEmailApp = () => {
+    const supportEmail = "support@example.com"; // Replace with your support email
+    const subject = encodeURIComponent("Help & Support Request");
+    const body = encodeURIComponent("Hello, I need help with...");
+
+    const mailtoUrl = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
+
+    Linking.canOpenURL(mailtoUrl)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(mailtoUrl);
+        } else {
+          alert( "No email app found on your device.");
+        }
+      })
+      .catch((err) => console.error("An error occurred", err));
+  };
+
 
   // effects
   useEffect(() => {
@@ -75,7 +96,8 @@ const useAccount = () => {
     userResetPassword,
     updateUserHandler,
     updateUserPasswordHandler,
-    formattedCurrencies
+    formattedCurrencies,
+    openEmailApp
   }
 
 }

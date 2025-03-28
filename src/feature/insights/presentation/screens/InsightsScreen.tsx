@@ -13,7 +13,7 @@ import { useAuthState } from '@/src/feature/authentication/presentation/state/au
 
 const InsightsScreen = () => {
 
-  const currency = useAuthState((state) => state.user?.currency.symbol);
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const modalizeRef = React.useRef<Modalize>(null);
   const startDate = useInsightsState((state) => state.startDate)
   const endDate = useInsightsState((state) => state.endDate)

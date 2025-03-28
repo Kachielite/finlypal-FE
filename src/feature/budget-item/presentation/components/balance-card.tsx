@@ -17,7 +17,7 @@ const BalanceCard = (
   {budgetItem, openEditBudgetItemModal, openDeleteBudgetItemModal, openExpenseModal}:BudgetItemBalanceCardProps
 ) => {
 
-  const currency = useAuthState((state) => state.user?.currency.symbol);
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const allocatedAmount = budgetItem?.allocatedAmount;
   const actualSpend = budgetItem?.actualSpend as number;
   const percentage = (actualSpend / allocatedAmount) * 100;

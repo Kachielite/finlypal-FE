@@ -7,7 +7,7 @@ import { useAuthState } from '@/src/feature/authentication/presentation/state/au
 
 const BudgetListItem = ({budgetItem}:{budgetItem: BudgetItem}) => {
 
-  const currency = useAuthState((state) => state.user?.currency.symbol);
+  const currency = useAuthState((state) => state.user?.currency?.symbol);
   const totalBudget = budgetItem?.allocatedAmount;
   const actualSpend = budgetItem?.actualSpend;
   const percentage = (actualSpend / totalBudget) * 100;
