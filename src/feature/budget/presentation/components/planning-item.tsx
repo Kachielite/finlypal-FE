@@ -29,6 +29,9 @@ const PlanningItem = ({budget}:{budget: Budget}) => {
         <View className="w-full rounded-2xl h-[8px] bg-[#102632]">
           <View style={{width: `${percentage <= 100 ? percentage : 100}%`, backgroundColor: barColor(percentage)}} className="rounded-2xl h-full"/>
         </View>
+        <View className="w-full flex flex-row justify-end items-center">
+          <Text className="text-white font-urbanist-normal text-[10px]">{percentage}% spent</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
